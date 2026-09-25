@@ -12,7 +12,7 @@
 :root{color-scheme:dark;--bg:#111214;--panel:#1b1d21;--line:#2a2d33;--ink:#f3efe8;--mute:#a39d94;--red:#d51f24;--font:"Press Start 2P",ui-monospace,Menlo,monospace;--brand:"Archivo Black","Arial Black",Impact,sans-serif}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--font);padding:16px;margin:0}
-.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.wrap{max-width:max(640px,min(1800px,calc((100vh - 150px) * 320 / 176)));max-width:max(640px,min(1800px,calc((100dvh - 150px) * 320 / 176)));margin:0 auto;display:flex;flex-direction:column;gap:14px}
 header{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .logo{display:flex;background:var(--red);padding:4px 6px;border:3px solid #000}
 .logo svg{width:62px;height:50px;flex:none;display:block}
@@ -24,6 +24,10 @@ h1 span{color:var(--mute);font-size:9px;display:block;margin-top:2px}
 .mute:focus-visible,.pad button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 .stage{position:relative;width:100%;max-width:100%;aspect-ratio:320/176;background:#000;border:4px solid #000;outline:3px solid var(--red);box-sizing:border-box}
 canvas{width:100%;height:100%;display:block;touch-action:none}
+.stage:fullscreen{display:flex;align-items:center;justify-content:center;border:0;outline:0;background:#000;aspect-ratio:auto}
+.stage:fullscreen canvas{width:min(100vw,calc(100vh * 320 / 176));height:auto;aspect-ratio:320/176}
+.stage:-webkit-full-screen{display:flex;align-items:center;justify-content:center;border:0;outline:0;background:#000;aspect-ratio:auto}
+.stage:-webkit-full-screen canvas{width:min(100vw,calc(100vh * 320 / 176));height:auto}
 .pad{display:none;justify-content:space-between;align-items:center;gap:16px;user-select:none;-webkit-user-select:none;touch-action:none;padding-block:4px}
 .pad .grp{display:flex;gap:14px}
 .pad button{font-family:var(--font);width:74px;height:74px;border-radius:50%;border:3px solid #000;background:var(--panel);color:var(--ink);font-size:18px;box-shadow:0 4px 0 #000;touch-action:none}
@@ -42,6 +46,7 @@ footer a{color:var(--ink)}
   <div class="logo" aria-label="KEIM"><svg id="hlogo" viewBox="-6 -4 112 92" aria-hidden="true"><g id="hword" fill="#fff"></g><path fill="#fff" d="M33 55 Q50 46 67 55 L50 84 Z"/></svg></div>
   <h1>KEIM QUEST<span>STARRING THE KEIM KOALA · ROLLING WITH THE BEST</span></h1>
   <div class="spacer"></div>
+  <button class="mute" id="fs" type="button">FULL SCREEN</button>
   <button class="mute" id="mute" type="button">SOUND: ON</button>
  </header>
  <div class="stage"><canvas id="game" width="1280" height="704" aria-label="KEIM Quest game"></canvas></div>
@@ -894,6 +899,9 @@ function frame(now){const d=Math.min(.1,(now-last)/1000);last=now;if(ready){acc+
 const fontsReady=document.fonts?Promise.race([Promise.all([document.fonts.load('16px "Press Start 2P"'),document.fonts.load('32px "Archivo Black"')]),new Promise(r=>setTimeout(r,1500))]):Promise.resolve();
 fontsReady.catch(()=>{}).then(boot);
 requestAnimationFrame(frame);
+try{const st=document.querySelector('.stage'),fb=document.getElementById('fs');if(!(st.requestFullscreen||st.webkitRequestFullscreen))fb.style.display='none';
+ fb.onclick=()=>{if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}else{(st.requestFullscreen||st.webkitRequestFullscreen).call(st)}fb.blur()};
+ const fsc=()=>{fb.textContent=(document.fullscreenElement||document.webkitFullscreenElement)?'EXIT FULL SCREEN':'FULL SCREEN'};document.addEventListener('fullscreenchange',fsc);document.addEventListener('webkitfullscreenchange',fsc)}catch(e){}
 try{const sv=document.getElementById('hlogo');sv.setAttribute('viewBox',(KBOX.x0*100-14)+' '+(KBOX.y0*100-14)+' '+(KBOX.w*100+28)+' '+(KBOX.h*100+28));sv.innerHTML='<g fill="#fff">'+keimLogoSVG()+'</g>'}catch(e){}
 
 })();
