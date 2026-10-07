@@ -147,11 +147,14 @@ function ptxt(c,s,x,y,col,sc){sc=sc||1;c.fillStyle=col;let cx=x;[...s].forEach(c
 const ptw=(s,sc)=>s.length*4*(sc||1)-(sc||1);
 
 // ================= input =================
-const K={left:0,right:0,up:0,down:0,block:0,jab:0,hook:0,upper:0,special:0,super:0,start:0,kick:0,moves:0,pause:0,finish:0};const EDGE={};
-const KEYMAP={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowDown:'down',KeyS:'down',ArrowUp:'up',KeyW:'up',KeyQ:'jab',KeyJ:'jab',KeyZ:'jab',KeyE:'hook',KeyK:'kick',KeyM:'moves',KeyP:'pause',Escape:'pause',KeyX:'hook',KeyR:'upper',KeyL:'upper',KeyC:'upper',KeyF:'special',KeyI:'special',Space:'super',KeyV:'super',ShiftLeft:'block',ShiftRight:'block',Enter:'start',KeyG:'guide'};
+const K={left:0,right:0,up:0,down:0,block:0,jab:0,hook:0,upper:0,special:0,super:0,start:0,kick:0,moves:0,pause:0,finish:0,combo:0};const EDGE={};
+const KEYMAP={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowDown:'down',KeyS:'down',ArrowUp:'up',KeyW:'up',KeyQ:'jab',KeyJ:'jab',KeyZ:'jab',KeyE:'hook',KeyK:'kick',KeyM:'moves',KeyP:'pause',Escape:'pause',KeyX:'hook',KeyR:'upper',KeyL:'upper',KeyC:'upper',KeyF:'special',KeyI:'special',Space:'super',KeyV:'super',ShiftLeft:'block',ShiftRight:'block',Enter:'start',KeyG:'guide',KeyU:'combo'};
+// arcade cabinet easy mode: left hand on F/R/D + SPACE, right hand on the arrows
+const EZMAP={KeyF:'jab',KeyR:'hook',KeyD:'kick',Space:'combo',KeyA:null,KeyW:null,KeyS:null};
+function keyOf(c){if(window.__keimEasy&&c in EZMAP)return EZMAP[c]||undefined;return KEYMAP[c]}
 function press(k,v){if(v&&!K[k])EDGE[k]=true;K[k]=v?1:0;if(v)initAudio()}
-addEventListener('keydown',e=>{const k=KEYMAP[e.code];if(k){e.preventDefault();if(!e.repeat)press(k,1)}});
-addEventListener('keyup',e=>{const k=KEYMAP[e.code];if(k){e.preventDefault();press(k,0)}});
+addEventListener('keydown',e=>{const k=keyOf(e.code);if(k){e.preventDefault();if(!e.repeat)press(k,1)}});
+addEventListener('keyup',e=>{const k=keyOf(e.code);if(k){e.preventDefault();press(k,0)}});
 addEventListener('blur',()=>Object.keys(K).forEach(k=>K[k]=0));
 const IS_TOUCH=!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);let PORTRAIT=false;const updPortrait=()=>{PORTRAIT=IS_TOUCH&&innerHeight>innerWidth};addEventListener('resize',updPortrait);updPortrait();
 ['dblclick','gesturestart','selectstart','contextmenu'].forEach(ev=>document.addEventListener(ev,e=>{if(ev!=='contextmenu'||e.target.closest('.stage'))e.preventDefault()},{passive:false}));
@@ -828,15 +831,17 @@ const dist=()=>Math.abs(op.x-pl.x);
 const busy=f=>!['idle','walk','block','duck','guard'].includes(f.st);
 
 // ================= player =================
-function gainMix(n){if(pl.slots.length>=3)return;pl.mix+=n;while(pl.mix>=3&&pl.slots.length<3){pl.mix-=3;const k=ING[pl.nextIng%5];pl.nextIng++;pl.slots.push(k);addFx({type:'ingfly',k,dur:.8});SFX.ing(k);announce('+'+INGN[k],INGC[k],1,'PRESS F: '+SPEC[k][0])}}
+function gainMix(n){if(pl.slots.length>=3)return;pl.mix+=n;while(pl.mix>=3&&pl.slots.length<3){pl.mix-=3;const k=ING[pl.nextIng%5];pl.nextIng++;pl.slots.push(k);addFx({type:'ingfly',k,dur:.8});SFX.ing(k);announce('+'+INGN[k],INGC[k],1,(window.__keimEasy?'PRESS COMBO: ':'PRESS F: ')+SPEC[k][0])}}
 function pAttack(name){pl.cross=name==='jab'&&G.clk-(pl.lastJab==null?-1e9:pl.lastJab)<.45&&!pl.cross;if(name==='jab')pl.lastJab=G.clk;pl.recMul=1;pl.koFollow=false;pl.st=name;pl.atkSt=name;pl.t=0;pl.atk=PATK[name==='jab'&&pl.cross?'cross':name];noteHabit(name==='jab'&&pl.cross?'cross':name);if(PATK[name]&&PATK[name].special)specialStart(name);pl.hitDone=false;pl.hits=0;SFX.swing(name==='jab'?1.4:name==='hook'?1:.8)}
 function playerInput(dt){const p=pl;
- if(p.st==='wrap'||p.st==='down'){if(edge('jab')||edge('hook')||edge('upper')){p.mash++;SFX.mash();addFx({type:'mash',dur:.25})}return}
+ if(p.st==='wrap'||p.st==='down'){if(edge('jab')||edge('hook')||edge('upper')||edge('combo')){p.mash++;SFX.mash();addFx({type:'mash',dur:.25})}return}
  if(G.st!=='fight'||subst!=='go')return;
  const onGround=p.y>=0;
  if(p.st==='jump'){const mv=(K.right?1:0)-(K.left?1:0);p.want=mv*230;return}
  if(p.st==='dash'&&p.dashDir===p.face&&edge('kick')&&p.t<.24){p.st='idle';doSpecial('dashkick');return}
+ if(edge('combo'))p.comboQ=G.clk;
  if(busy(p))return;
+ if(p.comboQ!=null){const q=p.comboQ;p.comboQ=null;if(G.clk-q<.4){autoCombo(p);return}}
  if(specialInput(p))return;
  if(edge('super')&&p.sp>=100){startSuper();return}
  if(edge('special')&&p.slots.length){useSpecial(p.slots.shift());return}
@@ -1149,7 +1154,7 @@ const MOVELIST=[['quartz',['D'],'JAB','3 LOW HITS (3 DMG EACH), CHIPS GUARD'],['
 // ---- input buffer (works for keyboard and the touch d-pad: both go through press())
 const INBUF=[];
 const press0=press;press=function(k,v){if(v&&!K[k]&&G&&G.t!=null){INBUF.push({k,t:G.t});if(INBUF.length>16)INBUF.shift()}press0(k,v)};
-const BUFW=.42;
+const BUFW=(window.parent!==window)?.8:.42; // in the arcade cabinet the stick and buttons are further apart, so give combos more time
 function relDir(k){if(k==='down')return 'D';if(k==='up')return 'U';if(k==='left'||k==='right'){const r=k==='right'?1:-1;return r===(pl?pl.face:1)?'F':'B'}return null}
 function seqIn(seq,win){const now=G.t;win=(win||BUFW)*(IS_TOUCH?1.35:1);let i=seq.length-1;for(let j=INBUF.length-1;j>=0&&i>=0;j--){const e=INBUF[j];if(now-e.t>(win||BUFW)+.12*seq.length)break;const d=relDir(e.k);if(d===seq[i])i--}return i<0}
 const downish=()=>K.down||seqIn(['D']);
@@ -1165,6 +1170,15 @@ function specialInput(p){
  if(edge('hook')&&seqIn(['B','F'])){doSpecial('whirl');return true}
  return false}
 function doSpecial(name){INBUF.length=0;pAttack(name)}
+// one-button COMBO (arcade cabinet easy mode): super when the bar is full, then a mixed ingredient, then rotate through the specials
+const EZ=()=>!!window.__keimEasy;let ezI=0;
+function autoCombo(p){const T=G.tut;
+ if(T&&!T.done&&!(T.ok>0)){const s=TUT[T.i];if(s){if(s.id==='shield'){p.bubbleT=0}doSpecial(s.id);return}}
+ if(p.sp>=100){startSuper();return}
+ if(p.slots.length){useSpecial(p.slots.shift());return}
+ const far=Math.abs(op.x-p.x)>430;
+ if(far){if(qReady()){doSpecial('qthrow');return}doSpecial('dashkick');return}
+ const R=['whirl','rocket','quartz','sweep','dashkick'];doSpecial(R[ezI++%R.length])}
 G.specialsUsed={};
 function specialStart(name){const a=PATK[name];tutOnSpecial(name);G.specialsUsed[name]=(G.specialsUsed[name]||0)+1;G.lastSpecial={name,t:G.t};announce(a.name,'#9ff0ff',.9);ban.small=true;ANN.say(a.say);SFX.move&&SFX.move(name);
  const p=pl;p.hits=0;
@@ -1789,6 +1803,7 @@ function drawGuide(t){const T=G.tut;if(!T||T.done||G.st!=='fight'||PORTRAIT)retu
  X.save();X.translate(x+62,y+h/2+8);X.scale(.42,.42);motherEarth(0,0,t,false);X.restore();
  if(T.ok>0){txt('NICE! '+PATK[s.id].name,x+w/2+40,y+h/2-14,big?24:22,'#58d06a','center','#000');X.restore();return}
  txt('GUIDE '+(T.i+1)+'/'+TUT.length+(s.opt?' (OPTIONAL)':''),x+122,y+12,big?12:11,'#9fe08a');txt(PATK[s.id].name,x+122,y+32,big?22:20,'#ffd23f','left','#000');txt(s.line,x+122,y+64,big?13:12,'#fff');
+ if(EZ()){const pu=1+.12*Math.sin(t*9);X.save();X.translate(x+w-110,y+h/2+2);X.scale(pu,pu);txt('TAP',0,-30,big?14:13,'#fff','center');txt('COMBO!',0,-8,big?28:26,'#ffd23f','center','#000');X.restore();txt('THE COMBO BUTTON DOES THE MOVE FOR YOU  •  G = SKIP',x+122,y+h-24,big?11:10,'#c9c4ba');X.restore();return}
  // input: big arrows + button, pulsing in sequence
  const seq=s.dirs.concat([s.btn]),on=Math.floor(t*2.2)%(seq.length+1);let ix=x+w-48-(s.dirs.length*58+56);
  const vis=d=>d==='F'?(pl.face>0?'F':'B'):d==='B'?(pl.face>0?'B':'F'):d;s.dirs.forEach((d,i)=>{X.save();X.translate(ix+20,y+h/2+4);const sc=on===i?1.65:1.4;X.scale(sc,sc);arrowIcon(0,0,vis(d));X.restore();ix+=58});
@@ -1995,11 +2010,11 @@ function drawHUD(){const pv=pl.hp/100,ov=op.hp/op.maxhp;X.fillStyle=lg(X,0,0,0,1
  box(560,10,160,74,'#16181d');txt('ROUND '+round,640,22,12,'#ffd23f','center');const cs=Math.ceil(Math.max(0,clock));txt(Math.floor(cs/60)+':'+String(cs%60).padStart(2,'0'),640,46,22,cs<=10?'#ff5a5e':'#fff','center');
  for(let i=0;i<3;i++){const x=40+i*62,y=98;X.fillStyle='#000';X.fillRect(x-3,y-3,58,58);X.fillStyle=i===0&&pl.slots[0]?'#2f7a55':'#1b1d21';X.fillRect(x,y,52,52);const k=pl.slots[i];if(k){X.imageSmoothingEnabled=false;X.drawImage(ART.ing[k],x+8,y+2,36,44);X.imageSmoothingEnabled=true}}
  txt('MIX',234,104,10,'#9ff0ff');for(let i=0;i<3;i++){X.fillStyle=i<Math.floor(pl.mix)?'#9ff0ff':'rgba(255,255,255,.18)';X.fillRect(234+i*22,124,16,16)}
- if(pl.slots[0])txt('F: '+SPEC[pl.slots[0]][0],40,162,11,INGC[pl.slots[0]],'left','#000');
+ if(pl.slots[0])txt((window.__keimEasy?'COMBO: ':'F: ')+SPEC[pl.slots[0]][0],40,162,11,INGC[pl.slots[0]],'left','#000');
  if(G.st==='fight'&&pl.combo>=2&&pl.comboT!=null&&G.clk-pl.comboT>=0&&G.clk-pl.comboT<1.1){const k2=G.clk-pl.comboT,s3=Math.min(1.45,1+Math.max(0,.15-k2)*3);X.save();X.translate(1060,210);X.scale(s3,s3);X.rotate(-.06);txt('COMBO x'+pl.combo,0,-14,pl.combo>=4?32:26,'#ffd23f','center','#000');if(pl.combo>=3)txt(Math.round(Math.max(.6,1-.08*(pl.combo-1))*100)+'% DMG',0,26,12,'#fff','center','#000');X.restore()}
  if(pl.shield>0)txt('SHIELD x'+pl.shield,310,104,11,'#e8e4d8','left','#000');
- if(G.fight===0&&round===1&&subst==='go'&&clock<=46&&clock>36&&HINT.show&&!G.tut){X.fillStyle='rgba(0,0,0,.7)';X.fillRect(250,118,780,40);txt(IS_TOUCH?'NEW: TAP \u25BC \u25B6 THEN JAB = QUARTZ THROW!  ALL SPECIALS: MOVES':'NEW: \u2193 \u2192 + Q = QUARTZ THROW!  PRESS M FOR ALL SPECIAL MOVES',640,132,10,'#9ff0ff','center')}
- if(G.fight===0&&round===1&&subst==='go'&&clock>46){X.fillStyle='rgba(0,0,0,.6)';X.fillRect(250,118,780,40);txt(IS_TOUCH?'BLOCK BUTTON TO BLOCK - JUMP / DUCK THE BIG MOVES - JAB HOOK UPPER KICK!':'SHIFT TO BLOCK - W JUMP / S DUCK THE BIG MOVES - Q E R PUNCH, K KICK!',640,132,10,'#fff','center')}}
+ if(G.fight===0&&round===1&&subst==='go'&&clock<=46&&clock>36&&HINT.show&&!G.tut){X.fillStyle='rgba(0,0,0,.7)';X.fillRect(250,118,780,40);txt(window.__keimEasy?'NEW: SPACE / COMBO = A SPECIAL MOVE!  ALL MOVES: M':IS_TOUCH?'NEW: TAP \u25BC \u25B6 THEN JAB = QUARTZ THROW!  ALL SPECIALS: MOVES':'NEW: \u2193 \u2192 + Q = QUARTZ THROW!  PRESS M FOR ALL SPECIAL MOVES',640,132,10,'#9ff0ff','center')}
+ if(G.fight===0&&round===1&&subst==='go'&&clock>46){X.fillStyle='rgba(0,0,0,.6)';X.fillRect(250,118,780,40);txt(window.__keimEasy?'HOLD BACK TO BLOCK - F JAB, R HOOK, D KICK - SPACE = COMBO!':IS_TOUCH?'BLOCK BUTTON TO BLOCK - JUMP / DUCK THE BIG MOVES - JAB HOOK UPPER KICK!':'SHIFT TO BLOCK - W JUMP / S DUCK THE BIG MOVES - Q E R PUNCH, K KICK!',640,132,10,'#fff','center')}}
 function drawOverTexts(){fx.forEach(f=>{if(f.type==='ingfly'){const k=ease(f.t/f.dur),x=lerp(640,40+(pl.slots.length-1)*62+26,k),y=lerp(360,110,k);X.imageSmoothingEnabled=false;X.drawImage(ART.ing[f.k],x-24,y-30,48,58);X.imageSmoothingEnabled=true}});
  if(ban){const k=ban.t/ban.dur,a=Math.min(1,ban.t/.1)*(1-Math.max(0,(k-.75)/.25)),s=1+Math.max(0,.3-ban.t)*1.5;X.save();X.globalAlpha=a;X.translate(640,280);X.scale(s,s);if(ban.plate){const sz=ban.small?(ban.s.length>14?24:30):ban.s.length>12?34:56,yy=ban.small?-120:-30;X.font=FNT(sz);const w=X.measureText(ban.s).width+48;X.fillStyle='rgba(8,9,14,.86)';X.fillRect(-w/2,yy-14,w,sz+30);X.strokeStyle=ban.col;X.lineWidth=3;X.strokeRect(-w/2,yy-14,w,sz+30)}txt(ban.s,0,ban.small?-120:-30,ban.small?(ban.s.length>14?24:30):ban.s.length>12?34:56,ban.col,'center','#000');if(ban.sub)txt(ban.sub,0,50,14,'#fff','center','#000');X.restore()}
  if((subst==='oppdown'||subst==='pldown')&&G.st==='fight'){if(countN>0&&!(subst==='oppdown'&&op.willKO&&countN>2))txt(String(countN),640,170,90,'#fff','center','#000')}
@@ -2059,6 +2074,7 @@ function topShade(){X.fillStyle=lg(X,0,0,0,330,[[0,'rgba(5,6,10,.85)'],[1,'rgba(
 function cardFade(){return Math.min(1,Math.max(0,(G.t-1.3)/.35))}
 function drawCorner(t){drawRing(t,[op,pl]);topShade();X.save();X.globalAlpha=Math.min(1,G.t/.3);drawCorner2(t);X.restore()}
 function drawCorner2(t){
+ if(PANEL()){cabMsg('END OF ROUND '+round,'COACH KALI SAYS: '+OPP[G.fight].tip,'+'+G.cornerHeal+' HEALTH'+(G.gift?'  ·  GIFT: '+INGN[G.gift]:''));cabBanner('END OF ROUND '+round,'YOU '+Math.round(pl.hp)+'%   vs   '+op.def.name+' '+Math.round(op.hp/op.maxhp*100)+'%');return}
  card(170,16,940,290);txt('END OF ROUND '+round,200,36,20,'#ffd23f');
  X.imageSmoothingEnabled=false;X.drawImage(ART.ing.kali,200,74,60,74);X.imageSmoothingEnabled=true;txt('COACH KALI SAYS:',278,76,12,'#c8f0a0');
  wrapText(OPP[G.fight].tip,800,12).forEach((l,i)=>txt(l,278,100+i*22,12,'#fff'));
@@ -2066,12 +2082,17 @@ function drawCorner2(t){
  if(G.gift){X.imageSmoothingEnabled=false;X.drawImage(ART.ing[G.gift],200,214,36,44);X.imageSmoothingEnabled=true;txt('CORNER GIFT: '+INGN[G.gift],248,218,12,INGC[G.gift]);txt(SPEC[G.gift][0]+' - '+SPEC[G.gift][1],248,242,10,'#fff')}
  txt('YOU '+Math.round(pl.hp)+'%   vs   '+op.def.name+' '+Math.round(op.hp/op.maxhp*100)+'%',200,276,12,'#c9c4ba')}
 function drawVictory(t){drawFight(t);if(G.t<1.3)return;resetX();const a=cardFade();X.save();X.globalAlpha=a;topShade();drawVictory2(t);X.restore()}
+// arcade cabinet: long text goes to the cabinet's info panel, the screen keeps a short banner
+const PANEL=()=>!!window.__keimPanel;
+function cabMsg(h,b,f){window.__keimMsg={h,b,f,ts:Date.now()}}
+function cabBanner(h,sub,col){X.fillStyle='rgba(8,9,12,.82)';X.fillRect(0,14,W,sub?112:78);X.fillStyle=RED;X.fillRect(0,14,W,5);txt(h,640,30,34,col||'#ffd23f','center','#000');if(sub)txt(sub,640,84,16,'#fff','center','#000')}
 function drawVictory2(t){const fr=G.finRes;
+ if(PANEL()){const hd=fr==='shattered'?'SHATTERED! MINERAL WINS!':fr==='silicified'?'SILICIFIED! MINERAL WINS!':G.dec?'WIN BY DECISION!':'K.O.! TURNED TO STONE!';cabMsg(hd,'WHY MINERAL WINS: '+op.def.fact,'BONUS +'+G.lastBonus+'  ·  SCORE '+String(G.score).padStart(7,'0'));cabBanner(hd,'SCORE '+String(G.score).padStart(7,'0'));return}
  card(170,16,940,280);txt(fr==='shattered'?'SHATTERED! MINERAL WINS!':fr==='silicified'?'SILICIFIED! MINERAL WINS!':G.dec?'WIN BY DECISION!':'K.O.! TURNED TO STONE!',200,36,22,'#ffd23f','left','#000');txt(op.def.name+(fr==='shattered'?' IS NOW A PILE OF MINERAL ROCK.':' IS NOW A MINERAL ROCK.'),200,72,12,'#fff');
  txt('WHY MINERAL WINS:',200,104,12,'#9ff0ff');wrapText(op.def.fact,860,12).forEach((l,i)=>txt(l,200,128+i*24,12,'#fff'));
  txt('TIME + HEALTH BONUS  +'+G.lastBonus,200,222,12,'#c9c4ba');txt('SCORE '+String(G.score).padStart(7,'0'),200,248,18,'#ffd23f')}
 function drawLose(t){drawFight(t);resetX();topShade();drawLose2(t)}
-function drawLose2(t){txt(G.dec?'LOST ON POINTS':'KNOCKED OUT!',640,40,40,'#ff5a5e','center','#000');
+function drawLose2(t){if(PANEL()){const hd=G.dec?'LOST ON POINTS':'KNOCKED OUT!';cabMsg(hd,op.def.name+' SAYS: "'+op.def.taunt+'"',(op.def.id==='baron'?'BIG OIL':'PLASTIC')+' WON... THIS TIME.');cabBanner(hd,'',' #ff5a5e'.trim());return}txt(G.dec?'LOST ON POINTS':'KNOCKED OUT!',640,40,40,'#ff5a5e','center','#000');
  txt(op.def.name+' SAYS: "'+op.def.taunt+'"',640,110,12,'#ff9ae8','center','#000');txt(''+(op.def.id==='baron'?'BIG OIL':'PLASTIC')+' WON... THIS TIME.',640,140,14,'#fff','center','#000')}
 function drawChamp(t){drawArena(t,1);if(RR()<.5)addFx({type:'confetti',x:rrnd(0,W),y:-10,vx:rrnd(-1,1),vy:rrnd(2,5),col:['#d51f24','#fff','#ffd23f','#9ff0ff'][Math.floor(rrnd(0,4))],dur:3});
  X.fillStyle=lg(X,0,0,0,300,[[0,'rgba(5,6,10,.85)'],[1,'rgba(5,6,10,0)']]);X.fillRect(0,0,W,300);
