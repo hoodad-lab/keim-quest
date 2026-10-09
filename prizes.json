@@ -3,12 +3,12 @@
     "title": "OCTOBER PRIZES",
     "short": "KEIM MERCH",
     "lead": "TOP THREE SCORES ON THE BOARD AT THE END OF THE MONTH WIN. WE EMAIL THE WINNERS ON THE 1ST.",
-    "how": "TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. THIS MONTH: A FANDECK, A KEIM CAP AND A SAMPLE BUNDLE.",
+    "how": "TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. THIS MONTH: A FANDECK, KEIM T-SHIRTS AND A SAMPLE BUNDLE.",
     "rule": "THE BOARD RESETS ON THE 1ST. ONE PRIZE PER PERSON PER MONTH. ANY GAME COUNTS.",
     "prizes": [
-      { "rank": "1ST PLACE", "name": "KEIM FANDECK + CAP", "note": "EVERY COLOUR, NUMBERED" },
+      { "rank": "1ST PLACE", "name": "KEIM FANDECK + COOL T-SHIRT", "note": "EVERY COLOUR, NUMBERED" },
       { "rank": "2ND PLACE", "name": "SAMPLE BUNDLE", "note": "3 POTS + A COLOUR CARD" },
-      { "rank": "3RD PLACE", "name": "KEIM CAP", "note": "MINERAL. BREATHABLE." },
+      { "rank": "3RD PLACE", "name": "KEIM T-SHIRT", "note": "WEAR THE WEDGE" },
       { "rank": "TOP 10", "name": "BRAGGING RIGHTS", "note": "INITIALS ON THE BOARD" }
     ]
   }
