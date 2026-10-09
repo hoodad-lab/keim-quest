@@ -22,7 +22,7 @@ Players join with email + a 6-digit code. 100 points = $1. 500 welcome, 500 per 
    `<h2>Your KEIM Arcade code</h2><p style="font-size:32px;letter-spacing:6px">{{ .Token }}</p><p>Valid for a few minutes.</p>`
    Subject: `Your KEIM Arcade code: {{ .Token }}`
 4. Project Settings → Authentication → **SMTP**: the built-in sender allows only a few emails an hour, so set custom SMTP
-   (Microsoft 365: smtp.office365.com, port 587, a KEIM mailbox such as play@keim.com.au). Sender name "KEIM Arcade".
+   (Microsoft 365: smtp.office365.com, port 587, mailbox info@keim.com.au). Sender: "KEIM Arcade <info@keim.com.au>".
 5. Database → **Webhooks** → Create: name `arcade redeem`, table `arcade_redemptions`, event **Insert**,
    type HTTP request, POST, URL `https://www.keim.com.au/_functions/arcadeRedeem`,
    HTTP header `x-arcade-secret` = a long random string (same as the Wix secret below).
