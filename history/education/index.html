@@ -38,7 +38,8 @@ h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.15; text-transform: upper
 :root[data-theme="dark"] .logo img { filter: brightness(0) invert(1) contrast(.9); }
 
 /* cinema band: full-bleed, dark, the film plays here */
-.cinema { background: radial-gradient(120% 90% at 50% 0%, #2a2d36 0%, var(--night) 60%); color: #f1ede4; padding: clamp(40px, 6vw, 72px) 0 clamp(36px, 5vw, 56px); }
+.cinema { background: radial-gradient(120% 90% at 50% 0%, #2a2d36 0%, var(--night) 60%); color: #f1ede4; padding: clamp(40px, 6vw, 72px) 0 clamp(36px, 5vw, 56px); overflow: hidden; }
+.dur-m { display: none; }
 .cinema h1 { font-size: clamp(34px, 5.2vw, 64px); line-height: 1.04; text-transform: uppercase; letter-spacing: .04em; color: #fff; max-width: 16ch; margin: 0; }
 .cinema .intro { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 28px; }
 .cinema .intro p { margin: 0; color: #cfc9bd; font-size: 18px; max-width: 52ch; line-height: 1.55; }
@@ -73,7 +74,7 @@ h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.15; text-transform: upper
 @media (max-width: 760px) {
   .rail, .stops { display: none; }
   .strip { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-  .strip a { scroll-snap-align: start; text-decoration: none; display: grid; gap: 6px; }
+  .strip a { scroll-snap-align: start; text-decoration: none; display: grid; gap: 6px; align-content: start; }
   .strip img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; display: block; }
   .strip small { font: 600 11px/1 var(--sans); letter-spacing: .08em; color: var(--red); }
   .strip span { font-size: 14px; line-height: 1.3; color: var(--ink); }
@@ -82,8 +83,9 @@ h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.15; text-transform: upper
 
 /* sections */
 section.band { padding-block: 48px; border-top: 1px solid var(--line); }
-.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; }
-.sec-head p { margin: 0; color: var(--char); max-width: 52ch; }
+.sec-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 26px; }
+.sec-head h2 { margin: 0; }
+.sec-head p { margin: 0; color: var(--char); max-width: 60ch; font-size: 17px; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 2px; font: 600 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--red); color: var(--red); }
 .btn.solid { background: var(--red); color: #fff; }
 .btns { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -109,7 +111,10 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
 
 /* library */
 .res { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-.res a { text-decoration: none; display: grid; gap: 6px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.res a { position: relative; text-decoration: none; display: grid; gap: 6px; align-content: start; padding: 20px 48px 20px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); transition: border-color .2s, box-shadow .2s; }
+.res a::after { content: "\2192"; position: absolute; right: 20px; top: 18px; color: var(--red); font-size: 18px; line-height: 1; transition: transform .2s; }
+.res a:hover { border-color: var(--red); box-shadow: 0 10px 24px -14px rgba(28,34,54,.35); }
+.res a:hover::after { transform: translateX(3px); }
 .res b { font-weight: 600; } .res span { color: var(--char); font-size: 14px; }
 
 /* visit */
@@ -141,6 +146,11 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
   .screen { border-radius: 6px; }
   .screen .play span { padding: 12px 18px; font-size: 12px; gap: 9px; }
   .ftr .copy { grid-column: auto; }
+  .cinema { padding-top: 64px; }
+  .screen .dur { display: none; }
+  .dur-m { display: block; margin: 10px 0 0; font-size: 13px; color: #a9a397; letter-spacing: .04em; }
+  .langs { margin-top: 18px; }
+  .facts { gap: 18px; } .facts strong { font-size: 19px; }
 }
 </style>
 
@@ -164,6 +174,7 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
       <button class="play" id="playBtn" type="button" aria-label="Play the film From Ochre to KEIM"><span>Play the film</span></button>
       <div class="dur">7 minutes, or the 2½-minute highlights</div>
     </div>
+    <p class="dur-m">7 minutes, or the 2½-minute highlights</p>
     <div class="langs" id="langs" role="group" aria-label="Language of the film">
       <p>Watch in</p>
       <button type="button" data-l="en" aria-pressed="true">English</button><button type="button" data-l="de" lang="de">Deutsch</button><button type="button" data-l="es" lang="es">Español</button><button type="button" data-l="it" lang="it">Italiano</button><button type="button" data-l="fr" lang="fr">Français</button><button type="button" data-l="pt" lang="pt">Português</button><button type="button" data-l="fa" lang="fa">فارسی</button><button type="button" data-l="ar" lang="ar">العربية</button><button type="button" data-l="hi" lang="hi">हिन्दी</button><button type="button" data-l="zh" lang="zh">中文</button>
@@ -177,10 +188,10 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
     <div class="rail"><ul class="stops" id="stops">
       <li style="left:4%"><a href="#cave" data-ch="cave"><img src="ch-cave.jpg" alt="" width="86" height="86"><small>60,000 years ago</small><span>Earth on stone</span></a></li>
       <li style="left:24%"><a href="#pompeii" data-ch="pompeii"><img src="ch-pompeii.jpg" alt="" width="86" height="86"><small>79 CE</small><span>Paint that becomes the wall</span></a></li>
-      <li style="left:44%"><a href="#keim" data-ch="keim"><img src="ch-keim.jpg" alt="" width="86" height="86"><small>1878</small><span>Meet A. W. Keim</span></a></li>
-      <li style="left:62%"><a href="#plastic-skin" data-ch="plastic-skin"><img src="ch-plastic.jpg" alt="" width="86" height="86"><small>1950s</small><span>A plastic skin</span></a></li>
-      <li style="left:79%"><a href="#verdict" data-ch="verdict"><img src="ch-verdict.jpg" alt="" width="86" height="86"><small>The verdict</small><span>Film versus mineral bond</span></a></li>
-      <li style="left:96%"><a href="#today" data-ch="today"><img src="ch-today.jpg" alt="" width="86" height="86"><small>Today</small><span>KEIM Australia</span></a></li>
+      <li style="left:44%"><a href="#keim" data-ch="keim"><img src="ch-keim-c.jpg" alt="" width="86" height="86"><small>1878</small><span>Meet A. W. Keim</span></a></li>
+      <li style="left:62%"><a href="#plastic-skin" data-ch="plastic-skin"><img src="ch-plastic-c.jpg" alt="" width="86" height="86"><small>1950s</small><span>A plastic skin</span></a></li>
+      <li style="left:79%"><a href="#verdict" data-ch="verdict"><img src="ch-verdict-c.jpg" alt="" width="86" height="86"><small>The verdict</small><span>Film versus mineral bond</span></a></li>
+      <li style="left:96%"><a href="#today" data-ch="today"><img src="ch-today-c.jpg" alt="" width="86" height="86"><small>Today</small><span>KEIM Australia</span></a></li>
     </ul></div>
     <div class="strip" id="strip">
       <a href="#cave" data-ch="cave"><img src="ch-cave.jpg" alt=""><small>60,000 years ago</small><span>Earth on stone</span></a>
@@ -209,8 +220,9 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
       <article class="card">
         <span class="tag">Lunch and learn</span>
         <h3>A CPD session at your practice</h3>
-        <p>Forty-five minutes at your practice, or online, with real samples and demonstration panels.</p>
-        <ul><li>Informal CPD points</li><li>Hands-on with real samples</li><li>Bring your project questions</li></ul>
+        <p>A KEIM specialist comes to your office, or joins online, with real samples and demonstration panels. Bring a live project and we will work through it together.</p>
+        <div class="facts"><div><strong>45 min</strong><span>session</span></div><div><strong>In person</strong><span>or online</span></div><div><strong>Informal</strong><span>CPD points</span></div></div>
+        <ul><li>Hands-on with real samples</li><li>Mineral versus acrylic, side by side</li><li>Answers on your own project</li></ul>
         <div class="btns"><a class="btn" href="https://www.keim.com.au/keimlinge" target="_blank" rel="noopener">Book through KEIMLINGE</a></div>
       </article>
     </div>
@@ -232,7 +244,7 @@ section.band { padding-block: 48px; border-top: 1px solid var(--line); }
       <a href="https://www.keim.com.au/datasheets" target="_blank" rel="noopener"><b>Datasheets</b><span>Technical and safety data for every product sold in Australia</span></a>
       <a href="https://www.keim.com.au/calculators" target="_blank" rel="noopener"><b>Calculators</b><span>Coverage, mixing ratios and project estimates</span></a>
       <a href="https://www.keim.com.au/case-studies" target="_blank" rel="noopener"><b>Case studies</b><span>Australian projects, from heritage facades to data centres</span></a>
-      <a href="https://www.keim.com.au/application-tutorials.html" target="_blank" rel="noopener"><b>Application tutorials</b><span>Step-by-step guides for applicators</span></a>
+      <a href="https://www.keim.com.au/gallery" target="_blank" rel="noopener"><b>Project gallery</b><span>Finished KEIM facades and interiors to browse for ideas</span></a>
       <a href="https://www.keim.com.au/faq" target="_blank" rel="noopener"><b>FAQs</b><span>Straight answers on substrates, colours and durability</span></a>
       <a href="https://www.keim.com.au/sustainability" target="_blank" rel="noopener"><b>Sustainability</b><span>Cradle to Cradle certification and life-cycle data</span></a>
     </div>
