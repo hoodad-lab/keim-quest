@@ -1133,10 +1133,11 @@ function roundOver(){pl.combo=0;pl.comboT=null;SFX.bell(3);proj=[];PQ=[];if(G.tu
  G.gift=null;if(pl.slots.length<3){const k=ING[pl.nextIng%5];pl.nextIng++;pl.slots.push(k);G.gift=k}cornerStart()}
 function nextRound(){FIN.used=false;PQ=[];G.corner=null;SPLATS.length=0;PARTS.length=0;if(op.jel)op.jel.d=op.jel.v=op.jel.w=op.jel.wv=0;G.habit=[];round++;clock=60;op.rdowns=0;pl.x=400;op.x=880;G.st='fight';subst='ready';subT=0;MUS.want='fight';announce('ROUND '+round,'#ffd23f',1.4);ANN.say('Round '+['one','two','three'][round-1]);SFX.bell(2)}
 function decision(){if(pl.hp/100>=op.hp/op.maxhp)winFight(true);else loseFight(true)}
-function winFight(dec){pl.combo=0;pl.comboT=null;subst='ko';op.st=op.stoneK>=1?'statue':'koed';op.t=0;if(!op.rag&&!op.shattered&&!(op.stoneK>=1))ragStart(op,dec?-90:-260,-80,dec?-1.1:-2.2);G.st='victory';G.t=0;G.dec=!!dec;MUS.want=null;jingle([[72,1],[76,1],[79,1],[84,3],[79,1],[84,4]],170);
+const _hiSave=(k,v)=>{try{if(v>0&&v>(+localStorage.getItem(k)||0))localStorage.setItem(k,String(Math.round(v)))}catch(e){}};
+function winFight(dec){_hiSave('keim-ko-hi',G.score);pl.combo=0;pl.comboT=null;subst='ko';op.st=op.stoneK>=1?'statue':'koed';op.t=0;if(!op.rag&&!op.shattered&&!(op.stoneK>=1))ragStart(op,dec?-90:-260,-80,dec?-1.1:-2.2);G.st='victory';G.t=0;G.dec=!!dec;MUS.want=null;jingle([[72,1],[76,1],[79,1],[84,3],[79,1],[84,4]],170);
  const bonus=Math.round(clock*20+pl.hp*15);G.score+=bonus+(dec?0:2000);G.lastBonus=bonus;pl.st='win';pl.t=0;pl.atk=null;
  for(let i=0;i<60;i++)addFx({type:'confetti',x:rnd(0,W),y:rnd(-200,0),vx:rnd(-1.5,1.5),vy:rnd(2,5),col:['#d51f24','#fff','#ffd23f','#9ff0ff'][i%4],dur:3.5})}
-function loseFight(dec){pl.combo=0;pl.comboT=null;G.st='lose';G.t=0;G.dec=!!dec;MUS.want=null;jingle([[72,1],[71,1],[70,1],[69,3],[0,1],[64,1],[60,4]],170)}
+function loseFight(dec){_hiSave('keim-ko-hi',G.score);pl.combo=0;pl.comboT=null;G.st='lose';G.t=0;G.dec=!!dec;MUS.want=null;jingle([[72,1],[71,1],[70,1],[69,3],[0,1],[64,1],[60,4]],170)}
 // ================= special moves, input buffer, difficulty and the smarter opponent brain =================
 const DIFF={easy:{tell:1.25,wait:1.35,guard:.55,dmg:.72,adapt:.5,punish:.5,label:'EASY'},normal:{tell:1,wait:1,guard:1,dmg:1,adapt:1,punish:1,label:'NORMAL'},hard:{tell:.84,wait:.75,guard:1.22,dmg:1.25,adapt:1.35,punish:1.5,label:'HARD'}};
 G.diff='normal';try{const d=localStorage.getItem('kk-diff');if(DIFF[d])G.diff=d}catch(e){}

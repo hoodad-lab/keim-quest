@@ -3,16 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#E0201B">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="KEIM Arcade">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>KEIM Arcade · Play. Earn. Paint.</title>
-<meta name="description" content="Twelve free KEIM arcade games. Play, stack points and swap them for credit on KEIM sample pots, colour cards and fandecks.">
+<title>KEIM Arcade · Play. Win. Paint.</title>
+<meta name="description" content="Twelve free KEIM arcade games. Beat bosses, match colours, score goals. Put your initials on the board; top scores each month win real KEIM prizes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -391,34 +383,18 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   .adeck .mid .combo.show{display:none}
 }
 .rotate{display:none;font-family:var(--px);font-size:8px;color:var(--gold)}
-/* ---- KEIMLINGE gate: credits are saved for members only ---- */
-#gate{position:fixed;inset:0;z-index:1500;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78)}
-#gate.show{display:flex;animation:msgIn .2s steps(3)}
-#gate .gbox{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#0d0d10;border:4px solid var(--gold);box-shadow:8px 8px 0 var(--red),0 0 60px rgba(242,193,78,.25);padding:26px 24px 22px;color:#fff;text-align:center}
-#gate .gk{font-family:var(--px);font-size:9px;color:var(--gold);letter-spacing:1px}
-#gate h3{font-family:var(--px);font-size:clamp(16px,4vw,22px);line-height:1.4;margin:12px 0 10px;text-shadow:3px 3px 0 var(--red)}
-#gate p{font-family:var(--vt);font-size:22px;line-height:1.1;color:#e8e4da;margin:0 0 12px}
-#gate ul{list-style:none;padding:0;margin:0 auto 18px;display:inline-block;text-align:left;font-family:var(--vt);font-size:21px;line-height:1.25}
-#gate li:before{content:"★ ";color:var(--gold)}
-#gate .gbtns{display:flex;flex-direction:column;gap:12px;align-items:stretch}
-#gate .gbtns .pbtn{justify-content:center}
-#gate .pbtn.ghost{background:transparent;color:#fff;border:2px solid #fff;box-shadow:none}
-#gate .guest{background:none;border:0;color:#a9a49a;font-family:var(--px);font-size:9px;cursor:pointer;padding:10px;text-decoration:underline}
-#gate .small{font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:10px}
-#gate .demo{background:none;border:1px dashed #555;color:#8d8a85;font-family:'Work Sans',sans-serif;font-size:11px;padding:6px 10px;margin-top:10px;cursor:pointer}
-#gate .gx{position:absolute;top:8px;right:8px;background:none;border:0;color:#fff;font-family:var(--px);font-size:12px;cursor:pointer;padding:8px}
-.kl-badge{display:inline-block;font-family:var(--px);font-size:7px;background:var(--red);color:#fff;padding:3px 5px;letter-spacing:.5px;vertical-align:middle}
 .kl-toast{position:fixed;left:50%;top:76px;z-index:1600;transform:translate(-50%,-20px);opacity:0;pointer-events:none;background:var(--gold);color:#000;font-family:var(--px);font-size:11px;line-height:1.5;padding:12px 16px;border:3px solid #000;box-shadow:5px 5px 0 var(--red);text-align:center;transition:opacity .25s,transform .25s;max-width:calc(100vw - 32px)}
-.kl-toast.show{opacity:1;transform:translate(-50%,0)}
-.kl-toast small{display:block;font-size:8px;margin-top:4px}
-#gate .wal{display:none}#gate.wallet .wal{display:block}#gate.wallet .gat{display:none}
-#gate .bal{font-family:var(--px);font-size:clamp(26px,7vw,40px);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:6px 0}
-#gate .pts{font-family:var(--vt);font-size:22px;color:#e8e4da}
-#gate .bar{height:14px;border:2px solid #fff;margin:14px 0 6px;position:relative;background:#222}#gate .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--gold)}
-#gate .barl{display:flex;justify-content:space-between;font-family:var(--px);font-size:8px;color:#a9a49a}
-#gate .earn{text-align:left;font-family:var(--vt);font-size:20px;line-height:1.25;margin:16px 0;border-top:2px dashed #333;padding-top:12px}
-#gate .earn>div{display:flex;justify-content:space-between;gap:12px;align-items:baseline}#gate .earn b{color:var(--gold);font-weight:400;white-space:nowrap}
-#gate .code{font-family:var(--px);font-size:18px;background:#fff;color:#000;padding:14px;margin:12px 0;letter-spacing:2px;user-select:all}
+.kl-toast.show{opacity:1;transform:translate(-50%,0)}.kl-toast small{display:block;font-size:8px;margin-top:4px}
+#postBox{position:fixed;inset:0;z-index:1500;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78)}
+#postBox.show{display:flex;animation:msgIn .2s steps(3)}
+#postBox .gbox{width:min(520px,100%);background:#0d0d10;border:4px solid var(--gold);box-shadow:8px 8px 0 var(--red),0 0 60px rgba(242,193,78,.25);padding:26px 24px 22px;color:#fff;text-align:center}
+#postBox .gk{font-family:var(--px);font-size:9px;color:var(--gold);letter-spacing:1px}
+#postBox h3{font-family:var(--px);font-size:clamp(14px,4vw,20px);line-height:1.4;margin:12px 0 6px;text-shadow:3px 3px 0 var(--red)}
+#postBox .bal{font-family:var(--px);font-size:clamp(26px,7vw,40px);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:6px 0 10px}
+#postBox p{font-family:var(--vt);font-size:22px;line-height:1.1;color:#e8e4da;margin:0}#postBox p b{color:var(--gold);font-weight:400}
+#postBox .gbtns .pbtn{justify-content:center;width:100%}
+#postBox .guest{background:none;border:0;color:#a9a49a;font-family:var(--px);font-size:9px;cursor:pointer;padding:12px;text-decoration:underline}
+.gsel{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}.gsel .chip{font-size:7px;padding:8px 9px}
 .prizes .members{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-top:22px;font-family:var(--vt);font-size:22px;color:#fff}
 
 @media (max-width:700px) and (orientation:portrait){.rotate{display:block}}
@@ -434,15 +410,15 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   <div class="in wrapw">
     <div class="grp">
       <div><div class="lbl">1UP</div><div class="val" id="hud1up">001240</div></div>
-      <div class="hide-s"><div class="lbl">HI-SCORE</div><div class="val">048300</div></div>
+      <div class="hide-s"><div class="lbl">HI-SCORE</div><div class="val" id="hudHi">------</div></div>
     </div>
     <a class="brand" href="#top" aria-label="KEIM Arcade home">
       <svg width="38" height="39" viewBox="0 0 91.7 94.25" aria-hidden="true"><path fill="#fff" d="m53.2 0-1.72 27.7c3.9.14 5.3.42 9.15 1.02l.87-7.11 4.93 8.12 5.4-6.99 2.2 9.650 6.67-6.68 1.8 9.58 9.2-2.66-3.94-26-10.85 10.83-.9-14.9L61.86 18.7l2.17-17.66C61.07.45 56.5.18 53.2 0m-4.6.04c-6.09-.07-14.46.6-20.11 1.92l3 19.42-9.02-3.89L27.5 6.6l-9.3-3.47-5.08 11.62-3.32-7.4A73 73 0 0 0 0 12l13.1 25.34a59 59 0 0 1 7.57-3.8l-3.42-8.12 9.85 5.15L31.58 22l1.17 7.6a79 79 0 0 1 17.1-2l.23-7.08c-2.55-.04-7.3.15-9.74.7l-.31-3.84c2.93-.65 5.53-.7 7.63-.76l.04-5.84c-2.26-.14-5.67.13-8.33.51l-.33-3.76a67 67 0 0 1 9.49-.7l.07-6.8z"/><path fill="#E0201B" d="m24.1 47.4 24.77 46.85L73.64 47.4a43.2 43.2 0 0 0-24.77-7.9 43.2 43.2 0 0 0-24.76 7.9"/></svg>
       <span>ARCADE</span>
     </a>
     <div class="grp">
-      <div class="hide-s"><div class="lbl" id="crLbl">CREDITS</div><div class="val" id="crVal">MEMBERS ONLY</div></div>
-      <a class="pbtn gold" href="#prizes" id="walletBtn" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">MY WALLET</a>
+      <div class="hide-s"><div class="lbl">THIS MONTH</div><div class="val" id="hudPrize">PRIZE ON</div></div>
+      <a class="pbtn gold" href="#scores" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">HIGH SCORES</a>
     </div>
   </div>
 </header>
@@ -455,13 +431,13 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   <div class="grid wrapw">
     <div class="copy">
       <div class="insert blink">▶︎ FREE PLAY ◀︎</div>
-      <h1 class="big"><span class="a">PLAY.</span><span class="b">EARN.</span><span class="c neon">PAINT.</span></h1>
-      <p class="lead">12 FREE KEIM GAMES. BEAT BOSSES, MATCH COLOURS, SCORE GOALS. KEIMLINGE MEMBERS SWAP POINTS FOR CREDIT ON REAL KEIM SAMPLE POTS, COLOUR CARDS AND FANDECKS.</p>
+      <h1 class="big"><span class="a">PLAY.</span><span class="b">WIN.</span><span class="c neon">PAINT.</span></h1>
+      <p class="lead">12 FREE KEIM GAMES. BEAT BOSSES, MATCH COLOURS, SCORE GOALS. PUT YOUR INITIALS ON THE BOARD. TOP SCORES EACH MONTH WIN REAL KEIM PRIZES.</p>
       <div class="ctas">
         <button class="startbtn" id="heroStart" type="button"><span class="ball" aria-hidden="true"></span><span class="t">PRESS<br>START</span></button>
         <a class="pbtn" href="#games">CHOOSE GAME ▶︎</a>
       </div>
-      <div class="hstats"><div><b>12</b><i>GAMES</i></div><div><b>1,000</b><i>PTS = $1</i></div><div><b>$0</b><i>TO PLAY</i></div></div>
+      <div class="hstats"><div><b>12</b><i>GAMES</i></div><div><b id="hsPlayers">—</b><i>SCORES POSTED</i></div><div><b>$0</b><i>TO PLAY</i></div></div>
     </div>
 
     <div class="cabcol">
@@ -493,7 +469,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
             <span class="coinfx" id="coinfx"></span>
             <div class="slot"><i class="blink"></i><span>FREE<br>PLAY</span></div>
             <svg width="30" height="31" viewBox="0 0 91.7 94.25" aria-hidden="true"><path fill="#fff" d="m24.1 47.4 24.77 46.85L73.64 47.4a43.2 43.2 0 0 0-24.77-7.9 43.2 43.2 0 0 0-24.76 7.9"/></svg>
-            <div class="slot"><i></i><span>1,000 PTS<br>= $1</span></div>
+            <div class="slot"><i></i><span>TOP 3<br>WIN</span></div>
           </div>
         </div>
       </div>
@@ -525,38 +501,23 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
       <h2>HOW TO PLAY</h2>
       <div class="steps">
         <div><svg class="pix" data-art="stick" viewBox="0 0 8 8" width="92" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">1. PLAY</div><div class="d">PICK ANY GAME. WIN A FIGHT, MATCH A COLOUR, SCORE A STREAK.</div></div>
-        <div><svg class="pix" data-art="coin" viewBox="0 0 8 8" width="92" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">2. JOIN KEIMLINGE</div><div class="d">FREE TO JOIN. MEMBERS BANK POINTS FOR EVERY MILESTONE. GUESTS PLAY FREE, BUT NO CREDITS ARE SAVED.</div></div>
-        <div><svg class="pix" data-art="tin" data-c="#E0201B" viewBox="0 0 12 11" width="100" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">3. GET COLOUR</div><div class="d">1,000 PTS = A $1 CODE. USE IT ON SAMPLES IN THE KEIM ONLINE SHOP.</div></div>
-      </div>
-      <div class="power">
-        <div class="row">
-          <div><div class="k">DRAG YOUR SCORE ▼︎</div><div class="v"><span id="ptsV">3,400</span> PTS</div></div>
-          <div style="text-align:right"><div class="k">CREDIT WON</div><div class="cr neon" id="crV">$3.00</div></div>
-        </div>
-        <div class="segs" id="segs" aria-hidden="true"></div>
-        <label class="sr" for="ptsR">Points</label>
-        <input id="ptsR" type="range" min="0" max="12000" step="100" value="3400">
-        <div class="scale"><span>0</span><span>1,000 PTS = $1 · MAX $10/MONTH</span><span>12,000</span></div>
+        <div><svg class="pix" data-art="coin" viewBox="0 0 8 8" width="92" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">2. POST YOUR SCORE</div><div class="d">BEAT YOUR BEST, TAP IN THREE LETTERS, AND YOU ARE ON THE BOARD. NO SIGN-UP.</div></div>
+        <div><svg class="pix" data-art="tin" data-c="#E0201B" viewBox="0 0 12 11" width="100" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">3. WIN THE MONTH</div><div class="d" id="howPrize">TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. SEE THIS MONTH'S PRIZE BELOW.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PRIZE COUNTER ============ -->
+<!-- ============ THIS MONTH'S PRIZE ============ -->
 <section class="prizes" id="prizes">
   <div class="wrapw">
-    <div class="sec-h"><div class="k blink" style="color:var(--gold)">★ REDEEM YOUR POINTS ★</div><h2 style="text-shadow:6px 6px 0 #5a0603">PRIZE COUNTER</h2></div>
-    <p class="vt">LIKE THE TICKET COUNTER AT THE ARCADE, EXCEPT THE PRIZES ARE REAL KEIM COLOUR, DELIVERED TO YOUR DOOR.</p>
+    <div class="sec-h"><div class="k blink" style="color:var(--gold)">★ THIS MONTH ★</div><h2 style="text-shadow:6px 6px 0 #5a0603" id="przTitle">MONTHLY PRIZE</h2></div>
+    <p class="vt" id="przLead">TOP SCORES ON THE BOARD AT THE END OF THE MONTH WIN. WE EMAIL THE WINNERS.</p>
     <div class="case">
-      <div class="shelf">
-        <div class="prize"><div class="bob"><svg class="pix" data-art="tin" data-c="#E0201B" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>SAMPLE POT</b><i>ANY KEIM COLOUR</i></div><div class="ok">CREDIT OK ✓</div></div>
-        <div class="prize"><div class="bob2"><svg class="pix" data-art="tin" data-c="#698260" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>COLOUR CARD</b><i>HAND-PAINTED SWATCH</i></div><div class="ok">CREDIT OK ✓</div></div>
-        <div class="prize"><div class="bob"><svg class="pix" data-art="tin" data-c="#4f7ea8" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>FANDECK</b><i>EVERY COLOUR, NUMBERED</i></div><div class="ok">CREDIT OK ✓</div></div>
-        <div class="prize"><div class="bob2"><svg class="pix" data-art="tin" data-c="#D29D6D" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>SAMPLE BUNDLE</b><i>3 POTS + A CARD</i></div><div class="ok">CREDIT OK ✓</div></div>
-      </div>
+      <div class="shelf" id="przShelf"></div>
       <div class="plank"></div>
     </div>
-    <div class="members"><span><span class="kl-badge">KEIMLINGE ONLY</span>&nbsp; CREDITS ARE SAVED FOR MEMBERS</span><button class="pbtn gold" type="button" data-gate="join" style="font-size:10px">JOIN FREE</button></div>
+    <div class="members"><span id="przRule">THE BOARD RESETS ON THE 1ST. ONE PRIZE PER PERSON PER MONTH.</span><a class="pbtn gold" href="#games" style="font-size:10px">PLAY NOW</a></div>
   </div>
 </section>
 
@@ -565,15 +526,17 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   <div class="in wrapw">
     <div class="board">
       <h2 class="neon">HIGH SCORES</h2>
-      <div class="tabs"><button class="chip" aria-pressed="true" data-tab="week">THIS WEEK</button><button class="chip" aria-pressed="false" data-tab="all">ALL TIME</button><button class="chip" aria-pressed="false" data-tab="mine">MY BESTS</button></div>
+      <div class="tabs"><button class="chip" aria-pressed="true" data-tab="month">THIS MONTH</button><button class="chip" aria-pressed="false" data-tab="all">ALL TIME</button><button class="chip" aria-pressed="false" data-tab="mine">MY BESTS</button></div>
+      <div class="gsel" id="gsel"></div>
       <div class="tbl" id="tbl"></div>
-      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px">Sample entries. Players enter three-letter initials, like the real thing.</p>
+      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px" id="tblNote">Three-letter initials, like the real thing. Best score per player per game.</p>
     </div>
     <div class="ini">
-      <h2>ENTER YOUR<br>INITIALS</h2>
+      <h2>YOUR<br>INITIALS</h2>
       <div class="letters" id="letters"></div>
-      <div class="vt" style="font-size:23px;color:#cfcac0">TAP A LETTER TO CHANGE IT. YOUR SCORE GOES ON THE BOARD AND ON A SHARE CARD FOR YOUR FRIENDS.</div>
-      <div class="share"><div class="qr" id="qr" aria-label="QR code placeholder"></div><div class="px"><div style="font-size:8px;color:var(--red)">KEIM ARCADE</div><div style="font-size:22px;margin-top:10px" id="myName">AAA</div><div style="font-size:12px;margin-top:8px">012480</div><div style="font-size:8px;margin-top:8px">GOAL KICK · #2</div></div></div>
+      <div class="vt" style="font-size:23px;color:#cfcac0">TAP A LETTER TO CHANGE IT. BEAT YOUR BEST IN ANY GAME AND WE ASK TO POST IT UNDER THESE INITIALS.</div>
+      <div class="share"><div class="qr" id="qr" aria-label="QR code"></div><div class="px"><div style="font-size:8px;color:var(--red)">KEIM ARCADE</div><div style="font-size:22px;margin-top:10px" id="myName">AAA</div><div style="font-size:12px;margin-top:8px" id="myBest">—</div><div style="font-size:8px;margin-top:8px" id="myBestG">PLAY A GAME</div></div></div>
+      <button class="pbtn" type="button" id="shareBtn" style="margin-top:16px;font-size:10px">SHARE MY SCORE ▶︎</button>
     </div>
   </div>
 </section>
@@ -590,38 +553,21 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 <footer>
   <div class="wrapw">
     <div class="l"><span>© KEIM AUSTRALIA</span><span>INFO@KEIM.COM.AU</span><span>(02) 9748 7160</span><span>MATRAVILLE NSW</span></div>
-    <div style="margin-top:14px;max-width:900px">KEIM Play terms [PLACEHOLDER]: credits are earned and saved only by registered KEIMLINGE members; guests can play but no points or credits are saved. 1,000 points = $1 credit, up to $10 per member per month, credit valid [6–12] months, on sample pots, colour cards and fandecks only, minimum order [$X], one code per order, no cash value. Promotion rules vary by state in Australia. Have your accountant or lawyer review before launch.</div>
+    <div style="margin-top:14px;max-width:900px">KEIM Arcade prizes [PLACEHOLDER]: a game of skill, free to enter, open to Australian residents 18+. Monthly winners are the top scores on the board at midnight AEST on the last day of the month, verified by KEIM Australia; one prize per person per month; KEIM staff and family not eligible; prizes as listed, not exchangeable for cash. Winners contacted by email. Have your lawyer review before launch.</div>
   </div>
 </footer>
 
-<!-- ============ KEIMLINGE GATE ============ -->
+<!-- ============ POST YOUR SCORE ============ -->
 <div class="kl-toast" id="klToast" role="status" aria-live="polite"></div>
-<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateH">
+<div id="postBox" role="dialog" aria-modal="true" aria-label="Post your score">
   <div class="gbox">
-    <button class="gx" type="button" data-gate="close" aria-label="Close">✕</button>
-    <div class="wal">
-      <div class="gk">★ MY KEIM WALLET ★</div>
-      <h3 id="walName">HI MEMBER</h3>
-      <div class="bal" id="walBal">$0.00</div><div class="pts" id="walPts">0 POINTS</div>
-      <div class="bar"><i id="walBar" style="width:0"></i></div><div class="barl"><span id="walMonth">0 THIS MONTH</span><span>MAX $10 / MONTH</span></div>
-      <div class="earn"><div>First proper play of each game <b>100</b></div><div>Play any game, once a day <b>50</b></div><div>Colour Lab: 12 / 24 / 36 career stars <b>300 / 500 / 1,000</b></div><div style="color:#8d8a85">1,000 points = $1 off KEIM samples</div></div>
-      <div id="walOut"></div>
-      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="redeem" id="walGo">GET MY CODE</button></div>
-      <button class="guest" type="button" data-gate="close">BACK TO THE ARCADE</button>
-    </div>
-    <div class="gat">
-    <div class="gk" id="gateK">★ KEIMLINGE ★</div>
-    <h3 id="gateH">SAVE YOUR CREDITS</h3>
-    <p id="gateP">Playing is free for everyone. Credits are only saved for KEIMLINGE members.</p>
-    <ul><li>Free to join with your email</li><li>Every milestone banked to your wallet</li><li>Spend on sample pots, colour cards and fandecks</li></ul>
-    <div class="gbtns">
-      <button class="pbtn gold" type="button" data-gate="join">JOIN KEIMLINGE · FREE</button>
-      <button class="pbtn ghost" type="button" data-gate="login">I'M A MEMBER · LOG IN</button>
-    </div>
-    <button class="guest" type="button" data-gate="close">KEEP PLAYING AS A GUEST</button>
-    <div class="small">Guests: your scores and bests stay on this device only. No points or credits are saved.</div>
-    <button class="demo" type="button" data-gate="demo" id="gateDemo">Preview only: try the member view</button>
-    </div>
+    <div class="gk">★ NEW PERSONAL BEST ★</div>
+    <h3><span id="postG">GAME</span></h3>
+    <div class="bal" id="postS">0</div>
+    <p>Post it to the board as <b id="postIni">AAA</b>? Tap a letter to change it.</p>
+    <div class="letters" id="postLetters" style="justify-content:center;margin:14px 0 20px"></div>
+    <div class="gbtns"><button class="pbtn gold" type="button" data-post="go">POST TO THE BOARD</button></div>
+    <button class="guest" type="button" data-post="skip">NOT NOW</button>
   </div>
 </div>
 
@@ -685,7 +631,8 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 (()=>{
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const gameURL=s=>s+'/index.html'; // the arcade lives at the site root; each game in its own folder
+const QUEST_AT_ROOT=false; // set true when Quest lives at the site root (GitHub Pages repo)
+const gameURL=s=>(s==='quest'&&QUEST_AT_ROOT)?'../index.html':'../'+s+'/index.html';
 
 /* ---------- game catalogue + cabinet controller layouts ---------- */
 const C={kred:['#d51f24','#6e0a0b'],kwhite:['#e9e3d8','#8a857c'],kgreen:['#2f7a55','#143826'],kyellow:['#f2c230','#8a6a12'],kdark:['#3a3d43','#101114'],red:['#E0201B','#7a0a06'],gold:['#F2C14E','#8a6a12'],white:['#F9F7F1','#8d8a85'],cyan:['#4fc3f7','#1e6a8a'],green:['#3ddc6f','#1f8a43'],purple:['#a879ff','#4b2a8a']};
@@ -718,10 +665,11 @@ const STK=['...rr...','..rrrr..','..rWrr..','...rr...','...kk...','...kk...','.k
 const NS='http://www.w3.org/2000/svg';
 function draw(svg,rows,pal){let h='';rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(pal[ch])h+=`<rect x="${x}" y="${y}" width="1.03" height="1.03" fill="${pal[ch]}"/>`}));svg.innerHTML=h}
 $$('svg.koala').forEach(s=>draw(s,KOALA,PAL));
-$$('svg.pix').forEach(s=>{const a=s.dataset.art;if(a==='tin')draw(s,TIN,{g:'#9aa0a6',s:'#F9F7F1',R:s.dataset.c,W:'#fff'});if(a==='coin')draw(s,COIN,{o:'#b8860b',y:'#F2C14E',w:'#fff7d6'});if(a==='stick')draw(s,STK,{r:'#E0201B',W:'#ffb3ad',k:'#8d8a85'})});
+function drawPix(){$$('svg.pix').forEach(s=>{if(s.dataset.done)return;s.dataset.done=1;const a=s.dataset.art;if(a==='tin')draw(s,TIN,{g:'#9aa0a6',s:'#F9F7F1',R:s.dataset.c,W:'#fff'});if(a==='coin')draw(s,COIN,{o:'#b8860b',y:'#F2C14E',w:'#fff7d6'});if(a==='stick')draw(s,STK,{r:'#E0201B',W:'#ffb3ad',k:'#8d8a85'})});}
+drawPix();
 
 /* ---------- ticker + drips ---------- */
-const TICK=['12 FREE GAMES','1,000 PTS = $1','SAMPLE POTS','COLOUR CARDS','FANDECKS','NEW: COLOUR LAB','BEAT THE OIL BARON','NO ACRYLIC ALLOWED'];
+const TICK=['12 FREE GAMES','MONTHLY PRIZES','ENTER YOUR INITIALS','NEW: MATCH MY WALL','NEW: COLOUR LAB','BEAT THE OIL BARON','NO ACRYLIC ALLOWED','MINERAL vs PLASTIC'];
 $('#mq').innerHTML=[...TICK,...TICK].map(t=>`<span>${t}</span><em>★</em>`).join('');
 // scroll the LED sign with scrollLeft (no giant animated layer, so it shows on iPhone too)
 {const tr=$('#mq');let x=0,last=0;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -732,18 +680,10 @@ $('#bars').innerHTML=['#E0201B','#ff8a3d','#F2C14E','#d7e05a','#3ddc6f','#3dd6c0
 
 /* ---------- game cards ---------- */
 const SH=['#CE110B','#F2C14E','#4fc3f7','#3ddc6f'];
-$('#cards').innerHTML=GAMES.map((g,i)=>`<button class="card" type="button" data-s="${g.s}" data-g="${g.g}" style="--sh:${SH[i%4]}" aria-label="Play ${g.n}">
- <div class="media"><img loading="lazy" src="covers/${g.s}.jpg" alt=""><span class="scan"></span><span class="pts">+${g.p} PTS</span><span class="p1"><span class="blink">▶︎ P1 START</span></span></div>
- <div class="meta"><div class="nm">${g.n.toUpperCase()}</div><div class="gn"><span>${g.g}</span><b>+${g.p} PTS</b></div></div></button>`).join('');
 const CATS=['ALL','PUZZLE','ACTION','FIGHT','SPORT','RACING','ADVENTURE'];
 $('#chips').innerHTML=CATS.map((c,i)=>`<button class="chip" type="button" aria-pressed="${i===0}" data-c="${c}">${c}</button>`).join('');
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;$$('#chips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));const c=b.dataset.c;$$('.card').forEach(k=>k.hidden=!(c==='ALL'||k.dataset.g===c));blip(660)});
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
-$$('.card').forEach(card=>{
-  card.addEventListener('click',()=>launch(card.dataset.s,card));
-  if(fine){card.addEventListener('mouseenter',()=>{const m=card.querySelector('.media');if(m.querySelector('video'))return;const v=document.createElement('video');v.muted=true;v.playsInline=true;v.loop=true;v.autoplay=true;v.src='clips/'+card.dataset.s+'.'+VEXT;m.insertBefore(v,m.children[1]);v.play().catch(()=>{})});
-    card.addEventListener('mouseleave',()=>{const v=card.querySelector('.media video');if(v)v.remove()})}
-});
 
 /* ---------- your own records (read from each game's saved best) ---------- */
 const LS=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
@@ -751,6 +691,9 @@ const num=k=>{const v=parseInt(LS(k),10);return isFinite(v)&&v>0?v:null};
 const fmt=n=>n.toLocaleString('en-AU');
 const BESTS={
  'bucket-toss':()=>{const v=num('keim-bt-hi');return v&&{v,t:fmt(v)}},
+ 'knockout':()=>{const v=num('keim-ko-hi');return v&&{v,t:fmt(v)}},
+ 'quest':()=>{const v=num('keim-q-hi');return v&&{v,t:fmt(v)}},
+ 'klash':()=>{const v=num('keim-kl-wins');return v&&{v:0,t:v+(v===1?' WIN':' WINS')}},
  'facade-defender':()=>{const v=num('fd-hi');return v&&{v,t:fmt(v)}},
  'goal-kick':()=>{const v=num('keim-gk-hi');return v&&{v,t:fmt(v)}},
  'kommando':()=>{const v=num('kk-hi');return v&&{v,t:fmt(v)}},
@@ -796,24 +739,93 @@ function blip(f=880,d=.06,type='square',v=.05){const a=ac();if(!a)return;const o
 function coinSnd(){blip(988,.08);setTimeout(()=>blip(1319,.25),80)}
 function zoomSnd(){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type='square';o.frequency.setValueAtTime(220,a.currentTime);o.frequency.exponentialRampToValueAtTime(1760,a.currentTime+.6);g.gain.value=.03;g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.65);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+.7)}
 
-/* ---------- power bar ---------- */
-const FAN=['#E0201B','#ff6a3d','#ff9a3d','#F2C14E','#d7e05a','#9be05a','#3ddc6f','#3dd6c0','#4fc3f7','#7a8cff'];
-$('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
-function pts(){const v=+$('#ptsR').value,d=Math.min(10,Math.floor(v/1000));$('#ptsV').textContent=v.toLocaleString('en-AU');$('#crV').textContent='$'+d+'.00';$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<d))}
-$('#ptsR').addEventListener('input',pts);pts();
+/* ---------- high scores: shared board (Supabase) + initials + share ---------- */
+// Set these two values to turn on the shared board. Until then the board shows your own bests only.
+const LB={url:'',anon:''}; // [SET ME] Supabase project URL + anon (public) key — see leaderboard/README.md
+const GAME_N=s=>(BY[s]||{}).n||s;
+const RC=['#E0201B','#ff9a3d','#F2C14E','#3ddc6f','#4fc3f7','#ffffff','#ffb3ad','#d7e05a','#a879ff','#ff6a3d'],ORD=['1ST','2ND','3RD','4TH','5TH','6TH','7TH','8TH','9TH','10TH'];
+// which games post a score, and how to read it (higher is better; kart is fastest lap in ms → converted)
+const SCORE_OF={
+ 'bucket-toss':()=>num('keim-bt-hi'),'facade-defender':()=>num('fd-hi'),'goal-kick':()=>num('keim-gk-hi'),'kommando':()=>num('kk-hi'),
+ 'paint-wall':()=>num('kpw-hi'),'render-stacker':()=>num('keim-rs-hi'),'rush':()=>num('kr-best'),
+ 'knockout':()=>num('keim-ko-hi'),'quest':()=>num('keim-q-hi'),'klash':()=>num('keim-kl-wins'),
+ 'kart':()=>{try{const o=JSON.parse(LS('kk-best')||'null');const ms=o&&Math.min(...Object.values(o).filter(x=>x>0));return ms&&isFinite(ms)?Math.max(1,Math.round(600000-ms)):null}catch(e){return null}},
+ 'colour-lab':()=>{try{const o=JSON.parse(LS('keim-cl-prog')||'null');const v=o&&o.stars?(Array.isArray(o.stars)?o.stars:Object.values(o.stars)):[];const n=v.reduce((a,b)=>a+(+b||0),0);return n||null}catch(e){return null}}
+};
+function drawCards(){
+$('#cards').innerHTML=GAMES.map((g,i)=>`<button class="card" type="button" data-s="${g.s}" data-g="${g.g}" style="--sh:${SH[i%4]}" aria-label="Play ${g.n}">
+ <div class="media"><img loading="lazy" src="covers/${g.s}.jpg" alt=""><span class="scan"></span>${SCORE_OF[g.s]?'<span class="pts">HI-SCORE</span>':'<span class="pts">JUST FOR FUN</span>'}<span class="p1"><span class="blink">▶︎ P1 START</span></span></div>
+ <div class="meta"><div class="nm">${g.n.toUpperCase()}</div><div class="gn"><span>${g.g}</span><b>${SCORE_OF[g.s]?'ON THE BOARD':''}</b></div></div></button>`).join('');
 
-/* ---------- high scores + initials ---------- */
-const WEEK=[['SAM','014200','COLOUR LAB'],['PKR','012480','GOAL KICK'],['JDM','011900','KNOCKOUT'],['AXW','009860','BUCKET TOSS'],['MIA','009120','QUEST'],['LEO','008740','KART'],['ZOE','007300','KOALA RUSH'],['ELG','006950','KLASH']];
-const ALLT=[['NOA','048300','KNOCKOUT'],['SAM','041050','COLOUR LAB'],['ELG','039900','KLASH'],['PKR','036480','GOAL KICK'],['ZOE','031200','KOALA RUSH'],['JCK','029770','KOMMANDO'],['MIA','027400','QUEST'],['LEO','025010','KART']];
-const RC=['#E0201B','#ff9a3d','#F2C14E','#3ddc6f','#4fc3f7','#ffffff','#ffb3ad','#d7e05a'],ORD=['1ST','2ND','3RD','4TH','5TH','6TH','7TH','8TH'];
-function board(t){if(t==='mine')return boardMine();$('#tbl').innerHTML='<div class="h">RANK</div><div class="h">SCORE</div><div class="h">NAME</div><div class="h">GAME</div>'+(t==='week'?WEEK:ALLT).map((r,i)=>`<div style="color:${RC[i]}">${ORD[i]}</div><div style="color:${RC[i]}">${r[1]}</div><div style="color:${RC[i]}">${r[0]}</div><div class="g" style="color:${RC[i]}">${r[2]}</div>`).join('')}
-board('week');refreshBests();
+$$('.card').forEach(card=>{
+  card.addEventListener('click',()=>launch(card.dataset.s,card));
+  if(fine){card.addEventListener('mouseenter',()=>{const m=card.querySelector('.media');if(m.querySelector('video'))return;const v=document.createElement('video');v.muted=true;v.playsInline=true;v.loop=true;v.autoplay=true;v.src='clips/'+card.dataset.s+'.'+VEXT;m.insertBefore(v,m.children[1]);v.play().catch(()=>{})});
+    card.addEventListener('mouseleave',()=>{const v=card.querySelector('.media video');if(v)v.remove()})}
+});
+}
+drawCards();
+const SCORE_FMT={klash:v=>v+(v===1?' WIN':' WINS'),kart:v=>{const ms=Math.max(0,600000-v),m=Math.floor(ms/60000),sec=((ms%60000)/1000).toFixed(1).padStart(4,'0');return m+':'+sec+' LAP'},'colour-lab':v=>'★ '+v,rush:v=>fmt(v)+' M'};
+const showScore=(g,v)=>(SCORE_FMT[g]||(x=>String(x).padStart(6,'0')))(v);
+const monthKey=()=>{try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit'}).format(new Date())}catch(e){return new Date().toISOString().slice(0,7)}};
+let tab='month',gsel='all',CACHE={};
+async function lbFetch(scope){
+  if(!LB.url)return null;const k=scope+'|'+gsel;if(CACHE[k]&&Date.now()-CACHE[k].t<60000)return CACHE[k].rows;
+  let q=LB.url+'/rest/v1/arcade_board?select=initials,score,game,created_at&order=score.desc&limit=10';
+  if(gsel!=='all')q+='&game=eq.'+gsel;if(scope==='month')q+='&month=eq.'+monthKey();
+  try{const r=await fetch(q,{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon}});if(!r.ok)throw 0;const rows=await r.json();CACHE[k]={t:Date.now(),rows};return rows}catch(e){return null}}
+async function lbCount(){if(!LB.url)return;try{const r=await fetch(LB.url+'/rest/v1/arcade_scores?select=id',{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,Prefer:'count=exact',Range:'0-0'}});const c=(r.headers.get('content-range')||'').split('/')[1];if(c&&c!=='*')$('#hsPlayers').textContent=(+c).toLocaleString('en-AU')}catch(e){}}
+function gselBar(){$('#gsel').innerHTML=['all',...GAMES.map(g=>g.s)].map(k=>`<button type="button" class="chip" aria-pressed="${gsel===k}" data-g="${k}">${k==='all'?'ALL GAMES':GAME_N(k).toUpperCase()}</button>`).join('')}
+function boardMine(){
+  const rows=GAMES.map(g=>({g,b:BESTS[g.s]&&BESTS[g.s]()})).filter(r=>r.b);
+  $('#tbl').innerHTML='<div class="h">GAME</div><div class="h" style="grid-column:span 3">YOUR BEST</div>'+
+   (rows.length?rows.map((r,i)=>`<div class="g" style="color:${RC[i%8]}">${r.g.n.toUpperCase()}</div><div style="grid-column:span 3;color:${RC[i%8]}">${r.b.t}</div>`).join(''):'<div class="mine-empty">NO RECORDS YET. PLAY A GAME AND YOUR BESTS SHOW UP HERE.</div>')}
+async function board(t){tab=t;$('#gsel').style.display=t==='mine'?'none':'';if(t==='mine')return boardMine();
+  const tbl=$('#tbl');tbl.innerHTML='<div class="mine-empty">LOADING…</div>';
+  const rows=await lbFetch(t);if(tab!==t)return;
+  const head='<div class="h">RANK</div><div class="h">SCORE</div><div class="h">NAME</div><div class="h">GAME</div>';
+  if(rows&&rows.length&&t==='all'){const top=rows.find(r=>r.game!=='kart')||rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}
+  if(rows===null){tbl.innerHTML=head+'<div class="mine-empty" style="grid-column:span 4">THE SHARED BOARD IS NOT SWITCHED ON YET. YOUR OWN BESTS ARE UNDER "MY BESTS".</div>';return}
+  if(!rows.length){tbl.innerHTML=head+'<div class="mine-empty" style="grid-column:span 4">'+(t==='month'?'NO SCORES YET THIS MONTH. BE THE FIRST!':'NO SCORES YET. BE THE FIRST!')+'</div>';return}
+  const mine=(LS('keim-arcade-ini')||'');
+  tbl.innerHTML=head+rows.map((r,i)=>{const me=r.initials===mine&&r.initials;const c=RC[i%RC.length];return `<div style="color:${c}">${ORD[i]||(i+1)}</div><div style="color:${c}">${showScore(r.game,r.score)}</div><div style="color:${c}${me?';text-decoration:underline':''}">${r.initials}</div><div style="color:${c}">${GAME_N(r.game).toUpperCase()}</div>`}).join('')}
 $$('.tabs .chip').forEach(b=>b.addEventListener('click',()=>{$$('.tabs .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));board(b.dataset.tab);blip(520)}));
+$('#gsel').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;gsel=b.dataset.g;gselBar();board(tab);blip(600)});
+gselBar();board('month');refreshBests();lbCount();lbFetch('all').then(rows=>{if(rows&&rows.length){const top=rows.find(r=>r.game!=='kart')||rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}else{const b=myTop();if(b)$('#hudHi').textContent=showScore(b.g,b.v)}});
+// ---- initials (remembered on this device)
 const AZ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';let ini=[0,0,0];
-function letters(){$('#letters').innerHTML=ini.map((v,i)=>`<button type="button" class="${i===0?'sel':''}" data-i="${i}" aria-label="Initial ${i+1}: ${AZ[v]}. Tap to change">${AZ[v]}</button>`).join('');$('#myName').textContent=ini.map(v=>AZ[v]).join('')}
+try{const v=LS('keim-arcade-ini');if(v&&/^[A-Z]{3}$/.test(v))ini=[...v].map(c=>AZ.indexOf(c))}catch(e){}
+const iniStr=()=>ini.map(v=>AZ[v]).join('');
+function letters(){$('#letters').innerHTML=ini.map((v,i)=>`<button type="button" class="${i===0?'sel':''}" data-i="${i}" aria-label="Initial ${i+1}: ${AZ[v]}. Tap to change">${AZ[v]}</button>`).join('');$('#myName').textContent=iniStr();try{localStorage.setItem('keim-arcade-ini',iniStr())}catch(e){}}
 letters();$('#letters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ini[+b.dataset.i]=(ini[+b.dataset.i]+1)%26;letters();blip(440+ini[+b.dataset.i]*20)});
+function myTop(){let best=null;for(const g in SCORE_OF){const v=SCORE_OF[g]();if(v&&(!best||(g!=='kart'&&v>best.v)))best={g,v}}return best}
+function shareCard(){const b=myTop();$('#myBest').textContent=b?showScore(b.g,b.v):'—';$('#myBestG').textContent=b?GAME_N(b.g).toUpperCase():'PLAY A GAME'}
+shareCard();
+$('#shareBtn').addEventListener('click',async()=>{const b=myTop();const url=location.origin+location.pathname;const text=b?`${iniStr()} just scored ${showScore(b.g,b.v)} on KEIM ${GAME_N(b.g)} 🕹️ Beat it: ${url}`:`KEIM Arcade: 12 free games, monthly prizes 🕹️ ${url}`;
+  try{if(navigator.share){await navigator.share({title:'KEIM Arcade',text,url})}else{await navigator.clipboard.writeText(text);toast('COPIED TO CLIPBOARD','PASTE IT ANYWHERE')}}catch(e){}});
+// QR for the arcade address (tiny generator-free pattern: we use a real QR image service only if online; else the stylised block)
 {const q='1111111100000110111011011101101110110000011111111';$('#qr').innerHTML=[...q].map(c=>`<i class="${c==='1'?'o':''}"></i>`).join('')}
-let cnt=9;setInterval(()=>{cnt=cnt<=0?9:cnt-1;$('#count').textContent=cnt},1000);
+// ---- post a new best after a game
+let toastT=null;function toast(h,sub){const t=$('#klToast');t.innerHTML='';t.append(h);if(sub){const s2=document.createElement('small');s2.textContent=sub;t.append(s2)}t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200)}
+const POSTED=()=>{try{return JSON.parse(LS('keim-arcade-posted')||'{}')}catch(e){return{}}};
+function offerPost(slug){if(!slug||!SCORE_OF[slug])return;const v=SCORE_OF[slug]();if(!v)return;shareCard();refreshBests();
+  const p=POSTED();if(p[slug]&&v<=p[slug])return;  // not a new best since last post
+  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
+async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v;m.classList.remove('show');
+  const p=POSTED();p[slug]=v;try{localStorage.setItem('keim-arcade-posted',JSON.stringify(p))}catch(e){}
+  if(!LB.url){toast('SAVED ON THIS DEVICE','THE SHARED BOARD IS NOT ON YET');return}
+  try{const r=await fetch(LB.url+'/rest/v1/arcade_scores',{method:'POST',headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({initials:iniStr(),game:slug,score:v,month:monthKey()})});
+    if(!r.ok)throw 0;CACHE={};toast(iniStr()+' · '+showScore(slug,v)+' POSTED!','CHECK THE BOARD');board(tab);lbCount()}catch(e){toast('COULD NOT POST RIGHT NOW','YOUR SCORE IS SAFE ON THIS DEVICE')}}
+$('#postBox').addEventListener('click',e=>{const b=e.target.closest('[data-post]');if(!b)return;const a=b.dataset.post;
+  if(a==='go')postScore();else if(a==='skip')$('#postBox').classList.remove('show');else if(a==='ini'){const i=+b.dataset.i;ini[i]=(ini[i]+1)%26;letters();$('#postIni').textContent=iniStr();$$('#postLetters button')[i].textContent=AZ[ini[i]];blip(440+ini[i]*20)}});
+function postLetters(){$('#postLetters').innerHTML=ini.map((v,i)=>`<button type="button" data-post="ini" data-i="${i}">${AZ[v]}</button>`).join('')}
+new MutationObserver(()=>{if($('#postBox').classList.contains('show'))postLetters()}).observe($('#postBox'),{attributes:true,attributeFilter:['class']});
+// ---- this month's prize (edit prizes.json in the repo, no code change needed)
+fetch('prizes.json',{cache:'no-cache'}).then(r=>r.json()).then(P=>{const m=P[monthKey()]||P.default;if(!m)return;
+  $('#przTitle').textContent=m.title||'MONTHLY PRIZE';$('#przLead').textContent=m.lead||'';$('#przRule').textContent=m.rule||'';$('#hudPrize').textContent=(m.short||'PRIZE ON').toUpperCase();
+  if(m.how)$('#howPrize').textContent=m.how;
+  const cols=['#E0201B','#698260','#4f7ea8','#D29D6D'];
+  $('#przShelf').innerHTML=(m.prizes||[]).slice(0,4).map((z,i)=>`<div class="prize"><div class="${i%2?'bob2':'bob'}"><svg class="pix" data-art="tin" data-c="${cols[i]}" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>${z.rank}</b><i>${z.name}</i></div><div class="ok">${z.note||''}</div></div>`).join('');
+  if(typeof drawPix==='function')drawPix()}).catch(()=>{});
 
 /* ================= PLAY MODE ================= */
 const arc=$('#arcade'),acab=$('#acab'),frame=$('#aFrame'),pw=$('#aPw'),abtns=$('#abtns');
@@ -999,7 +1011,7 @@ function cabZoomT(){ // gentle push-in toward the cabinet screen
 }
 function setShade(o,ms){zshade.style.transition=ms?`opacity ${ms}ms ease`:'none';zshade.style.opacity=o}
 async function launch(slug,fromEl,fromHero){
-  if(busy||!BY[slug])return;busy=true;const g=BY[slug];cur=g;playStart=Date.now();
+  if(busy||!BY[slug])return;busy=true;const g=BY[slug];cur=g;
   try{localStorage.setItem('keim-arcade-last',slug)}catch(e){}
   iosPlayback();openGameAudio();
   ac();coinSnd();
@@ -1027,63 +1039,7 @@ async function launch(slug,fromEl,fromHero){
   busy=false;
   try{history.replaceState(null,'','#play-'+slug)}catch(e){}
 }
-/* ---- KEIMLINGE membership: credits are saved for members only ----
-   On keim.com.au the Wix page tells this page who is logged in:
-     iframe.contentWindow.postMessage({type:'keimlinge-member',member:{id,name,points}},'*')
-   and listens for {type:'keimlinge-open',mode:'join'|'login'} to open the KEIMLINGE sign-up / login.
-   Points themselves must be stored and checked on the server (never trusted from the browser). */
-// On play.keim.com.au (GitHub Pages) there is no login, so JOIN / LOG IN send people to the arcade page on keim.com.au, which has KEIMLINGE sign-in
-const KEIMLINGE={join:'https://www.keim.com.au/play?join=1',login:'https://www.keim.com.au/play?login=1'};
-let MEMBER=null,gateNudged=false,HOSTED=false; // HOSTED = running inside the keim.com.au page, which handles login
-const gate=$('#gate');
-function renderMember(){const lb=$('#crLbl'),v=$('#crVal'),wb=$('#walletBtn');
-  if(MEMBER){lb.textContent='KEIMLINGE · '+String(MEMBER.name||'MEMBER').toUpperCase().slice(0,12);v.textContent='$'+((+MEMBER.points||0)/1000).toFixed(2);wb.textContent='MY WALLET'}
-  else{lb.textContent='CREDITS';v.textContent='MEMBERS ONLY';wb.textContent='SAVE CREDITS'}
-  const d=$('#gateDemo');if(d)d.style.display=HOSTED?'none':''}
-const PTS_TABLE=k=>/^play:/.test(k)?100:/^daily:/.test(k)?50:({'cl-stars:12':300,'cl-stars:24':500,'cl-stars:36':1000})[k]||0;
-const KEYLABEL=k=>{const m=/^play:(.+)$/.exec(k);if(m)return 'FIRST PLAY · '+((BY[m[1]]||{}).n||m[1]).toUpperCase();if(/^daily:/.test(k))return 'DAILY PLAY';const c=/^cl-stars:(\d+)$/.exec(k);if(c)return 'COLOUR LAB · '+c[1]+' STARS';return k.toUpperCase()};
-let toastT=null;function toast(h,sub){const t=$('#klToast');t.innerHTML='';t.append(h);if(sub){const s=document.createElement('small');s.textContent=sub;t.append(s)}t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200)}
-function openWallet(){if(!MEMBER)return openGate('wallet');gate.classList.add('wallet');
-  const p=+MEMBER.points||0,mo=+MEMBER.month||0,cap=+MEMBER.cap||10000;$('#walName').textContent='HI '+String(MEMBER.name||'MEMBER').toUpperCase().slice(0,14);
-  $('#walBal').textContent='$'+(p/1000).toFixed(2);$('#walPts').textContent=p.toLocaleString('en-AU')+' POINTS';$('#walBar').style.width=Math.min(100,mo/cap*100)+'%';$('#walMonth').textContent=mo.toLocaleString('en-AU')+' PTS THIS MONTH';
-  $('#walOut').innerHTML='';const go=$('#walGo');go.disabled=p<2000;go.textContent=p<2000?'CODES FROM $2 (2,000 PTS)':'GET MY $'+Math.min(10,Math.floor(p/1000))+' CODE';go.style.opacity=p<2000?.5:1;
-  gate.classList.add('show');try{blip(660,.05)}catch(e){}return true}
-function showCode(r){const o=$('#walOut');o.innerHTML='';
-  if(r.ok){const c=document.createElement('div');c.className='code';c.textContent=r.code;const p=document.createElement('p');p.textContent='$'+r.dollars+' off KEIM sample pots, colour cards and fandecks. One use, valid '+Math.round((r.validDays||180)/30)+' months. Paste it at checkout.';o.append(c,p);MEMBER.points=r.points;renderMember();$('#walBal').textContent='$'+((+r.points||0)/1000).toFixed(2);$('#walPts').textContent=(+r.points||0).toLocaleString('en-AU')+' POINTS';$('#walGo').disabled=true;$('#walGo').style.opacity=.5;$('#walGo').textContent='CODE READY ✓'}
-  else{const p=document.createElement('p');p.textContent=r.reason==='balance'?'You need at least 2,000 points for a code.':'Sorry, the code could not be made right now. Your points are safe. Please try again later.';o.append(p)}}
-function openGate(kind){if(MEMBER)return false;gate.classList.remove('wallet');
-  const t={wallet:['★ KEIMLINGE ★','SAVE YOUR CREDITS','Playing is free for everyone. Credits are only saved for KEIMLINGE members.'],
-   after:['GAME OVER','YOUR CREDITS WEREN\'T SAVED','Nice game! Guests can play, but only KEIMLINGE members bank points for milestones like that.']}[kind||'wallet'];
-  $('#gateK').textContent=t[0];$('#gateH').textContent=t[1];$('#gateP').textContent=t[2];gate.classList.add('show');try{blip(660,.05)}catch(e){}
-  setTimeout(()=>{const b=gate.querySelector('[data-gate=join]');b&&b.focus()},50);return true}
-function closeGate(){gate.classList.remove('show')}
-function goKeimlinge(mode){
-  if(HOSTED){try{window.parent.postMessage({type:'keimlinge-open',mode},'*')}catch(e){}return}
-  location.href=KEIMLINGE[mode]||KEIMLINGE.join}
-gate.addEventListener('click',e=>{const b=e.target.closest('[data-gate]');if(!b){if(e.target===gate)closeGate();return}const a=b.dataset.gate;
-  if(a==='close')closeGate();
-  else if(a==='demo'){MEMBER={id:'demo',name:'Sample',points:2400,month:2400,cap:10000,demo:true};renderMember();closeGate();toast('PREVIEW MEMBER VIEW','ON KEIM.COM.AU THIS IS YOUR REAL KEIMLINGE LOGIN')}
-  else if(a==='redeem'){if(!MEMBER)return;if(MEMBER.demo){const d=Math.min(10,Math.floor(MEMBER.points/1000));showCode(d>=2?{ok:true,code:'KAPREVIEW'+d,dollars:d,points:MEMBER.points-d*1000,validDays:180}:{ok:false,reason:'balance'})}
-   else if(HOSTED){$('#walGo').textContent='MAKING YOUR CODE...';try{window.parent.postMessage({type:'keim-redeem'},'*')}catch(e){}}}
-  else goKeimlinge(a)});
-document.addEventListener('click',e=>{const b=e.target.closest('main [data-gate],header [data-gate]');if(b){e.preventDefault();if(MEMBER)openWallet();else openGate('wallet')}});
-$('#walletBtn').addEventListener('click',e=>{e.preventDefault();openWallet()});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&gate.classList.contains('show'))closeGate()});
-addEventListener('message',e=>{const d=e.data;if(!d||typeof d!=='object')return;
-  if(d.type==='keimlinge-member'){HOSTED=true;MEMBER=d.member&&d.member.id?{id:String(d.member.id),name:String(d.member.name||''),points:+d.member.points||0,month:+d.member.month||0,cap:+d.member.cap||10000}:null;renderMember();if(MEMBER&&gate.classList.contains('show')&&!gate.classList.contains('wallet'))closeGate()}
-  else if(d.type==='keim-awarded'&&MEMBER){MEMBER.points=+d.points||MEMBER.points;MEMBER.month=+d.month||MEMBER.month;renderMember();
-    if(d.awarded>0)toast('+'+d.awarded+' PTS BANKED',KEYLABEL(String(d.key||'')));else if(d.reason==='cap')toast('MONTHLY MAX REACHED','$10 THIS MONTH. MORE NEXT MONTH!')}
-  else if(d.type==='keim-code')showCode(d)});
-// ---- milestones: reported when a member leaves a game; the server decides what they are worth ----
-let playStart=0,lastSlug='';const sentKeys=new Set();
-function todaySyd(){try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}).format(new Date())}catch(e){return new Date().toISOString().slice(0,10)}}
-function reportMilestones(slug,secs){if(!MEMBER||secs<45)return;const keys=['play:'+slug,'daily:'+todaySyd()];
-  if(slug==='colour-lab'){try{const o=JSON.parse(LS('keim-cl-prog')||'null');const v=o&&o.stars?(Array.isArray(o.stars)?o.stars:Object.values(o.stars)):[];const n=v.reduce((a,b)=>a+(+b||0),0);[12,24,36].forEach(t=>{if(n>=t)keys.push('cl-stars:'+t)})}catch(e){}}
-  let delay=0;keys.forEach(k=>{if(sentKeys.has(k))return;sentKeys.add(k);
-    if(MEMBER.demo){const pts=PTS_TABLE(k),give=Math.max(0,Math.min(pts,(MEMBER.cap||10000)-(MEMBER.month||0)));if(give){setTimeout(()=>{MEMBER.points+=give;MEMBER.month+=give;renderMember();toast('+'+give+' PTS BANKED',KEYLABEL(k)+'  (PREVIEW)')},400+delay);delay+=3400}}
-    else if(HOSTED){try{window.parent.postMessage({type:'keim-milestone',key:k},'*')}catch(e){}}})}
-try{if(window.parent!==window)window.parent.postMessage({type:'keim-arcade-ready'},'*')}catch(e){}
-renderMember();
+let lastSlug='';
 async function exitGame(){
   if(busy||!cur)return;busy=true;lastSlug=cur.s;releaseAll();try{if(keepAlive)keepAlive.pause()}catch(e){}
   bootId++;clearInterval(cueT);clearCue();pw.className='pw off';await wait(340);
@@ -1104,8 +1060,7 @@ async function exitGame(){
   heroCab.classList.remove('zooming');heroSec.classList.remove('zooming');
   cur=null;busy=false;refreshBests();
   try{history.replaceState(null,'',location.pathname)}catch(e){}
-  if(!MEMBER&&!gateNudged){gateNudged=true;setTimeout(()=>openGate('after'),350)}
-  if(MEMBER&&lastSlug)reportMilestones(lastSlug,(Date.now()-playStart)/1000);
+  setTimeout(()=>offerPost(lastSlug),400);
 }
 $('#aExit').addEventListener('click',exitGame);
 $('#aSnd').addEventListener('pointerdown',e=>e.preventDefault());

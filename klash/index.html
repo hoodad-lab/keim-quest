@@ -344,7 +344,7 @@ function applyHit(a,o,mv,px,py){if(!o||o.st==='dead')return;
  if(mv.k==='upper'&&Math.random()<.25&&!G.easter){G.easter=1.4;SFX.easter()}
  if(o.hp<=0)roundKO(a,o)}
 function roundKO(w,l){if(G.st!=='fight')return;const final=w.wins+1>=2;G.st='ko';G.st0=0;G.koW=w;G.koL=l;
- if(final&&!G.finish){G.finish={winner:w,loser:l,t:0,wait:l.st==='air'};SFX.finish();MUS.want=null;l.hp=0;G.hb=0}
+ if(final&&!G.finish){G.finish={winner:w,loser:l,t:0,wait:l.st==='air'};if(!w.ai){try{localStorage.setItem('keim-kl-wins',String((+localStorage.getItem('keim-kl-wins')||0)+1))}catch(e){}}SFX.finish();MUS.want=null;l.hp=0;G.hb=0}
  else{SFX.stab();bigMsg(w.c.n+' WINS','y',2.4)}}
 function endFinish(fatal,stage){const f=G.finish;if(!f)return;G.finish=null;const w=f.winner,l=f.loser;
  if(fatal){G.fatal={w,l,t:0,type:stage?'stage':FK[w.ci]||'mineral'};SFX.gong();w.st='fatal';w.t=0;l.st='dizzy'}

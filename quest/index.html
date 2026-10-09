@@ -257,6 +257,7 @@ const INGN={sol:'SOL-SILICATE',kali:'POTASSIUM SILICATE',oxide:'EARTH OXIDE PIGM
 const INGC={sol:'#9ff0ff',kali:'#c8f0a0',oxide:'#e0a050',water:'#6fb8ff',filler:'#f2f2ec'};
 let ingCount={};function resetIng(){ingCount={};ING.forEach(k=>ingCount[k]=0)}
 let ingStreak=0,ingLast=null,ingLastT=-9;
+const _hiSave=(k,v)=>{try{if(v>0&&v>(+localStorage.getItem(k)||0))localStorage.setItem(k,String(Math.round(v)))}catch(e){}};
 function gainIng(k,x,y){ingCount[k]=(ingCount[k]||0)+1;coins++;score+=10;
  if(k===ingLast&&tm-ingLastT<1.4)ingStreak++;else ingStreak=0;ingLast=k;ingLastT=tm;SFX.ing(k,ingStreak);
  if(x!==undefined){rings.push({x,y,col:INGC[k],t:0});for(let i=0;i<6;i++){const a=i/6*Math.PI*2+Math.random()*.5;parts.push({x,y,vx:Math.cos(a)*1.6,vy:Math.sin(a)*1.6-.6,col:i%2?'#fff':INGC[k],t:0,nog:1,sz:1.5,star:1})}
@@ -683,7 +684,7 @@ function update(dt){tm+=dt;if(shake>0)shake-=dt;
  if(st==='title'){MUS.want='title';if(startEdge){newGame();st='play'}return}
  if(st==='over'||st==='clear'){if(st==='clear'){clearT+=dt;if(clearT>4)MUS.want='title'}else MUS.want=null;if(startEdge&&(st!=='clear'||clearT>1.2)){if(st==='clear'&&level<LASTLV)startLevel(level+1,{big:pl.big,painter:pl.painter});else newGame();st='play'}return}
  if(st==='pole'){poleUpdate(dt);return}
- if(st==='dying'){deathT+=dt;if(deathT>.5){pl.vy+=GRAV;pl.y+=pl.vy}if(deathT>2.4){lives--;if(lives<0){st='over';return}balls=[];resetPlayer();st='play';ents.forEach(e=>{if(e.type==='item')e.gone=true})}return}
+ if(st==='dying'){deathT+=dt;if(deathT>.5){pl.vy+=GRAV;pl.y+=pl.vy}if(deathT>2.4){lives--;if(lives<0){st='over';_hiSave('keim-q-hi',score);return}balls=[];resetPlayer();st='play';ents.forEach(e=>{if(e.type==='item')e.gone=true})}return}
  const bossLive=bossIntro&&ents.some(e=>e.type==='boss'&&!e.dead);MUS.want=bossLive?'boss':'main';
  const run=!!K.fire,acc=pl.ground?(run?.32:.28):.18,max=run?3.1:1.9;
  if(K.left&&!K.right){pl.vx=pl.vx< -max?Math.min(pl.vx+.06,-max):Math.max(pl.vx-acc,-max);pl.face=-1}else if(K.right&&!K.left){pl.vx=pl.vx>max?Math.max(pl.vx-.06,max):Math.min(pl.vx+acc,max);pl.face=1}else{pl.vx*=pl.ground?.78:.95;if(Math.abs(pl.vx)<.05)pl.vx=0}
@@ -732,7 +733,7 @@ function update(dt){tm+=dt;if(shake>0)shake-=dt;
    else hurt()}});
  ents=ents.filter(e=>!e.gone);
  const px0=LV.poleX*T+7;if(pl.x+pl.w>=px0&&pl.x<=px0+3&&pl.y+pl.h>16&&!ents.some(e=>e.type==='boss'&&!e.dead)){grabPole();return}
- const dx=LV.door*T;if(pl.x+pl.w>dx&&pl.x<dx+16&&!ents.some(e=>e.type==='boss')){st='clear';clearT=0;SFX.clear();score+=lives*500}
+ const dx=LV.door*T;if(pl.x+pl.w>dx&&pl.x<dx+16&&!ents.some(e=>e.type==='boss')){st='clear';clearT=0;SFX.clear();score+=lives*500;_hiSave('keim-q-hi',score)}
  if(LV.boss&&pl.x>(LV.boss.wall-5)*T&&ents.some(e=>e.type==='boss')&&doorMsgT<=0){doorMsgT=4;say({title:'SHRINK-WRAP WALL!',lines:['Beat the Mega Acrylic Tub','to melt it.'],dur:2.5})}
  if(doorMsgT>0)doorMsgT-=dt;
  camX=lerp(camX,clamp(pl.x-130,0,LVW*T-VW),.14);
@@ -741,7 +742,7 @@ function grabPole(){st='pole';const top=pl.y;const pts=top<=28?5000:top<=52?2000
  pop(LV.poleX*T+8,top-10,'+'+pts+(pts===5000?' TOP OF THE FLAG!':''),pts>=2000?'#ffd23f':'#fff');SFX.flag();pl.vx=0;pl.vy=0;pl.x=LV.poleX*T+7-pl.w+2;pl.face=1;balls=[]}
 function poleUpdate(dt){LV.flagY=Math.min(118,LV.flagY+2.2);if(pl.y+pl.h<144){pl.y=Math.min(144-pl.h,pl.y+2.2);pl.ground=false;return}
  if(LV.flagY<118)return;pl.ground=true;pl.vx=1.3;const r=moveBody(pl);pl.ground=r.ground;camX=lerp(camX,clamp(pl.x-130,0,LVW*T-VW),.14);
- if(pl.x>=LV.door*T-2){st='clear';clearT=0;SFX.clear();score+=lives*500}}
+ if(pl.x>=LV.door*T-2){st='clear';clearT=0;SFX.clear();score+=lives*500;_hiSave('keim-q-hi',score)}}
 function drawPole(){if(!LV||!LV.poleX)return;const x=LV.poleX*32+14;R(g,x-1,30,6,258,DK);R(g,x,32,4,256,'#e8ecf0');R(g,x+2,32,1,256,'#aab0b8');disc(g,x+2,26,7,DK);disc(g,x+2,26,6,'#ffd23f');disc(g,x,24,2,'#fff6c0');
  R(g,x-10,276,24,12,DK);R(g,x-9,277,22,11,'#8e8980');
  const fy=Math.round(LV.flagY*2);R(g,x-47,fy-1,46,38,DK);keimFlag(x-46,fy,2);
