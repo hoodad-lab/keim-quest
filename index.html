@@ -549,6 +549,16 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
         <div><svg class="pix" data-art="coin" viewBox="0 0 8 8" width="92" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">2. POST YOUR SCORE</div><div class="d">BEAT YOUR BEST, TAP IN THREE LETTERS, AND YOU ARE ON THE BOARD. NO SIGN-UP.</div></div>
         <div><svg class="pix" data-art="tin" data-c="#E0201B" viewBox="0 0 12 11" width="100" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">3. WIN THE MONTH</div><div class="d" id="howPrize">TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. SEE THIS MONTH'S PRIZE BELOW.</div></div>
       </div>
+      <div class="power">
+        <div class="row">
+          <div><div class="k">DRAG YOUR POINTS ▼︎</div><div class="v"><span id="ptsV">650</span> PTS</div></div>
+          <div style="text-align:right"><div class="k">IN THE KEIM SHOP</div><div class="cr neon" id="crV">$6.50</div></div>
+        </div>
+        <div class="segs" id="segs" aria-hidden="true"></div>
+        <label class="sr" for="ptsR">Points</label>
+        <input id="ptsR" type="range" min="0" max="1500" step="25" value="650">
+        <div class="scale"><span>0</span><span>100 PTS = $1 · MAX 1,000 PTS A WEEK</span><span>1,500</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -949,6 +959,13 @@ function klSess(j,mail){return{access_token:j.access_token,refresh_token:j.refre
 async function klRefresh(){try{const r=await fetch(LB.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:klH(false),body:JSON.stringify({refresh_token:KL.s.refresh_token})});const j=r.ok?await r.json():null;klSave(j&&j.access_token?klSess(j,KL.s.email):null)}catch(e){}}
 const rpc=(fn,args)=>klFetch('/rest/v1/rpc/'+fn,args||{},true);
 const dollars=c=>'$'+(c/100).toFixed(c%100?2:0);const pts=c=>(+c).toLocaleString('en-AU');
+/* points → $ slider in HOW TO PLAY */
+const FAN=['#E0201B','#ff6a3d','#ff9a3d','#F2C14E','#d7e05a','#9be05a','#3ddc6f','#3dd6c0','#4fc3f7','#7a8cff'];
+$('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
+function ptsSlider(){const v=+$('#ptsR').value,d=Math.min(1000,v)/100;$('#ptsV').textContent=pts(v);$('#crV').textContent='$'+d.toFixed(2)+(v>1000?' (CAP)':'');$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<Math.floor(d)))}
+$('#ptsR').addEventListener('input',()=>{ptsSlider();try{blip(600+ +$('#ptsR').value/3,.03)}catch(e){}});ptsSlider();
+/* CONTINUE? countdown at the bottom: 9 → 0, then back (nobody ever has to insert a coin) */
+{let cnt=9;const el=$('#count');setInterval(()=>{cnt=cnt<=0?9:cnt-1;el.textContent=cnt;el.style.color=cnt<=3?'#fff':''},1000)}
 function sydMonday(){const d=new Date(new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}).format(new Date()));d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.toISOString().slice(0,10)}
 const refQ=(new URLSearchParams(location.search).get('ref')||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
 if(refQ){try{localStorage.setItem('keim-kl-ref',refQ)}catch(e){}setTimeout(()=>toast('A FRIEND INVITED YOU','JOIN KEIMLINGE AND START WITH 500 POINTS'),1200)}
