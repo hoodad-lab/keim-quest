@@ -966,7 +966,7 @@ $('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
 function ptsSlider(){const v=+$('#ptsR').value,d=Math.min(1000,v)/100;$('#ptsV').textContent=pts(v);$('#crV').textContent='$'+d.toFixed(2)+(v>1000?' (CAP)':'');$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<Math.floor(d)))}
 $('#ptsR').addEventListener('input',()=>{ptsSlider();try{blip(600+ +$('#ptsR').value/3,.03)}catch(e){}});ptsSlider();
 /* ===== arcade background music: a generated 8-bar chiptune loop, off until the player switches it on; ducks out while a game is open ===== */
-const MUS={on:LS('keim-arcade-music')==='1',g:null,nb:null,timer:null,next:0,step:0};
+const MUS={on:LS('keim-arcade-music')!=='0',g:null,nb:null,timer:null,next:0,step:0};
 const mF=n=>440*Math.pow(2,(n-69)/12);
 const MCH=[[57,60,64],[53,57,60],[55,59,62],[52,55,59],[57,60,64],[53,57,60],[55,59,62],[52,56,59]];          // Am F G Em · Am F G E
 const MLEAD=[[69,-1,72,74,-1,76,74,72],[69,-1,65,69,-1,72,-1,-1],[67,-1,71,74,-1,76,74,71],[64,-1,67,71,-1,76,-1,-1],
