@@ -393,6 +393,43 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 #postBox .bal{font-family:var(--px);font-size:clamp(26px,7vw,40px);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:6px 0 10px}
 #postBox p{font-family:var(--vt);font-size:22px;line-height:1.1;color:#e8e4da;margin:0}#postBox p b{color:var(--gold);font-weight:400}
 #postBox .gbtns .pbtn{justify-content:center;width:100%}
+/* ---- KEIMLINGE credits section ---- */
+.credits{background:#0d0d10;padding:90px 0 80px;border-top:4px solid #000;color:#fff;text-align:center}
+.credits p.vt{margin:20px auto 0;font-size:25px;line-height:1.15;max-width:680px;color:#e8e4da}
+.earn3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:40px auto 0;max-width:900px}
+.ec{background:#16161b;border:4px solid #fff;box-shadow:8px 8px 0 var(--red);padding:26px 18px 22px}
+.ec .amt{font-family:var(--px);font-size:clamp(28px,6vw,40px);color:var(--gold);text-shadow:4px 4px 0 var(--red)}
+.ec b{display:block;font-family:var(--px);font-size:11px;margin:14px 0 8px}
+.ec i{display:block;font-style:normal;font-family:var(--vt);font-size:20px;line-height:1.1;color:#cfcac0}
+.ec.wk{border-color:var(--gold)}
+.credits .members{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-top:34px;font-family:var(--vt);font-size:20px;color:#a9a49a}
+/* ---- wallet / sign-in modal ---- */
+#gate{position:fixed;inset:0;z-index:1500;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.8)}
+#gate.show{display:flex;animation:msgIn .2s steps(3)}
+#gate .gbox{position:relative;width:min(540px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#0d0d10;border:4px solid var(--gold);box-shadow:8px 8px 0 var(--red),0 0 60px rgba(242,193,78,.25);padding:30px 24px 22px;color:#fff;text-align:center}
+#gate .gk{font-family:var(--px);font-size:9px;color:var(--gold);letter-spacing:1px}
+#gate h3{font-family:var(--px);font-size:clamp(15px,4vw,21px);line-height:1.4;margin:12px 0 8px;text-shadow:3px 3px 0 var(--red)}
+#gate p{font-family:var(--vt);font-size:22px;line-height:1.1;color:#e8e4da;margin:0 0 16px}#gate p b{color:var(--gold);font-weight:400}
+#gate .gbtns{display:flex;flex-direction:column;gap:12px;align-items:stretch;margin:4px 0 6px}#gate .gbtns.row{flex-direction:row}#gate .gbtns .pbtn{justify-content:center;flex:1}
+#gate .pbtn.ghost{background:transparent;color:#fff;border:2px solid #fff;box-shadow:none}
+#gate .guest{background:none;border:0;color:#a9a49a;font-family:var(--px);font-size:9px;cursor:pointer;padding:12px;text-decoration:underline}
+#gate .small{font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:10px;line-height:1.4}
+#gate .gx{position:absolute;top:8px;right:8px;background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:6px 10px}
+#gate .pmail{display:block;text-align:left;margin:0 0 12px}
+#gate .pmail span{display:block;font-family:var(--px);font-size:8px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
+#gate .pmail input,#gate .codein{width:100%;box-sizing:border-box;background:#16161b;border:3px solid #3a3a44;color:#fff;font-family:var(--vt);font-size:22px;padding:8px 10px;outline:none}
+#gate .pmail input:focus,#gate .codein:focus{border-color:var(--gold)}#gate .pmail input.bad,#gate .codein.bad{border-color:var(--red)}
+#gate .codein{font-family:var(--px);font-size:clamp(22px,7vw,32px);letter-spacing:.35em;text-align:center;padding:12px 0 12px .35em;margin-bottom:14px}
+#gate .gat,#gate .cod,#gate .wal{display:none}#gate.s-gat .gat,#gate.s-cod .cod,#gate.s-wal .wal{display:block}
+#gate .bal{font-family:var(--px);font-size:clamp(30px,8vw,46px);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:8px 0 4px}
+#gate .bar{height:14px;border:2px solid #fff;margin:12px 0 6px;position:relative;background:#16161b}#gate .bar i{position:absolute;inset:0;width:0;background:var(--gold);transition:width .4s}
+#gate .barl{display:flex;justify-content:space-between;font-family:var(--px);font-size:8px;color:#a9a49a;margin-bottom:16px}
+#gate .refbox{background:#16161b;border:3px solid #3a3a44;padding:14px 12px 10px;margin-bottom:14px}
+#gate .reflink{font-family:var(--vt);font-size:21px;color:#fff;word-break:break-all;margin-bottom:12px}
+#gate .earn{text-align:left;font-family:var(--vt);font-size:20px;line-height:1.15;color:#e8e4da;margin:0 0 14px;background:#16161b;border:3px solid #3a3a44;padding:12px 14px}
+#gate .earn b{color:var(--gold);font-weight:400}#gate .earn .done{color:#7ee07a}
+#gate .code{font-family:var(--px);font-size:clamp(16px,5vw,22px);background:#fff;color:#000;padding:14px 10px;margin:6px 0 10px;letter-spacing:2px;user-select:all}
+#gate .busy{opacity:.5;pointer-events:none}
 #postBox .pmail{display:block;text-align:left;margin:0 0 8px}
 #postBox .pmail span{display:block;font-family:var(--px);font-size:8px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
 #postBox .pmail input{width:100%;box-sizing:border-box;background:#16161b;border:3px solid #3a3a44;color:#fff;font-family:var(--vt);font-size:22px;padding:8px 10px;outline:none}
@@ -424,7 +461,8 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     </a>
     <div class="grp">
       <div class="hide-s"><div class="lbl">THIS MONTH</div><div class="val" id="hudPrize">PRIZE ON</div></div>
-      <a class="pbtn gold" href="#scores" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">HIGH SCORES</a>
+      <a class="pbtn hide-s" href="#scores" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">SCORES</a>
+      <button class="pbtn gold" type="button" data-gate="open" id="walletBtn" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">JOIN · $5</button>
     </div>
   </div>
 </header>
@@ -527,6 +565,20 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   </div>
 </section>
 
+<!-- ============ KEIMLINGE CREDITS ============ -->
+<section class="credits" id="credits">
+  <div class="wrapw">
+    <div class="sec-h"><div class="k blink" style="color:var(--gold)">★ KEIMLINGE ★</div><h2 style="text-shadow:6px 6px 0 var(--red)">EARN KEIM CREDITS</h2></div>
+    <p class="vt">JOIN FREE AND YOUR WALLET STARTS AT $5. SPEND IT ON SAMPLE POTS, COLOUR CARDS, A FANDECK OR KEIM MERCH IN THE SHOP.</p>
+    <div class="earn3">
+      <div class="ec"><div class="amt">$5</div><b>JOIN KEIMLINGE</b><i>EMAIL + A 6-DIGIT CODE. NO PASSWORD, NO SPAM.</i></div>
+      <div class="ec"><div class="amt">$5</div><b>PER FRIEND</b><i>SHARE YOUR LINK. WHEN THEY JOIN, YOU GET $5.</i></div>
+      <div class="ec wk"><div class="amt">$2</div><b>WEEKLY CHALLENGE</b><i id="wkLine">BEAT THIS WEEK'S TARGET IN THE FEATURED GAME.</i></div>
+    </div>
+    <div class="members"><span>MAX $10 A WEEK · CREDITS LAST 6 MONTHS · ONE ACCOUNT PER PERSON</span><button class="pbtn gold" type="button" data-gate="open" id="creditsBtn" style="font-size:10px">JOIN FREE · GET $5</button></div>
+  </div>
+</section>
+
 <!-- ============ HIGH SCORES ============ -->
 <section class="scores" id="scores">
   <div class="in wrapw">
@@ -559,9 +611,50 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 <footer>
   <div class="wrapw">
     <div class="l"><span>© KEIM AUSTRALIA</span><span>INFO@KEIM.COM.AU</span><span>(02) 9748 7160</span><span>MATRAVILLE NSW</span></div>
-    <div style="margin-top:14px;max-width:900px">KEIM Arcade prizes [PLACEHOLDER]: a game of skill, free to enter, open to Australian residents 18+. Monthly winners are the top scores on the board at midnight AEST on the last day of the month, verified by KEIM Australia; one prize per person per month; KEIM staff and family not eligible; prizes as listed, not exchangeable for cash. Winners contacted by email. Have your lawyer review before launch.</div>
+    <div style="margin-top:14px;max-width:900px">KEIM Arcade prizes [PLACEHOLDER]: a game of skill, free to enter, open to Australian residents 18+. Monthly winners are the top scores on the board at midnight AEST on the last day of the month, verified by KEIM Australia; one prize per person per month; KEIM staff and family not eligible; prizes as listed, not exchangeable for cash. Winners contacted by email. KEIM credits [PLACEHOLDER]: for registered KEIMLINGE members only; $5 on joining, $5 per referred friend who joins, $2 per weekly challenge; max $10 per member per week; one account per person; credits expire 6 months after they are earned, are redeemed as a single-use code on keim.com.au, have no cash value and may be withdrawn for misuse. Have your lawyer review before launch.</div>
   </div>
 </footer>
+
+<!-- ============ KEIMLINGE WALLET / SIGN-IN ============ -->
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateH">
+  <div class="gbox">
+    <button class="gx" type="button" data-gate="close" aria-label="Close">✕</button>
+
+    <div class="gat">
+      <div class="gk">★ KEIMLINGE ★</div>
+      <h3 id="gateH">JOIN FREE · GET $5</h3>
+      <p>Your KEIM wallet starts at $5. Earn $5 per friend and $2 a week. Spend it in the KEIM shop.</p>
+      <label class="pmail"><span>YOUR EMAIL</span><input id="gateMail" type="email" inputmode="email" autocomplete="email" placeholder="you@studio.com.au" maxlength="120"></label>
+      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="send" id="gateSend">SEND MY 6-DIGIT CODE</button></div>
+      <div class="small">Joining makes you a KEIMLINGE member: occasional KEIM news, unsubscribe any time. Max $10 a week, credits last 6 months.</div>
+      <button class="guest" type="button" data-gate="close">KEEP PLAYING AS A GUEST</button>
+    </div>
+
+    <div class="cod">
+      <div class="gk">★ CHECK YOUR EMAIL ★</div>
+      <h3>ENTER THE CODE</h3>
+      <p>We sent a 6-digit code to <b id="codeMail"></b>. It is valid for a few minutes.</p>
+      <input id="gateCode" class="codein" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" placeholder="000000">
+      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="verify" id="gateVerify">VERIFY</button></div>
+      <button class="guest" type="button" data-gate="back">WRONG EMAIL · GO BACK</button>
+    </div>
+
+    <div class="wal">
+      <div class="gk">★ MY KEIM WALLET ★</div>
+      <h3 id="walName">HI</h3>
+      <div class="bal" id="walBal">$0</div>
+      <div class="bar"><i id="walBar" style="width:0"></i></div><div class="barl"><span id="walWeek">$0 THIS WEEK</span><span>MAX $10 / WEEK</span></div>
+      <div class="refbox"><div class="gk" style="margin-bottom:6px">YOUR INVITE LINK · $5 PER FRIEND</div><div class="reflink" id="walRef">play.keim.com.au/?ref=XXXXXX</div>
+        <div class="gbtns row"><button class="pbtn" type="button" data-gate="share">SHARE ▶︎</button><button class="pbtn ghost" type="button" data-gate="copy">COPY</button></div>
+        <div class="small" id="walRefs">0 FRIENDS JOINED</div></div>
+      <div class="earn" id="walWeekly"></div>
+      <div id="walOut"></div>
+      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="redeem" id="walGo">REDEEM · GET A SHOP CODE</button></div>
+      <button class="guest" type="button" data-gate="close">BACK TO THE ARCADE</button>
+      <button class="guest" type="button" data-gate="out" style="padding-top:0">SIGN OUT</button>
+    </div>
+  </div>
+</div>
 
 <!-- ============ POST YOUR SCORE ============ -->
 <div class="kl-toast" id="klToast" role="status" aria-live="polite"></div>
@@ -817,7 +910,7 @@ let toastT=null;function toast(h,sub){const t=$('#klToast');t.innerHTML='';t.app
 const POSTED=()=>{try{return JSON.parse(LS('keim-arcade-posted')||'{}')}catch(e){return{}}};
 function offerPost(slug){if(!slug||!SCORE_OF[slug])return;const v=SCORE_OF[slug]();if(!v)return;shareCard();refreshBests();
   const p=POSTED();if(p[slug]&&v<=p[slug])return;  // not a new best since last post
-  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;const em=$('#postMail');em.value=LS('keim-arcade-mail')||'';em.classList.remove('bad');m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
+  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;const em=$('#postMail');em.value=(KL.s&&KL.s.email)||LS('keim-arcade-mail')||'';em.classList.remove('bad');m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
 const MAIL_OK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
 async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v,em=$('#postMail'),mail=em.value.trim().toLowerCase();
   if(mail&&!MAIL_OK(mail)){em.classList.add('bad');em.focus();toast('CHECK THE EMAIL','OR LEAVE IT EMPTY TO POST WITHOUT A PRIZE ENTRY');return}
@@ -833,6 +926,71 @@ $('#postBox').addEventListener('click',e=>{const b=e.target.closest('[data-post]
 $('#postMail').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();postScore()}});
 function postLetters(){$('#postLetters').innerHTML=ini.map((v,i)=>`<button type="button" data-post="ini" data-i="${i}">${AZ[v]}</button>`).join('')}
 new MutationObserver(()=>{if($('#postBox').classList.contains('show'))postLetters()}).observe($('#postBox'),{attributes:true,attributeFilter:['class']});
+
+/* ================= KEIMLINGE credits: email-code sign-in, wallet, referrals, weekly challenge =================
+   Uses the same Supabase project as the board (LB above): Auth (email OTP) + the functions in leaderboard/arcade_credits_v2.sql */
+const HS={portal:'',form:''}; // [OPTIONAL] HubSpot form id: every new member is submitted to it (email only) so they land in the CRM as a KEIMLINGE contact
+const KL={s:null,w:null,mail:'',weekly:null,poll:null};const KLS='keim-kl-session';
+try{KL.s=JSON.parse(LS(KLS)||'null')}catch(e){KL.s=null}
+function klSave(s){KL.s=s;try{s?localStorage.setItem(KLS,JSON.stringify(s)):localStorage.removeItem(KLS)}catch(e){}klHud()}
+const klH=auth=>({apikey:LB.anon,'Content-Type':'application/json',Authorization:'Bearer '+(auth&&KL.s?KL.s.access_token:LB.anon)});
+async function klFetch(path,body,auth){
+  if(auth&&KL.s&&KL.s.expires_at*1000<Date.now()+60000)await klRefresh();
+  if(auth&&!KL.s)throw new Error('signed out');
+  const r=await fetch(LB.url+path,{method:'POST',headers:klH(auth),body:JSON.stringify(body||{})});const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}
+  if(r.status===401&&auth){klSave(null);throw new Error('signed out')}
+  if(!r.ok){const e=new Error((j&&(j.msg||j.message||j.error_description||j.error))||('HTTP '+r.status));e.status=r.status;throw e}return j}
+function klSess(j,mail){return{access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||Math.floor(Date.now()/1000)+(j.expires_in||3600),email:(j.user&&j.user.email)||mail}}
+async function klRefresh(){try{const r=await fetch(LB.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:klH(false),body:JSON.stringify({refresh_token:KL.s.refresh_token})});const j=r.ok?await r.json():null;klSave(j&&j.access_token?klSess(j,KL.s.email):null)}catch(e){}}
+const rpc=(fn,args)=>klFetch('/rest/v1/rpc/'+fn,args||{},true);
+const dollars=c=>'$'+(c/100).toFixed(c%100?2:0);
+function sydMonday(){const d=new Date(new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}).format(new Date()));d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.toISOString().slice(0,10)}
+const refQ=(new URLSearchParams(location.search).get('ref')||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
+if(refQ){try{localStorage.setItem('keim-kl-ref',refQ)}catch(e){}setTimeout(()=>toast('A FRIEND INVITED YOU','JOIN KEIMLINGE AND YOU START WITH $5'),1200)}
+/* HUD + section copy */
+function klHud(){const b=$('#walletBtn');if(!b)return;if(KL.s){b.textContent=KL.w?('WALLET '+dollars(KL.w.balance)):'MY WALLET';b.classList.add('gold')}else b.textContent='JOIN · $5';}
+async function klWeeklyPublic(){if(!LB.url)return;try{const r=await fetch(LB.url+'/rest/v1/arcade_weekly?week_start=eq.'+sydMonday()+'&select=game,target',{headers:klH(false)});const j=r.ok?await r.json():[];KL.weekly=j[0]||null}catch(e){KL.weekly=null}
+  const el=$('#wkLine');if(!el)return;el.textContent=KL.weekly?('THIS WEEK: '+GAME_N(KL.weekly.game).toUpperCase()+' · BEAT '+showScore(KL.weekly.game,KL.weekly.target)):'BEAT THIS WEEK\'S TARGET IN THE FEATURED GAME.'}
+/* the modal */
+const gate=$('#gate');
+function gateShow(st){gate.className='show s-'+st;if(st==='gat'){const i=$('#gateMail');i.value=KL.mail||LS('keim-arcade-mail')||'';setTimeout(()=>i.focus(),50)}if(st==='cod'){const c=$('#gateCode');c.value='';setTimeout(()=>c.focus(),50)}}
+function gateHide(){gate.className='';clearInterval(KL.poll)}
+async function klOpen(){if(!LB.url){toast('KEIM CREDITS ARE NOT SWITCHED ON YET','COMING SOON');return}if(KL.s){gateShow('wal');walRender(KL.w);try{KL.w=await rpc('arcade_wallet');if(!KL.w.member)KL.w=(await rpc('arcade_register',{p_initials:iniStr(),p_ref:LS('keim-kl-ref')})).wallet;walRender(KL.w)}catch(e){if(e.message==='signed out'){gateShow('gat');toast('PLEASE SIGN IN AGAIN')}else toast('COULD NOT LOAD YOUR WALLET',e.message)}}else gateShow('gat')}
+async function klSend(){const i=$('#gateMail'),m=i.value.trim().toLowerCase();if(!MAIL_OK(m)){i.classList.add('bad');i.focus();return}i.classList.remove('bad');
+  const b=$('#gateSend');b.classList.add('busy');try{await klFetch('/auth/v1/otp',{email:m,create_user:true});KL.mail=m;$('#codeMail').textContent=m;gateShow('cod');blip(988,.08)}catch(e){toast('COULD NOT SEND THE CODE',e.message.slice(0,60))}b.classList.remove('busy')}
+async function klVerify(){const c=$('#gateCode'),code=c.value.replace(/\D/g,'');if(code.length<6){c.classList.add('bad');c.focus();return}c.classList.remove('bad');
+  const b=$('#gateVerify');b.classList.add('busy');
+  try{const j=await klFetch('/auth/v1/verify',{type:'email',email:KL.mail,token:code});klSave(klSess(j,KL.mail));try{localStorage.setItem('keim-arcade-mail',KL.mail)}catch(e){}
+    const r=await rpc('arcade_register',{p_initials:iniStr(),p_ref:LS('keim-kl-ref')});KL.w=r.wallet;klHud();gateShow('wal');walRender(KL.w);
+    if(r.new){toast('WELCOME TO KEIMLINGE · +$5','YOUR WALLET IS OPEN');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}hubspot(KL.mail)}else toast('WELCOME BACK','WALLET LOADED');
+  }catch(e){c.classList.add('bad');toast('THAT CODE DID NOT WORK','CHECK IT OR SEND A NEW ONE')}b.classList.remove('busy')}
+function hubspot(email){if(!HS.portal||!HS.form)return;try{fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+HS.portal+'/'+HS.form,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:[{name:'email',value:email}],context:{pageUri:location.origin+'/',pageName:'KEIM Arcade · KEIMLINGE'}})}).catch(()=>{})}catch(e){}}
+function walRender(w){if(!w||!w.member)return;const ini=w.initials||iniStr();$('#walName').textContent='HI '+(ini||w.email.split('@')[0].toUpperCase().slice(0,12));$('#walBal').textContent=dollars(w.balance);
+  $('#walBar').style.width=Math.min(100,100*w.week/w.cap)+'%';$('#walWeek').textContent=dollars(w.week)+' THIS WEEK';
+  const link='https://play.keim.com.au/?ref='+w.ref_code;$('#walRef').textContent=link.replace('https://','');$('#walRef').dataset.url=link;$('#walRefs').textContent=w.referrals+(w.referrals===1?' FRIEND':' FRIENDS')+' JOINED · $5 EACH';
+  const wk=w.weekly;$('#walWeekly').innerHTML=wk?('THIS WEEK\'S CHALLENGE: <b>'+GAME_N(wk.game).toUpperCase()+'</b> · BEAT <b>'+showScore(wk.game,wk.target)+'</b> → $2 '+(wk.done?'<span class="done">✓ DONE</span>':'<br>YOUR BEST: '+(SCORE_OF[wk.game]&&SCORE_OF[wk.game]()?showScore(wk.game,SCORE_OF[wk.game]()):'—'))):'NO CHALLENGE THIS WEEK. CHECK BACK MONDAY.';
+  const out=$('#walOut'),lc=w.last_code;out.innerHTML='';
+  if(lc&&lc.status==='issued'&&lc.code&&Date.now()-new Date(lc.at)<30*864e5){out.innerHTML='<div class="gk">YOUR LATEST SHOP CODE · $'+lc.dollars+' OFF</div><div class="code">'+lc.code+'</div><div class="small">USE IT AT CHECKOUT ON KEIM.COM.AU · ONE USE · VALID 6 MONTHS</div>'}
+  else if(lc&&lc.status==='pending'){out.innerHTML='<div class="gk blink">CREATING YOUR CODE…</div><div class="small">A FEW SECONDS. IT ALSO STAYS HERE IN YOUR WALLET.</div>';klPoll()}
+  const go=$('#walGo');go.disabled=w.balance<500;go.classList.toggle('busy',w.balance<500);go.textContent=w.balance<500?('REDEEM FROM $5 · YOU HAVE '+dollars(w.balance)):('REDEEM '+dollars(Math.min(5000,w.balance-w.balance%100))+' · GET A SHOP CODE');
+  klHud()}
+function klPoll(){clearInterval(KL.poll);let n=0;KL.poll=setInterval(async()=>{n++;try{KL.w=await rpc('arcade_wallet');const lc=KL.w.last_code;if(!lc||lc.status!=='pending'||n>20){clearInterval(KL.poll);walRender(KL.w);if(lc&&lc.status==='refunded')toast('THE SHOP CODE COULD NOT BE MADE','YOUR CREDITS ARE BACK IN THE WALLET');if(lc&&lc.status==='issued')try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}}catch(e){clearInterval(KL.poll)}},3000)}
+async function klRedeem(){const b=$('#walGo');if(b.disabled)return;b.classList.add('busy');try{const r=await rpc('arcade_redeem');if(r.ok){KL.w=r.wallet;walRender(KL.w)}else toast(r.reason==='pending'?'A CODE IS ALREADY ON ITS WAY':'YOU NEED AT LEAST $5 TO REDEEM')}catch(e){toast('COULD NOT REDEEM RIGHT NOW',e.message.slice(0,60))}b.classList.remove('busy')}
+async function klShare(copyOnly){const url=$('#walRef').dataset.url||'https://play.keim.com.au/';const text='Play the KEIM Arcade. 12 free games, win real KEIM prizes. Join with my link and we both get $5 in KEIM credits: '+url;
+  if(!copyOnly&&navigator.share){try{await navigator.share({title:'KEIM Arcade',text,url});return}catch(e){if(e.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(text);toast('INVITE COPIED','PASTE IT TO A FRIEND')}catch(e){prompt('Copy your invite link',url)}}
+async function klOut(){try{await klFetch('/auth/v1/logout',{},true)}catch(e){}klSave(null);KL.w=null;gateHide();toast('SIGNED OUT','YOUR CREDITS ARE SAFE, SIGN IN ANY TIME')}
+async function klWeekly(slug){if(!KL.s||!LB.url||!KL.weekly||KL.weekly.game!==slug)return;const v=SCORE_OF[slug]&&SCORE_OF[slug]();if(!v||v<KL.weekly.target)return;if(KL.w&&KL.w.weekly&&KL.w.weekly.done)return;
+  try{const r=await rpc('arcade_weekly_claim',{p_game:slug,p_score:v});KL.w=r.wallet;klHud();if(r.given)toast('WEEKLY CHALLENGE BEATEN · +'+dollars(r.given),'IT IS IN YOUR WALLET')}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-gate]');if(!b)return;const a=b.dataset.gate;
+  if(a==='open')klOpen();else if(a==='close')gateHide();else if(a==='send')klSend();else if(a==='verify')klVerify();else if(a==='back')gateShow('gat');else if(a==='redeem')klRedeem();else if(a==='share')klShare(false);else if(a==='copy')klShare(true);else if(a==='out')klOut()});
+gate.addEventListener('click',e=>{if(e.target===gate)gateHide()});
+$('#gateMail').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();klSend()}});
+$('#gateCode').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();klVerify()}});
+$('#gateCode').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);if(e.target.value.length===6)klVerify()});
+klHud();klWeeklyPublic();
+if(KL.s&&LB.url){rpc('arcade_wallet').then(w=>{if(w.member){KL.w=w;klHud()}}).catch(()=>{})}
+if(location.hash==='#wallet')setTimeout(klOpen,600);
 // ---- this month's prize (edit prizes.json in the repo, no code change needed)
 fetch('prizes.json',{cache:'no-cache'}).then(r=>r.json()).then(P=>{const m=P[monthKey()]||P.default;if(!m)return;
   $('#przTitle').textContent=m.title||'MONTHLY PRIZE';$('#przLead').textContent=m.lead||'';$('#przRule').textContent=m.rule||'';$('#hudPrize').textContent=(m.short||'PRIZE ON').toUpperCase();
@@ -1074,7 +1232,7 @@ async function exitGame(){
   heroCab.classList.remove('zooming');heroSec.classList.remove('zooming');
   cur=null;busy=false;refreshBests();
   try{history.replaceState(null,'',location.pathname)}catch(e){}
-  setTimeout(()=>offerPost(lastSlug),400);
+  setTimeout(()=>offerPost(lastSlug),400);klWeekly(lastSlug);
 }
 $('#aExit').addEventListener('click',exitGame);
 $('#aSnd').addEventListener('pointerdown',e=>e.preventDefault());
