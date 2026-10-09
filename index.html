@@ -462,6 +462,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     </a>
     <div class="grp">
       <div class="hide-s"><div class="lbl">THIS MONTH</div><div class="val" id="hudPrize">PRIZE ON</div></div>
+      <button class="pbtn" type="button" id="musBtn" aria-pressed="false" title="Arcade music" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">♪ OFF</button>
       <a class="pbtn hide-s" href="#scores" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">SCORES</a>
       <button class="pbtn gold" type="button" data-gate="open" id="walletBtn" style="font-size:9px;padding:10px 11px;box-shadow:4px 4px 0 var(--red)">JOIN · 500 PTS</button>
     </div>
@@ -964,6 +965,30 @@ const FAN=['#E0201B','#ff6a3d','#ff9a3d','#F2C14E','#d7e05a','#9be05a','#3ddc6f'
 $('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
 function ptsSlider(){const v=+$('#ptsR').value,d=Math.min(1000,v)/100;$('#ptsV').textContent=pts(v);$('#crV').textContent='$'+d.toFixed(2)+(v>1000?' (CAP)':'');$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<Math.floor(d)))}
 $('#ptsR').addEventListener('input',()=>{ptsSlider();try{blip(600+ +$('#ptsR').value/3,.03)}catch(e){}});ptsSlider();
+/* ===== arcade background music: a generated 8-bar chiptune loop, off until the player switches it on; ducks out while a game is open ===== */
+const MUS={on:LS('keim-arcade-music')==='1',g:null,nb:null,timer:null,next:0,step:0};
+const mF=n=>440*Math.pow(2,(n-69)/12);
+const MCH=[[57,60,64],[53,57,60],[55,59,62],[52,55,59],[57,60,64],[53,57,60],[55,59,62],[52,56,59]];          // Am F G Em · Am F G E
+const MLEAD=[[69,-1,72,74,-1,76,74,72],[69,-1,65,69,-1,72,-1,-1],[67,-1,71,74,-1,76,74,71],[64,-1,67,71,-1,76,-1,-1],
+             [69,-1,72,74,76,-1,79,-1],[77,-1,76,74,-1,72,-1,-1],[74,-1,71,-1,74,76,77,-1],[76,-1,-1,-1,74,-1,72,-1]];
+function mTone(f,d,wave,vol,t){const o=AC.createOscillator(),g=AC.createGain();o.type=wave;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.006);g.gain.setValueAtTime(vol,t+d*.6);g.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d+.05)}
+function mKick(t,v){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.11);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+.22)}
+function mNz(d,vol,t,hp){if(!MUS.nb){const b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;MUS.nb=b}const sN=AC.createBufferSource();sN.buffer=MUS.nb;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=hp;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d);sN.connect(f);f.connect(g);g.connect(MUS.g);sN.start(t,Math.random()*.5);sN.stop(t+d+.02)}
+function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden;MUS.g.gain.setTargetAtTime(duck?0:.2,AC.currentTime,.3);if(duck){MUS.next=0;return}
+  if(MUS.next<AC.currentTime-.5)MUS.next=AC.currentTime+.05;
+  while(MUS.next<AC.currentTime+.3){const e=60/112/2,t=MUS.next,i=MUS.step%8,bar=Math.floor(MUS.step/8)%8,ch=MCH[bar],r=ch[0];
+    if(i===0||i===3||i===6)mTone(mF(r-24),e*1.4,'triangle',.3,t);if(i===4)mTone(mF(r-24+7),e*1.2,'triangle',.22,t);
+    if(i===0||i===4)mKick(t,.45);if(i===2||i===6)mNz(.12,.08,t,1800);mNz(.03,i%2?.03:.045,t,7000);
+    const ar=[0,1,2,1,0,2,1,2][i];mTone(mF(ch[ar]+12),e*.8,'square',.02,t);
+    const n=MLEAD[bar][i];if(n>0){mTone(mF(n),e*1.7,'square',.055,t);mTone(mF(n+12),e*1.1,'triangle',.02,t)}
+    MUS.next+=e;MUS.step++}}
+function musicStart(){if(!ac()||MUS.g)return;MUS.g=AC.createGain();MUS.g.gain.value=0;MUS.g.connect(AC.destination);MUS.next=0;MUS.step=0;MUS.timer=setInterval(musicTick,70);musicTick()}
+function musicStop(){if(MUS.g){MUS.g.gain.setTargetAtTime(0,AC.currentTime,.15);const g=MUS.g;setTimeout(()=>{try{g.disconnect()}catch(e){}},600)}clearInterval(MUS.timer);MUS.g=null}
+function musicUI(){const b=$('#musBtn');b.textContent=MUS.on?'♪ ON':'♪ OFF';b.setAttribute('aria-pressed',MUS.on);b.classList.toggle('gold',MUS.on)}
+$('#musBtn').addEventListener('click',()=>{MUS.on=!MUS.on;try{localStorage.setItem('keim-arcade-music',MUS.on?'1':'0')}catch(e){}musicUI();if(MUS.on){musicStart();blip(880,.06)}else musicStop()});
+musicUI();
+if(MUS.on){const kick=()=>{musicStart();removeEventListener('pointerdown',kick,true);removeEventListener('keydown',kick,true)};addEventListener('pointerdown',kick,true);addEventListener('keydown',kick,true)}
+document.addEventListener('visibilitychange',()=>{if(MUS.g)musicTick()});
 /* CONTINUE? countdown at the bottom: 9 → 0, then back (nobody ever has to insert a coin) */
 {let cnt=9;const el=$('#count');setInterval(()=>{cnt=cnt<=0?9:cnt-1;el.textContent=cnt;el.style.color=cnt<=3?'#fff':''},1000)}
 function sydMonday(){const d=new Date(new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}).format(new Date()));d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.toISOString().slice(0,10)}
