@@ -195,3 +195,44 @@ create or replace view arcade_credits_report as
          (select count(*) from arcade_redemptions r where r.user_id = m.user_id and r.status = 'issued') as codes_issued
     from arcade_members m order by joined desc;
 revoke all on arcade_credits_report from anon, authenticated;
+
+-- ---------- v2.1: points for playing (100 points = $1; all subject to the same weekly cap) ----------
+-- play:<game>  first play of each game  50 pts   · daily:<YYYY-MM-DD>  play any game today  25 pts
+-- cl-stars:12/24/36  Colour Lab career stars  150 / 250 / 500 pts
+create or replace function arcade_milestone(p_key text) returns json language plpgsql security definer set search_path = public as $$
+declare v_pts integer := 0; v_given integer := 0; m text[];
+begin
+  if auth.uid() is null then raise exception 'not signed in'; end if;
+  if not exists (select 1 from arcade_members where user_id = auth.uid()) then return json_build_object('given', 0, 'wallet', arcade_wallet()); end if;
+  m := regexp_match(p_key, '^play:(quest|knockout|goal-kick|kart|bucket-toss|facade-defender|rush|kommando|klash|paint-wall|render-stacker|colour-lab)$');
+  if m is not null then v_pts := 50; end if;
+  m := regexp_match(p_key, '^daily:(\d{4}-\d{2}-\d{2})$');
+  if m is not null and m[1] = to_char(arcade_now_syd(), 'YYYY-MM-DD') then v_pts := 25; end if;
+  m := regexp_match(p_key, '^cl-stars:(12|24|36)$');
+  if m is not null then v_pts := case m[1] when '12' then 150 when '24' then 250 else 500 end; end if;
+  if v_pts > 0 then v_given := arcade_give(auth.uid(), p_key, v_pts); end if;
+  return json_build_object('given', v_given, 'wallet', arcade_wallet());
+end $$;
+grant execute on function arcade_milestone(text) to authenticated;
+revoke execute on function arcade_milestone(text) from public, anon;
+
+-- wallet: also report which milestones are done
+create or replace function arcade_wallet() returns json language plpgsql security definer set search_path = public as $$
+declare m arcade_members; w arcade_weekly; r arcade_redemptions; v_done boolean;
+begin
+  select * into m from arcade_members where user_id = auth.uid();
+  if not found then return json_build_object('member', false); end if;
+  select * into w from arcade_weekly where week_start = arcade_week_start();
+  v_done := exists (select 1 from arcade_ledger where user_id = m.user_id and key = 'week:' || arcade_week_start());
+  select * into r from arcade_redemptions where user_id = m.user_id order by created_at desc limit 1;
+  return json_build_object(
+    'member', true, 'email', m.email, 'initials', m.initials, 'ref_code', m.ref_code,
+    'balance', arcade_balance_cents(m.user_id), 'week', arcade_week_cents(m.user_id), 'cap', arcade_cap_cents(),
+    'referrals', (select count(*) from arcade_members x where x.referred_by = m.user_id),
+    'played', (select coalesce(json_agg(substr(key, 6)), '[]'::json) from arcade_ledger where user_id = m.user_id and key like 'play:%'),
+    'daily', exists (select 1 from arcade_ledger where user_id = m.user_id and key = 'daily:' || to_char(arcade_now_syd(), 'YYYY-MM-DD')),
+    'stars', (select coalesce(max(substr(key, 10)::int), 0) from arcade_ledger where user_id = m.user_id and key like 'cl-stars:%'),
+    'weekly', case when w.week_start is null then null else json_build_object('game', w.game, 'target', w.target, 'done', v_done) end,
+    'last_code', case when r.id is null then null else json_build_object('id', r.id, 'status', r.status, 'code', r.coupon_code, 'dollars', r.dollars, 'at', r.created_at) end
+  );
+end $$;

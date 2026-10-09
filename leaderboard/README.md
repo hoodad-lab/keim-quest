@@ -12,7 +12,8 @@ Monthly prize text lives in `prizes.json` (key = month `"2026-11"` or `"default"
 Winners on the 1st: Table Editor → view **arcade_last_month_winners** (best score per initials + the email they left).
 
 ## 2. Switch on KEIMLINGE credits (30 min)
-Players join with email + a 6-digit code. $5 welcome, $5 per referred friend, $2 weekly challenge, cap $10/week.
+Players join with email + a 6-digit code. 100 points = $1. 500 welcome, 500 per referred friend, 200 weekly challenge,
+50 first play of each game, 25 per day played, Colour Lab star bonuses. Cap 1,000 points ($10) per week.
 
 **Supabase**
 1. SQL Editor → run `arcade_credits_v2.sql` (after step 1; safe to re-run).
@@ -31,10 +32,9 @@ Players join with email + a 6-digit code. $5 welcome, $5 per referred friend, $2
 7. Secrets Manager: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` (Settings → API → service_role; never in page code), `ARCADE_WEBHOOK_SECRET`.
 8. Optional: in the file set `SAMPLES_COLLECTION_ID` to a Stores collection so codes only work on samples / fandeck / merch. Publish.
 
-**HubSpot (optional, recommended)**
-9. Marketing → Forms → create a form "KEIM Arcade – KEIMLINGE" with just Email. Open it, copy the portal id and form id
-   from the embed code, and put them in `index.html`: `const HS={portal:'xxxxxxx',form:'xxxxxxxx-...'};`
-   Every new member is submitted to that form, so they land in HubSpot as a contact (add a workflow / list from there).
+**HubSpot** — done. Form "KEIM Arcade - KEIMLINGE join" (id 44e1f000-eb6d-4f2e-ba13-b7fe2643b5ea, portal 47417993) is wired
+into `index.html`; every new member is submitted to it and appears as a contact with conversion "KEIM Arcade - KEIMLINGE join".
+Build a list / workflow from that form in HubSpot (welcome email, KEIMLINGE tag) whenever you like.
 
 **Weekly challenge**
 Table Editor → `arcade_weekly`: one row per Monday (Sydney): game slug + target score. Four weeks are pre-filled; tune the

@@ -19,6 +19,9 @@ def wallet(uid):
   r=[x for x in REDEMPTIONS if x['uid']==uid];lc=r[-1] if r else None
   return {'member':True,'email':m['email'],'initials':m['initials'],'ref_code':m['ref'],'balance':bal(uid),'week':week(uid),'cap':1000,
     'referrals':sum(1 for x in MEMBERS.values() if x.get('by')==uid),'weekly':dict(WEEKLY,done=done),
+    'played':[l['key'][5:] for l in LEDGER if l['uid']==uid and l['key'].startswith('play:')],
+    'daily':any(l['uid']==uid and l['key'].startswith('daily:') for l in LEDGER),
+    'stars':max([int(l['key'][9:]) for l in LEDGER if l['uid']==uid and l['key'].startswith('cl-stars:')] or [0]),
     'last_code':None if not lc else {'id':lc['id'],'status':lc['status'],'code':lc.get('code'),'dollars':lc['dollars'],'at':lc['at']}}
 class H(http.server.BaseHTTPRequestHandler):
   def _h(self,code=200,extra=None):
@@ -56,6 +59,12 @@ class H(http.server.BaseHTTPRequestHandler):
       if fn=='arcade_weekly_claim':
         g=0
         if d.get('p_game')==WEEKLY['game'] and int(d.get('p_score',0))>=WEEKLY['target']:g=give(uid,'week:2026-10-05',200)
+        self._j({'given':g,'wallet':wallet(uid)});return
+      if fn=='arcade_milestone':
+        k=d.get('p_key','');g=0
+        if k.startswith('play:'):g=give(uid,k,50)
+        elif k.startswith('daily:'):g=give(uid,k,25)
+        elif k.startswith('cl-stars:'):g=give(uid,k,{'12':150,'24':250,'36':500}[k[9:]])
         self._j({'given':g,'wallet':wallet(uid)});return
       if fn=='arcade_redeem':
         if any(x['uid']==uid and x['status']=='pending' for x in REDEMPTIONS):self._j({'ok':False,'reason':'pending'});return
