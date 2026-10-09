@@ -393,6 +393,12 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 #postBox .bal{font-family:var(--px);font-size:clamp(26px,7vw,40px);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:6px 0 10px}
 #postBox p{font-family:var(--vt);font-size:22px;line-height:1.1;color:#e8e4da;margin:0}#postBox p b{color:var(--gold);font-weight:400}
 #postBox .gbtns .pbtn{justify-content:center;width:100%}
+#postBox .pmail{display:block;text-align:left;margin:0 0 8px}
+#postBox .pmail span{display:block;font-family:var(--px);font-size:8px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
+#postBox .pmail input{width:100%;box-sizing:border-box;background:#16161b;border:3px solid #3a3a44;color:#fff;font-family:var(--vt);font-size:22px;padding:8px 10px;outline:none}
+#postBox .pmail input:focus{border-color:var(--gold)}
+#postBox .pmail input.bad{border-color:var(--red)}
+#postBox .pnote{font-family:var(--vt);font-size:16px;color:#8f8a80;text-align:left;margin:0 0 16px}
 #postBox .guest{background:none;border:0;color:#a9a49a;font-family:var(--px);font-size:9px;cursor:pointer;padding:12px;text-decoration:underline}
 .gsel{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}.gsel .chip{font-size:7px;padding:8px 9px}
 .prizes .members{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-top:22px;font-family:var(--vt);font-size:22px;color:#fff}
@@ -565,7 +571,9 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     <h3><span id="postG">GAME</span></h3>
     <div class="bal" id="postS">0</div>
     <p>Post it to the board as <b id="postIni">AAA</b>? Tap a letter to change it.</p>
-    <div class="letters" id="postLetters" style="justify-content:center;margin:14px 0 20px"></div>
+    <div class="letters" id="postLetters" style="justify-content:center;margin:14px 0 16px"></div>
+    <label class="pmail"><span>EMAIL · SO WE CAN SEND YOUR PRIZE</span><input id="postMail" type="email" inputmode="email" autocomplete="email" placeholder="you@studio.com.au" maxlength="120"></label>
+    <div class="pnote">NEVER SHOWN ON THE BOARD. ONLY USED TO CONTACT WINNERS.</div>
     <div class="gbtns"><button class="pbtn gold" type="button" data-post="go">POST TO THE BOARD</button></div>
     <button class="guest" type="button" data-post="skip">NOT NOW</button>
   </div>
@@ -809,14 +817,20 @@ let toastT=null;function toast(h,sub){const t=$('#klToast');t.innerHTML='';t.app
 const POSTED=()=>{try{return JSON.parse(LS('keim-arcade-posted')||'{}')}catch(e){return{}}};
 function offerPost(slug){if(!slug||!SCORE_OF[slug])return;const v=SCORE_OF[slug]();if(!v)return;shareCard();refreshBests();
   const p=POSTED();if(p[slug]&&v<=p[slug])return;  // not a new best since last post
-  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
-async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v;m.classList.remove('show');
+  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;const em=$('#postMail');em.value=LS('keim-arcade-mail')||'';em.classList.remove('bad');m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
+const MAIL_OK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v,em=$('#postMail'),mail=em.value.trim().toLowerCase();
+  if(mail&&!MAIL_OK(mail)){em.classList.add('bad');em.focus();toast('CHECK THE EMAIL','OR LEAVE IT EMPTY TO POST WITHOUT A PRIZE ENTRY');return}
+  if(!mail&&!m.dataset.warned){m.dataset.warned='1';em.focus();toast('NO EMAIL = NO PRIZE','ADD ONE, OR TAP POST AGAIN TO SKIP IT');return}
+  delete m.dataset.warned;m.classList.remove('show');try{if(mail)localStorage.setItem('keim-arcade-mail',mail)}catch(e){}
   const p=POSTED();p[slug]=v;try{localStorage.setItem('keim-arcade-posted',JSON.stringify(p))}catch(e){}
   if(!LB.url){toast('SAVED ON THIS DEVICE','THE SHARED BOARD IS NOT ON YET');return}
-  try{const r=await fetch(LB.url+'/rest/v1/arcade_scores',{method:'POST',headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({initials:iniStr(),game:slug,score:v,month:monthKey()})});
+  try{const body={initials:iniStr(),game:slug,score:v,month:monthKey()};if(mail)body.email=mail;
+    const r=await fetch(LB.url+'/rest/v1/arcade_scores',{method:'POST',headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});
     if(!r.ok)throw 0;CACHE={};toast(iniStr()+' · '+showScore(slug,v)+' POSTED!','CHECK THE BOARD');board(tab);lbCount()}catch(e){toast('COULD NOT POST RIGHT NOW','YOUR SCORE IS SAFE ON THIS DEVICE')}}
 $('#postBox').addEventListener('click',e=>{const b=e.target.closest('[data-post]');if(!b)return;const a=b.dataset.post;
   if(a==='go')postScore();else if(a==='skip')$('#postBox').classList.remove('show');else if(a==='ini'){const i=+b.dataset.i;ini[i]=(ini[i]+1)%26;letters();$('#postIni').textContent=iniStr();$$('#postLetters button')[i].textContent=AZ[ini[i]];blip(440+ini[i]*20)}});
+$('#postMail').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();postScore()}});
 function postLetters(){$('#postLetters').innerHTML=ini.map((v,i)=>`<button type="button" data-post="ini" data-i="${i}">${AZ[v]}</button>`).join('')}
 new MutationObserver(()=>{if($('#postBox').classList.contains('show'))postLetters()}).observe($('#postBox'),{attributes:true,attributeFilter:['class']});
 // ---- this month's prize (edit prizes.json in the repo, no code change needed)
