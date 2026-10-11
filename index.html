@@ -723,7 +723,7 @@ body.nocredits #walletBtn,body.nocredits #credits,body.nocredits .howpts{display
       <div class="tabs"><button class="chip" aria-pressed="true" data-tab="month">THIS MONTH</button><button class="chip" aria-pressed="false" data-tab="all">ALL TIME</button><button class="chip" aria-pressed="false" data-tab="mine">MY BESTS</button></div>
       <div class="gsel" id="gsel"></div>
       <div class="tbl" id="tbl"></div>
-      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px" id="tblNote">Three-letter initials, like the real thing. Best score per player per game. * = house score set by the KEIM crew. Beat it! House scores never win prizes.</p>
+      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px" id="tblNote">Three-letter initials, like the real thing. Best score per player per game. Starter scores are set by the KEIM crew: beat them! They never win prizes.</p>
     </div>
     <div class="ini">
       <h2>YOUR<br>INITIALS</h2>
@@ -1056,7 +1056,7 @@ async function board(t){tab=t;$('#gsel').style.display=t==='mine'?'none':'';if(t
   rows=withHouse(rows);
   if(!rows.length){tbl.innerHTML=head+'<div class="mine-empty" style="grid-column:span 4">'+(t==='month'?'NO SCORES YET THIS MONTH. BE THE FIRST!':'NO SCORES YET. BE THE FIRST!')+'</div>';return}
   const mine=(LS('keim-arcade-ini')||'');
-  tbl.innerHTML=head+rows.map((r,i)=>{const me=r.initials===mine&&r.initials&&!r.house;const c=RC[i%RC.length],hc=r.house?' class="hsr"':'';return `<div${hc} style="color:${c}">${ORD[i]||(i+1)}</div><div${hc} style="color:${c}">${showScore(r.game,r.score)}</div><div${hc} style="color:${c}${me?';text-decoration:underline':''}">${r.initials}${r.house?'*':''}</div><div${hc} style="color:${c}">${GAME_N(r.game).toUpperCase()}</div>`}).join('')}
+  tbl.innerHTML=head+rows.map((r,i)=>{const me=r.initials===mine&&r.initials&&!r.house;const c=RC[i%RC.length],hc=r.house?' class="hsr"':'';return `<div${hc} style="color:${c}">${ORD[i]||(i+1)}</div><div${hc} style="color:${c}">${showScore(r.game,r.score)}</div><div${hc} style="color:${c}${me?';text-decoration:underline':''}">${r.initials}${''}</div><div${hc} style="color:${c}">${GAME_N(r.game).toUpperCase()}</div>`}).join('')}
 $$('.tabs .chip').forEach(b=>b.addEventListener('click',()=>{$$('.tabs .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));board(b.dataset.tab);blip(520)}));
 $('#gsel').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;gsel=b.dataset.g;gselBar();board(tab);blip(600)});
 gselBar();board('month');refreshBests();lbCount();lbFetch('all').then(rows=>{if(rows&&rows.length){const top=rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}else{const b=myTop();if(b)$('#hudHi').textContent=showScore(b.g,b.v)}});
