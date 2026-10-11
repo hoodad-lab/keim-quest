@@ -566,7 +566,7 @@ function burst(x,y,col,n,sp){for(let i=0;i<(n||8);i++)parts.push({x,y,vx:(Math.r
 function dust(x,y){for(let i=0;i<5;i++)parts.push({x:x+(Math.random()-.5)*8,y,vx:(Math.random()-.5)*.8,vy:-Math.random()*.6,col:'rgba(240,225,200,.8)',t:0,nog:1})}
 
 // ---------------- input ----------------
-const K={left:0,right:0,jump:0,fire:0,start:0};let jumpEdge=false,fireEdge=false,startEdge=false;
+const K={left:0,right:0,jump:0,fire:0,start:0};let jumpEdge=false,fireEdge=false,startEdge=false,jumpBuf=0;
 const KEYMAP={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',Space:'jump',ArrowUp:'jump',KeyW:'jump',KeyZ:'jump',KeyX:'fire',KeyJ:'fire',ShiftLeft:'fire',Enter:'start'};
 function press(k,v){if(v&&!K[k]){if(k==='jump')jumpEdge=true;if(k==='fire')fireEdge=true;if(k==='start'||k==='jump')startEdge=true}K[k]=v;if(v)initAudio()}
 addEventListener('keydown',e=>{const k=KEYMAP[e.code];if(k){e.preventDefault();press(k,1)}});
@@ -663,7 +663,7 @@ function hitBlock(tx,ty){const c=tileAt(tx,ty);bumps[tx+','+ty]=tm;
  else if(c==='B'&&pl.big){L[ty][tx]='.';score+=50;SFX.brk();shake=.15;for(let i=0;i<4;i++)parts.push({x:tx*T+4+(i%2)*8,y:ty*T+4+(i>>1)*8,vx:(i%2?1.2:-1.2),vy:-3-(i>>1),col:'#b85c3c',t:0,sz:5})}
  else SFX.bump();
  ents.forEach(e=>{if((e.type==='blob'||e.type==='mit')&&!e.dead&&Math.abs(e.x+e.w/2-(tx*T+8))<12&&Math.abs(e.y+e.h-ty*T)<3)kill(e)})}
-function kill(e,how){if(e.dead)return;e.dead=.001;e.how=how;score+=100;const m=skinMsg(e.type);pop(e.x+e.w/2,e.y-6,m[0],m[1],9);
+function kill(e,how){if(e.dead)return;e.dead=.001;e.how=how;if(!e.spawned)score+=100;/* boss minions give no points, so you can't farm the boss */const m=skinMsg(e.type);pop(e.x+e.w/2,e.y-6,m[0],m[1],9);
  if(e.type==='mit')SFX.pop();else if(e.type==='blob')SFX.crunch();else SFX.swish();burst(e.x+e.w/2,e.y+e.h/2,e.type==='blob'?'#c43aa8':e.type==='voc'?'#b8e080':'#c8e04a',8)}
 function foundSecret(id,x,y){if(foundIds[id])return;foundIds[id]=1;secretsFound++;secretsAll++;score+=500;pop(x,y,'SECRET FOUND! '+secretsFound+'/3','#ffd23f');SFX.secret()}
 function revealHidden(tx,ty){L[ty][tx]='u';bumps[tx+','+ty]=tm;const rw=HIDDEN[tx+','+ty];
@@ -686,16 +686,16 @@ function update(dt){tm+=dt;if(shake>0)shake-=dt;
  if(st==='pole'){poleUpdate(dt);return}
  if(st==='dying'){deathT+=dt;if(deathT>.5){pl.vy+=GRAV;pl.y+=pl.vy}if(deathT>2.4){lives--;if(lives<0){st='over';_hiSave('keim-q-hi',score);return}balls=[];resetPlayer();st='play';ents.forEach(e=>{if(e.type==='item')e.gone=true})}return}
  const bossLive=bossIntro&&ents.some(e=>e.type==='boss'&&!e.dead);MUS.want=bossLive?'boss':'main';
- const run=!!K.fire,acc=pl.ground?(run?.32:.28):.18,max=run?3.1:1.9;
- if(K.left&&!K.right){pl.vx=pl.vx< -max?Math.min(pl.vx+.06,-max):Math.max(pl.vx-acc,-max);pl.face=-1}else if(K.right&&!K.left){pl.vx=pl.vx>max?Math.max(pl.vx-.06,max):Math.min(pl.vx+acc,max);pl.face=1}else{pl.vx*=pl.ground?.78:.95;if(Math.abs(pl.vx)<.05)pl.vx=0}
- if(jumpEdge&&(pl.ground||pl.coyote>0)){const sp=clamp((Math.abs(pl.vx)-1.9)/1.2,0,1);pl.vy=-6.3-sp*1.1;if(sp>.5)for(let i=0;i<5;i++)parts.push({x:pl.x+pl.w/2,y:pl.y+pl.h,vx:(Math.random()-.5)*2,vy:-Math.random(),col:'#fff',t:0,nog:1,sz:1.5,star:1});pl.ground=false;pl.coyote=0;SFX.jump();dust(pl.x+pl.w/2,pl.y+pl.h)}
+ const run=!!K.fire,acc0=pl.ground?(run?.42:.38):.26,max=run?3.1:1.9,skid=pl.ground&&((K.left&&pl.vx>.3)||(K.right&&pl.vx<-.3)),acc=skid?acc0*1.9:acc0;
+ if(K.left&&!K.right){pl.vx=pl.vx< -max?Math.min(pl.vx+.06,-max):Math.max(pl.vx-acc,-max);pl.face=-1}else if(K.right&&!K.left){pl.vx=pl.vx>max?Math.max(pl.vx-.06,max):Math.min(pl.vx+acc,max);pl.face=1}else{pl.vx*=pl.ground?.68:.93;if(Math.abs(pl.vx)<.08)pl.vx=0}
+ if(jumpEdge)jumpBuf=.13;if(jumpBuf>0&&(pl.ground||pl.coyote>0)){jumpBuf=0;const sp=clamp((Math.abs(pl.vx)-1.9)/1.2,0,1);pl.vy=-6.3-sp*1.1;if(sp>.5)for(let i=0;i<5;i++)parts.push({x:pl.x+pl.w/2,y:pl.y+pl.h,vx:(Math.random()-.5)*2,vy:-Math.random(),col:'#fff',t:0,nog:1,sz:1.5,star:1});pl.ground=false;pl.coyote=0;SFX.jump();dust(pl.x+pl.w/2,pl.y+pl.h)}
  if(!K.jump&&pl.vy<-2.4)pl.vy=-2.4;
  if(fireEdge&&pl.painter&&balls.length<2){balls.push({x:pl.x+(pl.face>0?pl.w:-6),y:pl.y+8,w:6,h:6,vx:3.6*pl.face,vy:1,t:0});pl.throwT=.2;SFX.crystal()}
- jumpEdge=false;fireEdge=false;
+ jumpEdge=false;fireEdge=false;jumpBuf=Math.max(0,jumpBuf-dt);
  const vyB=pl.vy;const r=moveBody(pl);if(pl.x<0)pl.x=0;
  if(vyB<0&&!r.head){const ty=Math.floor(pl.y/T);for(const px of [pl.x+2,pl.x+pl.w-2]){const tx=Math.floor(px/T);if(tileAt(tx,ty)==='h'){pl.y=(ty+1)*T;pl.vy=.5;revealHidden(tx,ty);break}}}
  if(r.ground&&!pl.wasGround)dust(pl.x+pl.w/2,pl.y+pl.h);pl.wasGround=r.ground;
- pl.coyote=r.ground?.1:Math.max(0,pl.coyote-dt);pl.ground=r.ground;
+ pl.coyote=r.ground?.12:Math.max(0,pl.coyote-dt);pl.ground=r.ground;
  if(r.head)hitBlock(r.head.tx,r.head.ty);
  if(pl.inv>0)pl.inv-=dt;if(pl.throwT>0)pl.throwT-=dt;if(pl.grow>0)pl.grow-=dt;
  if(pl.y>VH+30){die();return}
@@ -725,7 +725,7 @@ function update(dt){tm+=dt;if(shake>0)shake-=dt;
    if(e.inv>0)e.inv-=dt;e.face=pl.x<e.x?-1:1;e.vx=e.face*.5;e.jumpT-=dt;e.spawnT-=dt;
    const rr=moveBody(e);if(rr.ground&&e.jumpT<=0){e.vy=-5.2;e.jumpT=2+hash(tm|0,3)*1.5}if(rr.ground&&e.airborne){shake=.2;dust(e.x+e.w/2,e.y+e.h);dust(e.x+4,e.y+e.h);dust(e.x+e.w-4,e.y+e.h)}e.airborne=!rr.ground;
    if(e.x<LV.boss.a*T)e.x=LV.boss.a*T;if(e.x>LV.boss.b*T-e.w)e.x=LV.boss.b*T-e.w;
-   if(e.spawnT<=0){e.spawnT=5;if(ents.filter(q=>q.type==='blob'&&!q.dead&&!q.gone&&q.x>(LV.boss.a-2)*T).length<3)ents.push(Object.assign(newEnemy('blob',e.x+e.w/2-6,e.y+e.h-18),{vx:e.face*.7}))}}
+   if(e.spawnT<=0){e.spawnT=5;if(ents.filter(q=>q.type==='blob'&&!q.dead&&!q.gone&&q.x>(LV.boss.a-2)*T).length<3)ents.push(Object.assign(newEnemy('blob',e.x+e.w/2-6,e.y+e.h-18),{vx:e.face*.7,spawned:1}))}}
   if(st!=='play')return;
   if(ov(pl,e)){const falling=pl.vy>0&&(pl.y+pl.h-pl.vy)<=e.y+6;
    if(falling){if(e.type==='boss'){if(e.inv<=0){e.hp-=2;e.inv=.7;SFX.boss();shake=.2;if(e.hp<=0)bossDown(e)}pl.vy=K.jump?-6:-4.5}
@@ -736,7 +736,7 @@ function update(dt){tm+=dt;if(shake>0)shake-=dt;
  const dx=LV.door*T;if(pl.x+pl.w>dx&&pl.x<dx+16&&!ents.some(e=>e.type==='boss')){st='clear';clearT=0;SFX.clear();score+=lives*500;_hiSave('keim-q-hi',score)}
  if(LV.boss&&pl.x>(LV.boss.wall-5)*T&&ents.some(e=>e.type==='boss')&&doorMsgT<=0){doorMsgT=4;say({title:'SHRINK-WRAP WALL!',lines:['Beat the Mega Acrylic Tub','to melt it.'],dur:2.5})}
  if(doorMsgT>0)doorMsgT-=dt;
- camX=lerp(camX,clamp(pl.x-130,0,LVW*T-VW),.14);
+ camX=lerp(camX,clamp(pl.x-130,0,LVW*T-VW),.24);
 }
 function grabPole(){st='pole';const top=pl.y;const pts=top<=28?5000:top<=52?2000:top<=76?1000:top<=100?400:100;score+=pts;LV.poleTop=top;
  pop(LV.poleX*T+8,top-10,'+'+pts+(pts===5000?' TOP OF THE FLAG!':''),pts>=2000?'#ffd23f':'#fff');SFX.flag();pl.vx=0;pl.vy=0;pl.x=LV.poleX*T+7-pl.w+2;pl.face=1;balls=[]}

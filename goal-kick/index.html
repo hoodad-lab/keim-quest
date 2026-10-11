@@ -1623,6 +1623,7 @@ function drawKoalaKeeper(c,k,rg,X,s,po,t,look,mood,gsS,rot){
  const head=()=>{let hp=W2(rg.head,0,-.04);
   // a held ball must not cover the face: nudge the head (visual only) clear of it
   if(po.ballW){const dx=hp[0]-po.ballW[0],dy=hp[1]-po.ballW[1],d=Math.hypot(dx,dy)||1e-3,need=.37+BALLR-d;if(need>0){const m=Math.min(.24,need);hp=[hp[0]+dx/d*m,hp[1]+dy/d*m]}}
+  // the head stays upright: only a small cute tilt in the dive, never sideways or upside-down
   const hd=X(hp),HR=.37*s;c.save();c.translate(hd[0],hd[1]);c.rotate(clamp(rot*.4,-.3,.3));c.scale(HR,HR);koalaHeadGK(c,t,mood,look||[0,.4],Math.max(.045,1.6/HR));c.restore();
   if(mood==='happy'){for(let i=0;i<4;i++){const a=t*.09+i*1.57,r=HR*1.7,x=hd[0]+Math.cos(a)*r,y=hd[1]-HR*.3+Math.sin(a)*r*.6,ss=Math.max(2,HR*.13)*(1+.3*Math.sin(t*.3+i));c.save();c.fillStyle='#ffe27a';c.translate(x,y);c.beginPath();c.moveTo(0,-ss*2);c.lineTo(ss*.5,-ss*.5);c.lineTo(ss*2,0);c.lineTo(ss*.5,ss*.5);c.lineTo(0,ss*2);c.lineTo(-ss*.5,ss*.5);c.lineTo(-ss*2,0);c.lineTo(-ss*.5,-ss*.5);c.closePath();c.fill();c.restore()}}};
  // big cute keeper gloves (on top, where the ball contact happens)

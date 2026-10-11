@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>KEIM Arcade · Play. Win. Paint.</title>
 <meta name="description" content="Twelve free KEIM arcade games. Beat bosses, match colours, score goals. Put your initials on the board; top scores each month win real KEIM prizes.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KEIM Arcade">
+<meta property="og:title" content="KEIM Arcade · Play. Win. Paint.">
+<meta property="og:description" content="12 free retro games by KEIM Australia. Top scores each month win real KEIM prizes.">
+<meta property="og:url" content="https://play.keim.com.au/">
+<meta property="og:image" content="https://play.keim.com.au/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -86,6 +97,13 @@ h1.big .c{color:#ff6159}
 
 /* ===== CABINET (hero) ===== */
 .cabcol{flex:1 1 400px;min-width:0;display:flex;justify-content:center;position:relative}
+.hero3d{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.95}
+.hero .floor{animation:floorrun 1.6s linear infinite}
+@keyframes floorrun{to{background-position:0 42px,0 0}}
+.card{transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .18s}
+.card .glr{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;transition:opacity .2s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.28),transparent 50%);mix-blend-mode:screen}
+.card.tilt .glr{opacity:1}
+@media(prefers-reduced-motion:reduce){.hero .floor{animation:none}.hero3d{display:none}}
 .cab{width:min(440px,100%);position:relative;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
 .cab .marq{background:#1a0303;border:6px solid var(--red);border-bottom:0;padding:16px 10px;text-align:center;box-shadow:inset 0 0 40px rgba(224,32,27,.55);position:relative;overflow:hidden}
 .cab .marq .lights{position:absolute;left:0;right:0;height:6px;background-image:radial-gradient(circle,var(--gold) 2px,transparent 2.5px);background-size:12px 6px;animation:chase .6s linear infinite}
@@ -106,16 +124,18 @@ h1.big .c{color:#ff6159}
 .screen .credit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--px);font-size:20px;color:var(--gold);background:rgba(0,0,0,.6);opacity:0;pointer-events:none}
 .screen.credited .credit{opacity:1}
 .deck{margin:18px -40px 0;height:92px;background:linear-gradient(#34363a,var(--char));clip-path:polygon(9% 0,91% 0,100% 100%,0 100%);position:relative}
-.deck .jb{position:absolute;left:21%;top:52px;width:54px;height:16px;border-radius:50%;background:#111}
-.deck .js{position:absolute;left:calc(21% + 21px);top:14px;width:12px;height:46px;background:#8d8a85;border-radius:6px}
-.deck .jt{position:absolute;left:calc(21% + 9px);top:0;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a80,var(--red) 60%,var(--deep))}
-.deck .bt{position:absolute;width:28px;height:28px;border-radius:50%}
+.deck .jb{position:absolute;left:calc(30% - 27px);top:62px;width:54px;height:16px;border-radius:50%;background:#111}
+.deck .js{position:absolute;left:calc(30% - 6px);top:28px;width:12px;height:42px;background:#8d8a85;border-radius:6px}
+.deck .jt{position:absolute;left:calc(30% - 18px);top:12px;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a80,var(--red) 60%,var(--deep))}
+.deck .bt{position:absolute;width:28px;height:28px;margin-left:-14px;border-radius:50%}
 .coindoor{margin-top:16px;background:#9e0d08;padding:14px;display:flex;gap:16px;justify-content:center;align-items:center;position:relative}
 .slot{background:#111;padding:10px 12px;display:flex;align-items:center;gap:10px;border:3px solid #444}
 .slot i{width:6px;height:26px;background:var(--gold);box-shadow:0 0 12px var(--gold);display:block}
 .slot span{font-family:var(--px);font-size:8px;color:var(--gold);line-height:1.7}
 .coinfx{position:absolute;left:50%;top:6px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,var(--gold) 50%,#b8860b);border:3px solid #8a6a12;opacity:0;pointer-events:none}
 .coinfx.go{animation:coin .6s ease-in forwards}
+
+@media (pointer:coarse),(max-width:700px){.hero3d{display:none}}
 .peek{position:absolute;right:-24px;bottom:40px;width:118px}
 .peek .say{position:absolute;left:-74px;top:-26px;font-family:var(--px);font-size:9px;background:#fff;color:#000;padding:8px;box-shadow:3px 3px 0 var(--red);white-space:nowrap}
 @media (max-width:560px){.peek{right:-6px;width:90px;bottom:24px}.peek .say{left:-60px}}
@@ -144,17 +164,13 @@ h1.big .c{color:#ff6159}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(262px,1fr));gap:40px 34px;margin-top:46px}
 .card{display:block;text-align:left;width:auto;border:0;padding:0;cursor:pointer;color:#fff;background:#141416;margin:6px;position:relative;box-shadow:0 -6px 0 0 #fff,0 6px 0 0 #fff,-6px 0 0 0 #fff,6px 0 0 0 #fff,10px 12px 0 6px var(--sh,#CE110B);transition:transform .12s steps(3)}
 .card:hover{transform:translate(-4px,-4px)}
+.card.tilt{transform:perspective(900px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg)) translateZ(14px)}
 .card .media{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
 .card .media img,.card .media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .card .media .scan{background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0 1px,transparent 1px 3px)}
 .card .p1{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);font-family:var(--px);font-size:14px;color:var(--gold);opacity:0;transition:opacity .1s}
 .card:hover .p1,.card:focus-visible .p1{opacity:1}
-.card .pts{position:absolute;right:10px;top:10px;font-family:var(--px);font-size:9px;background:var(--gold);color:#000;padding:7px 8px;transform:rotate(4deg)}
-.card .meta{padding:15px 16px 17px;border-top:6px solid #fff}
-.card .nm{font-family:var(--px);font-size:13px;line-height:1.5}
-.card .gn{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--vt);font-size:23px;color:var(--mute)}
-.card .gn b{font-weight:400;color:var(--gold)}
-.card .mb{font-family:var(--vt);font-size:21px;color:var(--green);margin-top:4px;min-height:21px}
+.card .newb{position:absolute;left:10px;top:10px;z-index:2;font-family:var(--px);font-size:9px;background:var(--red);color:#fff;padding:7px 8px;transform:rotate(-4deg);box-shadow:3px 3px 0 #000;animation:blink 1s steps(1) infinite}
 .card .last{position:absolute;left:10px;top:10px;font-family:var(--px);font-size:8px;background:var(--red);color:#fff;padding:6px 7px;transform:rotate(-3deg);box-shadow:2px 2px 0 #000}
 .mine-empty{grid-column:1/-1;font-family:var(--vt);font-size:22px;color:var(--mute);text-align:center;padding:10px 0}
 .card[hidden]{display:none}
@@ -166,6 +182,52 @@ h1.big .c{color:#ff6159}
 .steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:36px;margin-top:46px;text-align:center}
 .steps .t{font-family:var(--px);font-size:14px;margin-top:18px;line-height:1.6}
 .steps .d{font-family:var(--vt);font-size:24px;line-height:1.15;margin-top:12px;color:#cfcac0}
+.howpts{margin-top:44px;border-top:4px dashed var(--grey);padding-top:30px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;font-family:var(--px);font-size:10px;line-height:1.8;color:var(--gold);text-align:center}
+.calc{max-width:900px;margin:44px auto 0;background:#000;border:6px solid var(--paper);box-shadow:0 0 0 6px #000,0 0 0 12px var(--red);padding:clamp(18px,4vw,40px);text-align:left}
+.calc-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:12px}
+.calc .cc:last-child{text-align:right}
+.calc .k{font-family:var(--px);font-size:10px;color:var(--mute)}
+.calc .big{font-family:var(--px);font-size:clamp(26px,6vw,52px);margin-top:12px;white-space:nowrap}
+.calc .money{color:#ffb3ad}
+.calc .eq{font-family:var(--px);font-size:clamp(18px,3vw,28px);color:var(--grey);padding-bottom:8px}
+.calc .track{position:relative;height:14px;background:#2a2a30;margin-top:28px;border:2px solid #555}
+.calc .track i:last-child{display:none}
+.calc .track .fill{position:absolute;left:0;top:0;bottom:0;background:var(--red)}
+.calc .track i{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--gold)}
+.calc input[type=range]{margin-top:-24px;position:relative;background:transparent}
+.calc .ticks{position:relative;height:22px;font-family:var(--px);font-size:9px;line-height:1.6;color:var(--mute)}
+.calc .legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:6px;font-family:var(--vt);font-size:19px;color:#cfcac0}
+.calc .legend i{display:inline-block;width:4px;height:14px;background:var(--gold);margin-right:8px;vertical-align:-1px}.calc .legend i.mx{background:var(--red)}
+.calc input[type=range]{-webkit-appearance:none;appearance:none;height:34px}
+.calc input[type=range]::-webkit-slider-runnable-track{background:transparent;height:34px}
+.calc input[type=range]::-moz-range-track{background:transparent}
+.calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:34px;background:#fff;border:4px solid #000;box-shadow:0 0 0 3px var(--red);cursor:grab}
+.calc input[type=range]::-moz-range-thumb{width:20px;height:28px;background:#fff;border:4px solid #000;border-radius:0;box-shadow:0 0 0 3px var(--red);cursor:grab}
+.calc .ticks span{position:absolute;top:2px;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.calc .ticks span:first-child{transform:none;text-align:left}.calc .ticks span:last-child{transform:translateX(-100%);text-align:right}
+.calc .status{margin-top:14px;font-family:var(--px);font-size:11px;line-height:1.7;padding:12px 14px;border:3px solid;text-align:center}
+.calc .status.st-no{color:#cfcac0;border-color:#555}.calc .status.st-ok{color:#5be08a;border-color:#2f7a55;background:rgba(47,122,85,.15)}
+.calc .cap{margin-top:26px;border-top:4px dashed #333;padding-top:20px}
+.calc .caph{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;font-family:var(--px);font-size:9px;color:var(--gold)}
+.calc .capn{margin-top:12px;font-family:var(--vt);font-size:22px;line-height:1.15;color:#cfcac0}
+.credits h3.sub{font-family:var(--px);font-weight:400;font-size:clamp(14px,2.4vw,20px);color:var(--gold);margin:64px 0 0;text-shadow:4px 4px 0 var(--red)}
+.credits p.vt.small{font-size:21px;margin-top:14px}
+.ec.gm{border-color:#9ff0ff}.ec.rf{border-color:var(--gold);background:#2a1f05}
+.tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:28px auto 0;max-width:1000px;text-align:left}
+.tc{background:#16161b;border:3px solid #333;padding:14px 14px 12px}
+.tc .gn{font-family:var(--px);font-size:10px;color:#fff;margin-bottom:10px;display:flex;justify-content:space-between;gap:8px}
+.tc .gn em{font-style:normal;color:var(--mute)}
+.tc .tr{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-family:var(--vt);font-size:20px;line-height:1.25;color:#cfcac0}
+.tc .md{width:12px;height:12px;border:2px solid #000;box-shadow:0 0 0 2px currentColor}
+.tc .tr b{font-family:var(--px);font-size:9px;font-weight:400;color:var(--gold)}
+.tc .tr.got{color:#5be08a}.tc .tr.got b{color:#5be08a}
+.spend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:30px auto 0;max-width:900px}
+.spend>div{background:#16161b;border:4px solid #fff;padding:22px 16px}
+.spend .sn{font-family:var(--px);font-size:28px;color:var(--red);text-shadow:3px 3px 0 #000}
+.spend b{display:block;font-family:var(--px);font-size:12px;margin:12px 0 8px}
+.spend i{display:block;font-style:normal;font-family:var(--vt);font-size:20px;line-height:1.15;color:#cfcac0}
+@media(max-width:560px){.calc-top{grid-template-columns:1fr 1fr}.calc .eq{display:none}.calc .ticks{font-size:7px}}
+@media(max-width:560px){.tiers{grid-template-columns:1fr 1fr;gap:10px}.tc{padding:10px 8px}.tc .gn{font-size:8px;flex-direction:column;gap:4px}.tc .tr{font-size:17px;gap:5px}.tc .tr b{font-size:8px}.tc .md{width:9px;height:9px}}
 .power{margin-top:54px;border-top:4px dashed var(--grey);padding-top:38px}
 .power .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
 .power .k{font-family:var(--px);font-size:10px;color:var(--mute)}
@@ -175,7 +237,8 @@ h1.big .c{color:#ff6159}
 .segs i{flex:1;height:32px;opacity:.15;transition:opacity .1s}
 .segs i.on{opacity:1}
 input[type=range]{width:100%;accent-color:var(--red);height:34px;margin-top:10px}
-.power .scale{display:flex;justify-content:space-between;font-family:var(--vt);font-size:21px;color:var(--mute)}
+.power .scale{display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 12px;font-family:var(--vt);font-size:21px;color:var(--mute)}
+@media(max-width:700px){.power .scale span:nth-child(2){order:3;flex-basis:100%;text-align:center}}
 
 /* ===== PRIZES ===== */
 .prizes{background:var(--red);padding:100px 0 0;border-top:4px solid #000}
@@ -342,18 +405,19 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   .abody{padding:5px;border-width:3px}.abezel{padding:4px}.bgrl,.blabel,.amarq .grl{display:none}
   .adeck{grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr;align-items:center;padding:10px 10px 14px;gap:10px}
   .abtns{gap:12px 10px}
-  .acab.many .sbase{width:116px;height:116px}
-  .acab.many .sball{width:52px;height:52px;margin:-26px 0 0 -26px}
+  .acab.many .sbase{width:100px;height:100px}
+  .acab.many .sball{width:46px;height:46px;margin:-23px 0 0 -23px}
   .adeck .mid{grid-column:1/-1;grid-row:1}
-  .adeck .stick{grid-row:2;justify-self:start}
-  .adeck .abtns{grid-row:2;justify-self:end}
-  .sbase{width:136px;height:136px}
-  .sball{width:60px;height:60px;margin:-30px 0 0 -30px}
+  .adeck .stick{grid-row:2;justify-self:start;margin-left:22px}
+  .adeck .abtns{grid-row:2;justify-self:end;margin-right:8px}
+  .sbase{width:112px;height:112px}
+  .sball{width:50px;height:50px;margin:-25px 0 0 -25px}
   .ab i{width:var(--bsm,60px);height:var(--bsm,60px)}
   .amarq .sc{display:none}
 }
-/* phone landscape: full-screen game, controls float over it */
+/* phone landscape: full-screen game, controls float over it (not for games you play by tapping the screen) */
 @media (max-height:520px) and (orientation:landscape){
+  #arcade.tapgame .adeck{display:none!important}
   #arcade{background:#000}
   .acab{width:100vw;margin-left:-50vw;display:block;padding:0}
   .amarq{position:absolute;z-index:20;top:max(6px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));background:none;border:0;box-shadow:none;padding:0}
@@ -431,7 +495,8 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 #gate .earn b{color:var(--gold);font-weight:400}#gate .earn .done{color:#7ee07a}
 #gate .code{font-family:var(--px);font-size:clamp(16px,5vw,22px);background:#fff;color:#000;padding:14px 10px;margin:6px 0 10px;letter-spacing:2px;user-select:all}
 #gate .busy{opacity:.5;pointer-events:none}
-#postBox .pmail{display:block;text-align:left;margin:0 0 8px}
+#postBox .pmail{display:block;text-align:left;margin:0 0 10px}
+#postBox .iniin{font-family:var(--px)!important;font-size:clamp(22px,7vw,30px)!important;letter-spacing:.5em;text-align:center;text-transform:uppercase;color:var(--gold)!important;padding:10px 0 10px .5em!important}
 #postBox .pmail span{display:block;font-family:var(--px);font-size:8px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
 #postBox .pmail input{width:100%;box-sizing:border-box;background:#16161b;border:3px solid #3a3a44;color:#fff;font-family:var(--vt);font-size:22px;padding:8px 10px;outline:none}
 #postBox .pmail input:focus{border-color:var(--gold)}
@@ -443,6 +508,71 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 
 @media (max-width:700px) and (orientation:portrait){.rotate{display:block}}
 .hint.msg{text-align:left;font-size:17px;line-height:1.1;animation:msgIn .25s steps(3)}.hint.msg b{display:block;font-family:var(--px);font-size:11px;color:#d51f24;margin-bottom:6px;letter-spacing:.5px}.hint.msg small{display:block;margin-top:6px;font-family:var(--px);font-size:8px;color:#555}@keyframes msgIn{from{opacity:0}to{opacity:1}}
+/* card = the game image; a small tag on the image holds medals + genre icon */
+.card .media .ctag{position:absolute;inset:auto;right:8px;top:8px;left:auto;bottom:auto;width:auto;height:auto;z-index:3;display:flex;align-items:center;gap:8px;background:rgba(10,10,12,.72);padding:5px 6px 5px 9px;box-shadow:3px 3px 0 #000}
+.card .media .gi{position:static;flex:none;width:28px;height:28px;display:grid;place-items:center;background:var(--gc)}
+.card .gi svg{width:20px;height:20px;display:block}
+.card .bst{font-family:var(--vt);font-size:20px;color:var(--gold);white-space:nowrap}
+.card .bst:empty{display:none}
+.card .media .mds,.card .media .md,.card .media .bst{position:static}
+.card .mds{display:flex;gap:5px}
+.card .md{width:12px;height:12px;border-radius:50%;border:2px solid var(--mc);opacity:.55}
+.card .md.on{background:var(--mc);opacity:1;box-shadow:0 0 6px var(--mc)}
+/* phones: two games per row */
+@media (max-width:560px){
+  .cards{grid-template-columns:1fr 1fr;gap:24px 18px;margin-top:30px}
+  .card{margin:4px;box-shadow:0 -4px 0 0 #fff,0 4px 0 0 #fff,-4px 0 0 0 #fff,4px 0 0 0 #fff,6px 8px 0 4px var(--sh,#CE110B)}
+  .card .media .ctag{right:4px;top:4px;gap:4px;padding:2px 2px 2px 4px;box-shadow:2px 2px 0 #000}
+  /* filters: one swipeable row instead of three stacked rows */
+  .chips,.gsel{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-left:-16px;margin-right:-16px;padding:4px 16px 10px;scroll-padding:16px}
+  .chips::-webkit-scrollbar,.gsel::-webkit-scrollbar{display:none}
+  .chips .chip,.gsel .chip{flex:none;white-space:nowrap}
+  .chips{margin-top:22px}
+  /* how to play: one compact strip of three small steps */
+  .how{padding:56px 0}
+  .howbox{padding:18px 14px}
+  .steps{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+  .steps svg.pix{width:46px;height:46px}
+  .steps .t{font-size:8px;margin-top:8px;line-height:1.5}
+  .steps .d{font-size:15px;margin-top:6px}
+  /* prizes: 2 per row, smaller tins */
+  .shelf{grid-template-columns:1fr 1fr;gap:16px 12px}
+  .shelf svg.pix{width:84px;height:77px}
+  .shelf .tag{padding:10px 8px;margin-top:8px}.shelf .tag b{font-size:9px}.shelf .tag i{font-size:17px}
+  .card .media .gi{width:18px;height:18px}.card .media .gi svg{width:12px;height:12px}
+  .card .media .bst{display:none!important}.card .media .mds{gap:3px}.card .media .md{width:7px;height:7px;border-width:1.5px}
+  .card .newb{font-size:7px;padding:4px 5px;left:5px;top:5px}
+}
+.tbl .hsr{opacity:.8}
+/* simple points summary + points-only page */
+.p3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:40px auto 0}
+.p3c{position:relative;background:#000;border:5px solid var(--paper);box-shadow:8px 8px 0 var(--red);padding:30px 18px 22px;text-align:center}
+.p3c .p3n{position:absolute;left:-14px;top:-14px;width:36px;height:36px;display:grid;place-items:center;background:var(--gold);color:#000;font-family:var(--px);font-size:14px;box-shadow:3px 3px 0 #000}
+.p3c .p3big{font-family:var(--px);font-size:clamp(20px,3vw,30px);color:var(--gold);text-shadow:3px 3px 0 var(--red)}
+.p3c b{display:block;margin-top:16px;font-family:var(--px);font-weight:400;font-size:13px;color:#fff}
+.p3c i{display:block;margin-top:10px;font-style:normal;font-family:var(--vt);font-size:21px;line-height:1.1;color:#cfcac0}
+.p3arrow{display:none}
+@media (max-width:700px){.p3{grid-template-columns:1fr;gap:20px;max-width:420px}.p3c{padding:16px 14px 14px}.p3c b{margin-top:8px}.p3c i{font-size:19px;margin-top:6px}}
+body.ponly .hero,body.ponly .games,body.ponly .how,body.ponly .prizes,body.ponly .scores,body.ponly .cont{display:none!important}
+body.ponly .credits{padding-top:40px}
+.pback{display:inline-block;margin:0 0 26px;font-family:var(--px);font-size:11px;color:var(--gold);text-decoration:none}
+.pback:hover{color:#fff}
+footer .fine{margin-top:14px;max-width:900px}
+footer .fine a{color:var(--gold)}
+footer details.fine summary{cursor:pointer;list-style:none}footer details.fine summary::-webkit-details-marker{display:none}footer details.fine u{color:var(--gold)}
+footer .tl{margin:10px 0 0;padding-left:18px;max-width:900px}footer .tl li{margin:4px 0}
+.terms{max-width:980px;margin:70px auto 0;text-align:left}
+.terms h3.sub{text-align:center}
+.terms .tcols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:28px}
+.terms .tcols>div{background:#000;border:4px solid #2a2a2e;padding:20px 22px}
+.terms h4{font-family:var(--px);font-weight:400;font-size:12px;color:var(--gold);margin:0 0 12px}
+.terms ul{margin:0;padding-left:18px;font-family:'Work Sans',sans-serif;font-size:14px;line-height:1.55;color:#cfcac0}
+.terms li{margin:6px 0}
+.terms .tq{text-align:center;margin-top:22px;font-family:'Work Sans',sans-serif;font-size:14px;color:#a9a49a}
+.terms .tq a{color:var(--gold)}
+@media (max-width:700px){.terms .tcols{grid-template-columns:1fr}}
+/* KEIM Points are off until the sign-in email is live: hide every way in */
+body.nocredits #walletBtn,body.nocredits #credits,body.nocredits .howpts{display:none!important}
 </style>
 </head>
 <body>
@@ -473,6 +603,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="stars" aria-hidden="true"></div>
+  <canvas class="hero3d" id="hero3d" aria-hidden="true"></canvas>
   <div class="floor" aria-hidden="true"></div>
   <div class="grid wrapw">
     <div class="copy">
@@ -483,7 +614,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
         <button class="startbtn" id="heroStart" type="button"><span class="ball" aria-hidden="true"></span><span class="t">PRESS<br>START</span></button>
         <a class="pbtn" href="#games">CHOOSE GAME ▶︎</a>
       </div>
-      <div class="hstats"><div><b>12</b><i>GAMES</i></div><div><b id="hsPlayers">—</b><i>SCORES POSTED</i></div><div><b>$0</b><i>TO PLAY</i></div></div>
+      <div class="hstats"><div><b>12</b><i>GAMES</i></div><div><b id="hsPlayers">FANDECK</b><i id="hsLbl">TOP PRIZE</i></div><div><b>$0</b><i>TO PLAY</i></div></div>
     </div>
 
     <div class="cabcol">
@@ -492,24 +623,25 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
         <div class="body">
           <div class="bezel">
             <button class="screen" id="heroScreen" type="button" aria-label="Play the game on the screen">
-              <img id="attPoster" alt="" src="clips/knockout.jpg">
-              <video id="attVid" muted playsinline autoplay preload="auto" poster="clips/knockout.jpg"></video>
+              <img id="attPoster" alt="" src="clips/house-call.jpg">
+              <video id="attVid" muted playsinline autoplay preload="metadata" poster="clips/house-call.jpg"></video>
               <canvas class="noise" id="noise" width="160" height="100"></canvas>
               <span class="rollbar" aria-hidden="true"></span>
               <span class="scan" aria-hidden="true"></span>
               <span class="vign" aria-hidden="true"></span>
-              <span class="osd top" id="attName">NOW SHOWING · KNOCKOUT</span>
+              <span class="osd top" id="attName">NOW SHOWING · HOUSE CALL</span>
               <span class="osd bot blink">PRESS START</span>
               <span class="credit">CREDIT 01</span>
             </button>
           </div>
           <div class="deck" aria-hidden="true">
             <span class="jb"></span><span class="js"></span><span class="jt"></span>
-            <span class="bt" style="left:52%;top:24px;background:var(--gold);box-shadow:0 5px 0 #8a6a12"></span>
-            <span class="bt" style="left:63%;top:16px;background:var(--red2);box-shadow:0 5px 0 #5a0603"></span>
-            <span class="bt" style="left:74%;top:24px;background:var(--paper);box-shadow:0 5px 0 #8d8a85"></span>
-            <span class="bt" style="left:57%;top:56px;background:var(--cyan);box-shadow:0 5px 0 #1e6a8a"></span>
-            <span class="bt" style="left:68%;top:50px;background:var(--green);box-shadow:0 5px 0 #1f8a43"></span>
+            <span class="bt" style="left:57%;top:16px;background:var(--gold);box-shadow:0 5px 0 #8a6a12"></span>
+            <span class="bt" style="left:67%;top:16px;background:var(--red2);box-shadow:0 5px 0 #5a0603"></span>
+            <span class="bt" style="left:77%;top:16px;background:var(--paper);box-shadow:0 5px 0 #8d8a85"></span>
+            <span class="bt" style="left:57%;top:52px;background:var(--cyan);box-shadow:0 5px 0 #1e6a8a"></span>
+            <span class="bt" style="left:67%;top:52px;background:var(--green);box-shadow:0 5px 0 #1f8a43"></span>
+            <span class="bt" style="left:77%;top:52px;background:var(--gold);box-shadow:0 5px 0 #8a6a12"></span>
           </div>
           <div class="coindoor">
             <span class="coinfx" id="coinfx"></span>
@@ -550,16 +682,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
         <div><svg class="pix" data-art="coin" viewBox="0 0 8 8" width="92" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">2. POST YOUR SCORE</div><div class="d">BEAT YOUR BEST, TAP IN THREE LETTERS, AND YOU ARE ON THE BOARD. NO SIGN-UP.</div></div>
         <div><svg class="pix" data-art="tin" data-c="#E0201B" viewBox="0 0 12 11" width="100" height="92" shape-rendering="crispEdges" aria-hidden="true"></svg><div class="t">3. WIN THE MONTH</div><div class="d" id="howPrize">TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. SEE THIS MONTH'S PRIZE BELOW.</div></div>
       </div>
-      <div class="power">
-        <div class="row">
-          <div><div class="k">DRAG YOUR POINTS ▼︎</div><div class="v"><span id="ptsV">650</span> PTS</div></div>
-          <div style="text-align:right"><div class="k">IN THE KEIM SHOP</div><div class="cr neon" id="crV">$6.50</div></div>
-        </div>
-        <div class="segs" id="segs" aria-hidden="true"></div>
-        <label class="sr" for="ptsR">Points</label>
-        <input id="ptsR" type="range" min="0" max="1500" step="25" value="650">
-        <div class="scale"><span>0</span><span>100 PTS = $1 · MAX 1,000 PTS A WEEK</span><span>1,500</span></div>
-      </div>
+      <div class="howpts"><span>★ KEIMLINGE ALSO COLLECT KEIM POINTS FOR EVERY GAME ★</span><a class="pbtn gold" href="points.html" style="font-size:10px">SEE HOW POINTS WORK</a></div>
     </div>
   </div>
 </section>
@@ -577,20 +700,18 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   </div>
 </section>
 
-<!-- ============ KEIMLINGE CREDITS ============ -->
+<!-- ============ KEIMLINGE POINTS ============ -->
 <section class="credits" id="credits">
   <div class="wrapw">
-    <div class="sec-h"><div class="k blink" style="color:var(--gold)">★ KEIMLINGE ★</div><h2 style="text-shadow:6px 6px 0 var(--red)">EARN KEIM CREDITS</h2></div>
-    <p class="vt">EVERY 100 POINTS IS $1 OFF IN THE KEIM SHOP. JOIN FREE AND YOUR WALLET STARTS AT 500 POINTS. SPEND IT ON SAMPLE POTS, COLOUR CARDS, A FANDECK OR KEIM MERCH.</p>
-    <div class="earn3">
-      <div class="ec"><div class="amt">500</div><b>JOIN KEIMLINGE</b><i>EMAIL + A 6-DIGIT CODE. NO PASSWORD, NO SPAM.</i></div>
-      <div class="ec"><div class="amt">500</div><b>PER FRIEND</b><i>SHARE YOUR LINK. WHEN THEY JOIN, YOU GET 500.</i></div>
-      <div class="ec wk"><div class="amt">200</div><b>WEEKLY CHALLENGE</b><i id="wkLine">BEAT THIS WEEK'S TARGET IN THE FEATURED GAME.</i></div>
-      <div class="ec"><div class="amt">50</div><b>FIRST PLAY OF EACH GAME</b><i>12 GAMES. THAT'S 600 POINTS WAITING.</i></div>
-      <div class="ec"><div class="amt">25</div><b>PLAY ANY GAME TODAY</b><i>ONCE A DAY, EVERY DAY.</i></div>
-      <div class="ec"><div class="amt">150+</div><b>COLOUR LAB STARS</b><i>12 / 24 / 36 CAREER STARS = 150 / 250 / 500.</i></div>
+    <div class="sec-h"><div class="k blink" style="color:var(--gold)">★ KEIMLINGE ONLY ★</div><h2 style="text-shadow:6px 6px 0 var(--red)">KEIM POINTS</h2></div>
+    <p class="vt">ANYONE CAN PLAY. JOIN KEIMLINGE FREE AND YOUR GAMES ALSO EARN POINTS FOR THE KEIM ONLINE SHOP.</p>
+    <div class="p3">
+      <div class="p3c"><div class="p3n">1</div><div class="p3big">PLAY</div><b>EARN POINTS</b><i>500 TO JOIN. 500 FOR EVERY FRIEND. MORE EVERY TIME YOU PLAY.</i></div>
+      <div class="p3c"><div class="p3n">2</div><div class="p3big">UP TO 15%</div><b>UNLOCK A DISCOUNT</b><i>1,000 POINTS = 5% OFF · 2,500 = 10% · 5,000 = 15% OFF ONE ORDER.</i></div>
+      <div class="p3c"><div class="p3n">3</div><div class="p3big">SHOP</div><b>SPEND THEM</b><i>SAMPLE POTS, COLOUR CARDS, FANDECKS AND KEIM MERCH.</i></div>
     </div>
-    <div class="members"><span>100 POINTS = $1 · MAX 1,000 POINTS ($10) A WEEK · POINTS LAST 6 MONTHS · ONE ACCOUNT PER PERSON</span><button class="pbtn gold" type="button" data-gate="open" id="creditsBtn" style="font-size:10px">JOIN FREE · GET 500 POINTS</button></div>
+    <div class="members"><span>EARN UP TO 1,000 POINTS A WEEK · POINTS LAST 6 MONTHS</span></div>
+    <div class="members" style="margin-top:18px"><a class="pbtn" href="points.html" style="font-size:10px">HOW POINTS WORK ▶</a><button class="pbtn gold" type="button" data-gate="open" id="creditsBtn" style="font-size:10px">JOIN FREE · GET 500 POINTS</button></div>
   </div>
 </section>
 
@@ -602,13 +723,13 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
       <div class="tabs"><button class="chip" aria-pressed="true" data-tab="month">THIS MONTH</button><button class="chip" aria-pressed="false" data-tab="all">ALL TIME</button><button class="chip" aria-pressed="false" data-tab="mine">MY BESTS</button></div>
       <div class="gsel" id="gsel"></div>
       <div class="tbl" id="tbl"></div>
-      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px" id="tblNote">Three-letter initials, like the real thing. Best score per player per game.</p>
+      <p style="font-family:'Work Sans',sans-serif;font-size:12px;color:#8d8a85;margin-top:24px" id="tblNote">Three-letter initials, like the real thing. Best score per player per game. * = house score set by the KEIM crew. Beat it! House scores never win prizes.</p>
     </div>
     <div class="ini">
       <h2>YOUR<br>INITIALS</h2>
       <div class="letters" id="letters"></div>
       <div class="vt" style="font-size:23px;color:#cfcac0">TAP A LETTER TO CHANGE IT. BEAT YOUR BEST IN ANY GAME AND WE ASK TO POST IT UNDER THESE INITIALS.</div>
-      <div class="share"><div class="qr" id="qr" aria-label="QR code"></div><div class="px"><div style="font-size:8px;color:var(--red)">KEIM ARCADE</div><div style="font-size:22px;margin-top:10px" id="myName">AAA</div><div style="font-size:12px;margin-top:8px" id="myBest">—</div><div style="font-size:8px;margin-top:8px" id="myBestG">PLAY A GAME</div></div></div>
+      <div class="share"><div class="qr" id="qr" aria-hidden="true"></div><div class="px"><div style="font-size:8px;color:var(--red)">KEIM ARCADE</div><div style="font-size:22px;margin-top:10px" id="myName">AAA</div><div style="font-size:12px;margin-top:8px" id="myBest">—</div><div style="font-size:8px;margin-top:8px" id="myBestG">PLAY A GAME</div></div></div>
       <button class="pbtn" type="button" id="shareBtn" style="margin-top:16px;font-size:10px">SHARE MY SCORE ▶︎</button>
     </div>
   </div>
@@ -626,7 +747,15 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
 <footer>
   <div class="wrapw">
     <div class="l"><span>© KEIM AUSTRALIA</span><span>INFO@KEIM.COM.AU</span><span>(02) 9748 7160</span><span>MATRAVILLE NSW</span></div>
-    <div style="margin-top:14px;max-width:900px">KEIM Arcade prizes [PLACEHOLDER]: a game of skill, free to enter, open to Australian residents 18+. Monthly winners are the top scores on the board at midnight AEST on the last day of the month, verified by KEIM Australia; one prize per person per month; KEIM staff and family not eligible; prizes as listed, not exchangeable for cash. Winners contacted by email. KEIM points [PLACEHOLDER]: for registered KEIMLINGE members only; 100 points = $1; 500 on joining, 500 per referred friend who joins, 200 per weekly challenge, 50 for the first play of each game, 25 per day played, Colour Lab star bonuses; max 1,000 points ($10) per member per week; one account per person; credits expire 6 months after they are earned, are redeemed as a single-use code on keim.com.au, have no cash value and may be withdrawn for misuse. Have your lawyer review before launch.</div>
+    <details class="fine" id="terms"><summary>Free to play, no purchase needed. Monthly prizes go to the top scores on the board. <u>Prize terms</u></summary>
+      <ul class="tl">
+        <li>The KEIM Arcade is a free game of skill run by KEIM Australia, Matraville NSW. No purchase needed.</li>
+        <li>Open to Australian residents aged 18 and over. KEIM Australia staff and their families can't win.</li>
+        <li>The top three players on the "This month" board at midnight Sydney time on the last day of the month win that month's prizes, shown above. Scores from different games are compared by how close they are to that game's gold target.</li>
+        <li>House scores (marked *) are set by the KEIM crew and never win. One prize per person per month.</li>
+        <li>We check winning scores before awarding them and remove any that look tampered with. Winners are contacted at the email given with the winning score, so add one when you post.</li>
+        <li>Prizes are as described and can't be exchanged for cash. Questions: <a href="mailto:info@keim.com.au">info@keim.com.au</a></li>
+      </ul></details>
   </div>
 </footer>
 
@@ -638,10 +767,10 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     <div class="gat">
       <div class="gk">★ KEIMLINGE ★</div>
       <h3 id="gateH">JOIN FREE · GET 500 POINTS</h3>
-      <p>100 points = $1 in the KEIM shop. Your wallet starts at 500. Earn more by playing, by inviting friends and in the weekly challenge.</p>
+      <p>Collect points by playing and unlock 5%, 10% or 15% off an order in the KEIM online shop. Your wallet starts at 500. Earn more by playing, inviting friends and in the weekly challenge.</p>
       <label class="pmail"><span>YOUR EMAIL</span><input id="gateMail" type="email" inputmode="email" autocomplete="email" placeholder="you@studio.com.au" maxlength="120"></label>
       <div class="gbtns"><button class="pbtn gold" type="button" data-gate="send" id="gateSend">SEND MY 6-DIGIT CODE</button></div>
-      <div class="small">Joining makes you a KEIMLINGE member: occasional KEIM news, unsubscribe any time. Max 1,000 points ($10) a week, points last 6 months.</div>
+      <div class="small">Joining makes you a KEIMLINGE member: occasional KEIM news, unsubscribe any time. Max 1,000 points a week, points last 6 months.</div>
       <button class="guest" type="button" data-gate="close">KEEP PLAYING AS A GUEST</button>
     </div>
 
@@ -657,7 +786,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     <div class="wal">
       <div class="gk">★ MY KEIM WALLET ★</div>
       <h3 id="walName">HI</h3>
-      <div class="bal" id="walBal">0</div><div class="pts" id="walPts">POINTS · $0.00 IN THE SHOP</div>
+      <div class="bal" id="walBal">0</div><div class="pts" id="walPts">POINTS</div>
       <div class="bar"><i id="walBar" style="width:0"></i></div><div class="barl"><span id="walWeek">0 THIS WEEK</span><span>MAX 1,000 / WEEK</span></div>
       <div class="earn" id="walEarn"></div>
       <div class="refbox"><div class="gk" style="margin-bottom:6px">YOUR INVITE LINK · 500 POINTS PER FRIEND</div><div class="reflink" id="walRef">play.keim.com.au/?ref=XXXXXX</div>
@@ -665,7 +794,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
         <div class="small" id="walRefs">0 FRIENDS JOINED</div></div>
       <div class="earn" id="walWeekly"></div>
       <div id="walOut"></div>
-      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="redeem" id="walGo">REDEEM · GET A SHOP CODE</button></div>
+      <div class="gbtns"><button class="pbtn gold" type="button" data-gate="redeem" id="walGo">GET A DISCOUNT CODE</button></div>
       <button class="guest" type="button" data-gate="close">BACK TO THE ARCADE</button>
       <button class="guest" type="button" data-gate="out" style="padding-top:0">SIGN OUT</button>
     </div>
@@ -679,10 +808,10 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
     <div class="gk">★ NEW PERSONAL BEST ★</div>
     <h3><span id="postG">GAME</span></h3>
     <div class="bal" id="postS">0</div>
-    <p>Post it to the board as <b id="postIni">AAA</b>? Tap a letter to change it.</p>
-    <div class="letters" id="postLetters" style="justify-content:center;margin:14px 0 16px"></div>
-    <label class="pmail"><span>EMAIL · SO WE CAN SEND YOUR PRIZE</span><input id="postMail" type="email" inputmode="email" autocomplete="email" placeholder="you@studio.com.au" maxlength="120"></label>
-    <div class="pnote">NEVER SHOWN ON THE BOARD. ONLY USED TO CONTACT WINNERS.</div>
+    <label class="pmail" style="margin-top:14px"><span>INITIALS · ON THE BOARD</span><input id="postIniIn" class="iniin" type="text" maxlength="3" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="ABC"></label>
+    <label class="pmail"><span>NAME · PRIVATE</span><input id="postName" type="text" autocomplete="name" maxlength="60" placeholder="First and last name"></label>
+    <label class="pmail"><span>EMAIL · FOR YOUR PRIZE</span><input id="postMail" type="email" inputmode="email" autocomplete="email" placeholder="you@studio.com.au" maxlength="120"></label>
+    <div class="pnote">NAME AND EMAIL ARE NEVER SHOWN. ONLY USED TO CONTACT WINNERS.</div>
     <div class="gbtns"><button class="pbtn gold" type="button" data-post="go">POST TO THE BOARD</button></div>
     <button class="guest" type="button" data-post="skip">NOT NOW</button>
   </div>
@@ -755,18 +884,18 @@ const gameURL=s=>(s==='quest'&&QUEST_AT_ROOT)?'../index.html':'../'+s+'/index.ht
 const C={kred:['#d51f24','#6e0a0b'],kwhite:['#e9e3d8','#8a857c'],kgreen:['#2f7a55','#143826'],kyellow:['#f2c230','#8a6a12'],kdark:['#3a3d43','#101114'],red:['#E0201B','#7a0a06'],gold:['#F2C14E','#8a6a12'],white:['#F9F7F1','#8d8a85'],cyan:['#4fc3f7','#1e6a8a'],green:['#3ddc6f','#1f8a43'],purple:['#a879ff','#4b2a8a']};
 const B=(l,code,c)=>({l,code,c});
 const GAMES=[
- {s:'colour-lab',n:'Colour Lab',g:'PUZZLE',p:500,stick:'all',hint:'MIX AND BRUSH ON THE SCREEN. JOYSTICK PICKS A JOB.',b:[B('OK','Enter','red'),B('BACK','Escape','white')]},
+ {s:'house-call',tap:1,n:'House Call',g:'SIM',p:300,stick:'all',hint:'PICK THE PAINT, MATCH THE COLOUR, ROLL IT ON. NO MESS!',b:[B('PAINT','Space','red'),B('TOOL','KeyQ','gold'),B('DONE','Enter','white')]},
  {s:'knockout',n:'Knockout',g:'FIGHT',p:400,stick:'four',padMap:{left:'ArrowLeft',right:'ArrowRight',up:'ArrowUp',down:'ArrowDown',jab:'KeyQ',hook:'KeyE',upper:'KeyR',kick:'KeyK',special:'KeyF',super:'Space',block:'ShiftLeft'},hint:'COMBO = A SPECIAL MOVE (SUPER WHEN THE BAR IS FULL). HOLD BACK TO BLOCK. UP + HOOK = UPPERCUT.',cols:2,easy:true,b:[B('JAB','KeyF','kwhite'),B('HOOK','KeyR','kred'),B('KICK','KeyD','kred'),B('COMBO','Space','kyellow')],menu:['MOVES','KeyM']},
- {s:'goal-kick',n:'Goal Kick',g:'SPORT',p:300,stick:'all',hint:'AIM WITH THE STICK. KICK! IN GOAL: STICK TO PICK A DIVE.',b:[B('KICK','Space','red'),B('CURL','KeyC','gold'),B('REPLAY','KeyR','white')]},
+ {s:'colour-lab',tap:1,n:'Colour Lab',g:'PUZZLE',p:500,stick:'all',hint:'MIX AND BRUSH ON THE SCREEN. JOYSTICK PICKS A JOB.',b:[B('OK','Enter','red'),B('BACK','Escape','white')]},
+ {s:'goal-kick',tap:1,n:'Goal Kick',g:'SPORT',p:300,stick:'all',hint:'AIM WITH THE STICK. KICK! IN GOAL: STICK TO PICK A DIVE.',b:[B('KICK','Space','red'),B('CURL','KeyC','gold'),B('REPLAY','KeyR','white')]},
  {s:'quest',n:'Quest',g:'ADVENTURE',p:400,stick:'lr',hint:'RUN, JUMP ON THE BLOBS, GRAB THE KEIM BUCKETS.',b:[B('JUMP','Space','red'),B('FIRE','KeyX','gold')]},
- {s:'kart',n:'Kart',g:'RACING',p:300,stick:'lr',hint:'HOLD GAS. STEER WITH THE STICK. DRIFT ROUND CORNERS.',b:[B('GAS','ArrowUp','green'),B('BRAKE','ArrowDown','white'),B('DRIFT','Space','red'),B('ITEM','KeyE','gold')],cols:2},
- {s:'bucket-toss',n:'Bucket Toss',g:'SPORT',p:250,stick:'ud',hint:'DRAG BACK ON THE SCREEN AND RELEASE. OR HOLD THROW.',b:[B('THROW','Space','red'),B('FEVER','KeyF','gold')]},
- {s:'facade-defender',n:'Facade Defender',g:'ACTION',p:350,stick:'lr',hint:'SHOOT THE PLASTIC BLOBS BEFORE THEY HIT THE WALL.',b:[B('FIRE','Space','red')]},
- {s:'rush',n:'Koala Rush',g:'ACTION',p:300,stick:'ud',hint:'JUMP THE GAPS, SLIDE UNDER THE DRIPS.',b:[B('JUMP','Space','red'),B('SLIDE','KeyS','gold')]},
- {s:'kommando',n:'Kommando',g:'ACTION',p:350,stick:'all',hint:'RUN AND GUN THROUGH THE PLASTIC ARMY.',b:[B('FIRE','KeyJ','red'),B('JUMP','KeyK','gold')]},
  {s:'klash',n:'Klash',g:'FIGHT',p:400,stick:'four',hint:'PUNCH, KICK, BLOCK. SPECIAL WHEN THE BAR IS FULL.',cols:2,b:[B('PUNCH','KeyJ','red'),B('KICK','KeyL','gold'),B('BLOCK','KeyK','white'),B('SPECIAL','KeyE','purple')]},
- {s:'paint-wall',n:'Paint the Wall',g:'PUZZLE',p:250,stick:'all',hint:'PAINT EVERY TILE. DODGE THE PLASTIC GANG.',b:[]},
- {s:'render-stacker',n:'Render Stacker',g:'PUZZLE',p:250,stick:'all',hint:'ROTATE, DROP, CLEAR ROWS. HOLD SAVES A PIECE.',b:[B('ROTATE','KeyX','red'),B('DROP','Space','gold'),B('HOLD','KeyC','white')]}
+ {s:'rush',tap:1,n:'Koala Rush',g:'ACTION',p:300,stick:'ud',hint:'JUMP THE GAPS, SLIDE UNDER THE DRIPS.',b:[B('JUMP','Space','red'),B('SLIDE','KeyS','gold')]},
+ {s:'bucket-toss',tap:1,n:'Bucket Toss',g:'SPORT',p:250,stick:'ud',hint:'DRAG BACK ON THE SCREEN AND RELEASE. OR HOLD THROW.',b:[B('THROW','Space','red'),B('FEVER','KeyF','gold')]},
+ {s:'facade-defender',n:'Facade Defender',g:'ACTION',p:350,stick:'lr',hint:'SHOOT THE PLASTIC BLOBS BEFORE THEY HIT THE WALL.',b:[B('FIRE','Space','red')]},
+ {s:'render-stacker',tap:1,n:'Render Stacker',g:'PUZZLE',p:250,stick:'all',hint:'ROTATE, DROP, CLEAR ROWS. HOLD SAVES A PIECE.',b:[B('ROTATE','KeyX','red'),B('DROP','Space','gold'),B('HOLD','KeyC','white')]},
+ {s:'paint-wall',tap:1,n:'Paint the Wall',g:'PUZZLE',p:250,stick:'all',hint:'PAINT EVERY TILE. DODGE THE PLASTIC GANG.',b:[]},
+ {s:'kommando',n:'Kommando',g:'ACTION',p:350,stick:'all',hint:'RUN AND GUN THROUGH THE PLASTIC ARMY.',b:[B('FIRE','KeyJ','red'),B('JUMP','KeyK','gold')]}
 ];
 const BY=Object.fromEntries(GAMES.map(g=>[g.s,g]));
 const VEXT=(()=>{const v=document.createElement('video');return v.canPlayType('video/mp4; codecs="avc1.42E01E"')?'mp4':'webm'})();
@@ -786,18 +915,20 @@ function drawPix(){$$('svg.pix').forEach(s=>{if(s.dataset.done)return;s.dataset.
 drawPix();
 
 /* ---------- ticker + drips ---------- */
-const TICK=['12 FREE GAMES','MONTHLY PRIZES','ENTER YOUR INITIALS','NEW: MATCH MY WALL','NEW: COLOUR LAB','BEAT THE OIL BARON','NO ACRYLIC ALLOWED','MINERAL vs PLASTIC'];
+const TICK=['12 FREE GAMES','MONTHLY PRIZES','ENTER YOUR INITIALS','NEW: HOUSE CALL','PAINT IT. BEAT THE RAIN.','BEAT THE OIL BARON','NO ACRYLIC ALLOWED','MINERAL vs PLASTIC'];
 $('#mq').innerHTML=[...TICK,...TICK].map(t=>`<span>${t}</span><em>★</em>`).join('');
 // scroll the LED sign with scrollLeft (no giant animated layer, so it shows on iPhone too)
 {const tr=$('#mq');let x=0,last=0;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
- function step(t){const dt=last?Math.min(50,t-last):16;last=t;const half=tr.scrollWidth/2;x+=dt*.06;if(half&&x>=half)x-=half;tr.scrollLeft=x;requestAnimationFrame(step)}
- if(!rm)requestAnimationFrame(step)}
+ let half=0,on=true,run=false;const measure=()=>{half=tr.scrollWidth/2};measure();addEventListener('resize',measure);
+ function step(t){if(!on||document.hidden){run=false;last=0;return}const dt=last?Math.min(50,t-last):16;last=t;if(!half)measure();x+=dt*.06;if(half&&x>=half)x-=half;tr.scrollLeft=x;requestAnimationFrame(step)}
+ const go=()=>{if(!run&&!rm&&on&&!document.hidden){run=true;requestAnimationFrame(step)}};
+ new IntersectionObserver(es=>{on=es[0].isIntersecting;go()}).observe(tr);document.addEventListener('visibilitychange',go);go()}
 // thin strip of KEIM colours under the sign (like a TV colour-bar test card)
 $('#bars').innerHTML=['#E0201B','#ff8a3d','#F2C14E','#d7e05a','#3ddc6f','#3dd6c0','#4fc3f7','#4f7ea8','#7a8cff','#F9F7F1','#D29D6D','#7B5D52'].map(c=>`<i style="background:${c}"></i>`).join('');
 
 /* ---------- game cards ---------- */
 const SH=['#CE110B','#F2C14E','#4fc3f7','#3ddc6f'];
-const CATS=['ALL','PUZZLE','ACTION','FIGHT','SPORT','RACING','ADVENTURE'];
+const CATS=['ALL','PUZZLE','ACTION','FIGHT','SPORT','SIM','ADVENTURE'];
 $('#chips').innerHTML=CATS.map((c,i)=>`<button class="chip" type="button" aria-pressed="${i===0}" data-c="${c}">${c}</button>`).join('');
 $('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;$$('#chips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));const c=b.dataset.c;$$('.card').forEach(k=>k.hidden=!(c==='ALL'||k.dataset.g===c));blip(660)});
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
@@ -817,35 +948,37 @@ const BESTS={
  'paint-wall':()=>{const v=num('kpw-hi');return v&&{v,t:fmt(v)}},
  'render-stacker':()=>{const v=num('keim-rs-hi');return v&&{v,t:fmt(v)}},
  'rush':()=>{const v=num('kr-best');return v&&{v,t:fmt(v)+'M'}},
- 'kart':()=>{try{const o=JSON.parse(LS('kk-best')||'null');const ms=o&&Math.min(...Object.values(o).filter(x=>x>0));if(!ms||!isFinite(ms))return null;const m=Math.floor(ms/60000),sec=((ms%60000)/1000).toFixed(1).padStart(4,'0');return{v:0,t:m+':'+sec+' RACE'}}catch(e){return null}},
+ 'house-call':()=>{const v=num('keim-hc-hi');return v&&{v,t:fmt(v)}},
  'colour-lab':()=>{try{const o=JSON.parse(LS('keim-cl-prog')||'null');if(!o||!o.stars)return null;const vals=Array.isArray(o.stars)?o.stars:Object.values(o.stars);const n=vals.reduce((a,b)=>a+(+b||0),0);return n?{v:0,t:'★︎ '+n+' STARS'}:null}catch(e){return null}}
 };
-function boardMine(){
-  const rows=GAMES.map(g=>({g,b:BESTS[g.s]&&BESTS[g.s]()})).filter(r=>r.b);
-  $('#tbl').innerHTML='<div class="h">GAME</div><div class="h" style="grid-column:span 3">YOUR BEST</div>'+
-   (rows.length?rows.map((r,i)=>`<div class="g" style="color:${RC[i%8]}">${r.g.n.toUpperCase()}</div><div style="grid-column:span 3;color:${RC[i%8]}">${r.b.t}</div>`).join(''):'<div class="mine-empty">NO RECORDS YET. PLAY A GAME AND YOUR BESTS SHOW UP HERE.</div>')}
+/* per-game medal targets: bronze / silver / gold. Gold is also the yardstick for the all-games board. */
+const TIERS={'house-call':[4000,7000,10000],knockout:[3000,6000,12000],'goal-kick':[1200,2500,5000],quest:[800,1500,3000],klash:[1,3,6],'facade-defender':[1500,3000,6000],
+ rush:[300,800,1500],'render-stacker':[2000,5000,10000],kommando:[2000,5000,10000],'bucket-toss':[1500,4000,8000],'paint-wall':[1000,3000,6000]};
+const TIER_PTS=[50,100,150],MEDAL=['#cd7f32','#c0c0c8','#f2c230'],MNAME=['BRONZE','SILVER','GOLD'];
+const GOLD=Object.fromEntries(Object.entries(TIERS).map(([k,v])=>[k,v[2]]));GOLD['colour-lab']=36;
 function refreshBests(){
   let total=0;const last=LS('keim-arcade-last');
   $$('.card').forEach(c=>{const f=BESTS[c.dataset.s],b=f&&f();if(b&&b.v)total+=b.v;
-    let mb=c.querySelector('.mb');if(!mb){mb=document.createElement('div');mb.className='mb';c.querySelector('.meta').appendChild(mb)}
-    mb.textContent=b?'YOUR BEST: '+b.t:'';
+    const bst=c.querySelector('.bst');if(bst)bst.textContent=b?'BEST '+b.t:'';
+    const n=medalsFor(c.dataset.s);c.querySelectorAll('.md').forEach((m,i)=>m.classList.toggle('on',i<n));
     let l=c.querySelector('.last');if(c.dataset.s===last){if(!l){l=document.createElement('span');l.className='last';l.textContent='LAST PLAYED';c.querySelector('.media').appendChild(l)}}else if(l)l.remove()});
   if(total)$('#hud1up').textContent=String(total).padStart(6,'0');
   const sel=document.querySelector('.tabs .chip[aria-pressed="true"]');if(sel&&sel.dataset.tab==='mine')boardMine();
 }
 /* ---------- hero attract mode ---------- */
-const ATT=['knockout','kart','goal-kick','quest','klash','facade-defender','rush','render-stacker','kommando','bucket-toss','paint-wall','colour-lab'];
+const ATT=['house-call','knockout','colour-lab','goal-kick','quest','klash','rush','bucket-toss','facade-defender','render-stacker','paint-wall','kommando'];
 let ai=0;const vid=$('#attVid'),scr=$('#heroScreen'),nz=$('#noise'),nctx=nz.getContext('2d');
 function noise(){const d=nctx.createImageData(160,100);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}nctx.putImageData(d,0,0)}
 let nzT=null;
-function showAtt(i){ai=(i+ATT.length)%ATT.length;const s=ATT[ai];scr.classList.add('switch');clearInterval(nzT);nzT=setInterval(noise,50);noise();
-  setTimeout(()=>{vid.src='clips/'+s+'.'+VEXT;vid.poster='clips/'+s+'.jpg';$('#attPoster').src='clips/'+s+'.jpg';$('#attName').textContent='NOW SHOWING · '+BY[s].n.toUpperCase();const p=vid.play();if(p)p.catch(()=>{});
+function showAtt(i){if(document.body.classList.contains('ponly'))return;ai=(i+ATT.length)%ATT.length;const s=ATT[ai];scr.classList.add('switch');clearInterval(nzT);nzT=setInterval(noise,50);noise();
+  setTimeout(()=>{vid.src='clips/'+s+'.'+VEXT;vid.poster='clips/'+s+'.jpg';$('#attPoster').src='clips/'+s+'.jpg';$('#attName').textContent='NOW SHOWING · '+BY[s].n.toUpperCase();const p=(typeof RMV!=='undefined'&&RMV)?null:vid.play();if(p)p.catch(()=>{});
     setTimeout(()=>{scr.classList.remove('switch');clearInterval(nzT)},260)},180)}
 vid.addEventListener('ended',()=>showAtt(ai+1));
 vid.addEventListener('error',()=>setTimeout(()=>showAtt(ai+1),1500));
 showAtt(0);
 // pause attract video when off-screen
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){vid.play().catch(()=>{})}else vid.pause()})).observe(scr);
+const RMV=matchMedia('(prefers-reduced-motion: reduce)').matches;if(RMV){vid.removeAttribute('autoplay');vid.pause()}
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RMV){vid.play().catch(()=>{})}else vid.pause()})).observe(scr);
 scr.addEventListener('click',()=>launch(ATT[ai],null,true));
 $('#heroStart').addEventListener('click',()=>launch(ATT[ai],null,true));
 
@@ -858,21 +991,35 @@ function zoomSnd(){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.cr
 
 /* ---------- high scores: shared board (Supabase) + initials + share ---------- */
 // Set these two values to turn on the shared board. Until then the board shows your own bests only.
-const LB={url:'',anon:''}; // [SET ME] Supabase project URL + anon (public) key — see leaderboard/README.md
+const LB={url:'https://sfpjxosgmntjviwkwmca.supabase.co',anon:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmcGp4b3NnbW50anZpd2t3bWNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1MjM0MTgsImV4cCI6MjEwNzA5OTQxOH0.ezu3AslboumTkCLtPXiOuOEuKOExqEEaSTjzthStLaI'};
+const CREDITS_ON=false;if(!CREDITS_ON)document.body.classList.add('nocredits'); // [SET ME] true once the sign-in code email (Resend) is connected in Supabase // [SET ME] Supabase project URL + anon (public) key — see leaderboard/README.md
 const GAME_N=s=>(BY[s]||{}).n||s;
 const RC=['#E0201B','#ff9a3d','#F2C14E','#3ddc6f','#4fc3f7','#ffffff','#ffb3ad','#d7e05a','#a879ff','#ff6a3d'],ORD=['1ST','2ND','3RD','4TH','5TH','6TH','7TH','8TH','9TH','10TH'];
-// which games post a score, and how to read it (higher is better; kart is fastest lap in ms → converted)
+// which games post a score, and how to read it (higher is better)
 const SCORE_OF={
  'bucket-toss':()=>num('keim-bt-hi'),'facade-defender':()=>num('fd-hi'),'goal-kick':()=>num('keim-gk-hi'),'kommando':()=>num('kk-hi'),
  'paint-wall':()=>num('kpw-hi'),'render-stacker':()=>num('keim-rs-hi'),'rush':()=>num('kr-best'),
  'knockout':()=>num('keim-ko-hi'),'quest':()=>num('keim-q-hi'),'klash':()=>num('keim-kl-wins'),
- 'kart':()=>{try{const o=JSON.parse(LS('kk-best')||'null');const ms=o&&Math.min(...Object.values(o).filter(x=>x>0));return ms&&isFinite(ms)?Math.max(1,Math.round(600000-ms)):null}catch(e){return null}},
+ 'house-call':()=>num('keim-hc-hi'),
  'colour-lab':()=>{try{const o=JSON.parse(LS('keim-cl-prog')||'null');const v=o&&o.stars?(Array.isArray(o.stars)?o.stars:Object.values(o.stars)):[];const n=v.reduce((a,b)=>a+(+b||0),0);return n||null}catch(e){return null}}
 };
+// pixel genre icons (9x9)
+const GIC={FIGHT:['..####...','.######..','.#######.','.#######.','.######..','..####...','..####...','..####...','.........'],
+ SPORT:['...###...','..#.#.#..','.#######.','.##.#.##.','.#######.','.#.###.#.','..#####..','...###...','.........'],
+ PUZZLE:['...........','.####.####.','.####.####.','.####.####.','.####.####.','...........','.####......','.####......','.####......','.####......','...........'],
+ MIX:['.....#.....','.....#.....','....###....','....###....','...#####...','..#######..','..#######..','..##.####..','..##.####..','...#####...','....###....'],
+ ACTION:['.....##..','....##...','...##....','..######.','.....##..','....##...','...##....','..##.....','.........'],
+ SIM:['...........','.########..','.########.#','.########.#','..........#','......#####','......#....','......#....','.....###...','.....###...','.....###...'],
+ ADVENTURE:['.#.......','.######..','.#######.','.######..','.#.......','.#.......','.#.......','.#.......','###......']};
+const MCOL=['#cd7f32','#c0c0c8','#f2c230'];
+const GC={FIGHT:'#CE110B',SPORT:'#2fa35a',PUZZLE:'#2f7fc1',ACTION:'#e07a1f',SIM:'#8a5ad6',ADVENTURE:'#c79a1a'};
+function gIcon(k){const g=GIC[k];if(!g)return'';let r='';g.forEach((row,y)=>[...row].forEach((c,x)=>{if(c==='#')r+='<rect x="'+x+'" y="'+y+'" width="1" height="1"/>'}));const W=g[0].length,H=g.length;return '<svg viewBox="0 0 '+W+' '+H+'" fill="#fff" shape-rendering="crispEdges" aria-hidden="true">'+r+'</svg>'}
+function medalsFor(s){try{return medalsFor_(s)}catch(e){return 0}}
+function medalsFor_(s){const cl=s==='colour-lab',T=cl?[12,24,36]:TIERS[s];if(!T)return 0;const best=SCORE_OF[s]&&SCORE_OF[s]()||0,got=tierGot();let n=0;T.forEach((t,i)=>{if(best>=t||(!cl&&(got[s]||0)>i))n=i+1});return n}
 function drawCards(){
 $('#cards').innerHTML=GAMES.map((g,i)=>`<button class="card" type="button" data-s="${g.s}" data-g="${g.g}" style="--sh:${SH[i%4]}" aria-label="Play ${g.n}">
- <div class="media"><img loading="lazy" src="covers/${g.s}.jpg" alt=""><span class="scan"></span>${SCORE_OF[g.s]?'<span class="pts">HI-SCORE</span>':'<span class="pts">JUST FOR FUN</span>'}<span class="p1"><span class="blink">▶︎ P1 START</span></span></div>
- <div class="meta"><div class="nm">${g.n.toUpperCase()}</div><div class="gn"><span>${g.g}</span><b>${SCORE_OF[g.s]?'ON THE BOARD':''}</b></div></div></button>`).join('');
+ <div class="media"><picture><source srcset="covers/${g.s}.webp" type="image/webp"><img loading="lazy" decoding="async" src="covers/${g.s}.jpg" alt="" width="640" height="360"></picture>${g.s==='house-call'?'<span class="newb">NEW</span>':''}<span class="scan"></span><span class="ctag"><span class="bst"></span><span class="mds" title="Bronze, silver, gold">${[0,1,2].map(i=>'<span class="md" style="--mc:'+MCOL[i]+'"></span>').join('')}</span><span class="gi" title="${g.g}" style="--gc:${GC[g.g]||'#444'}">${gIcon(g.s==='colour-lab'?'MIX':g.g)}</span></span><span class="p1"><span class="blink">▶︎ P1 START</span></span></div>
+ </button>`).join('');
 
 $$('.card').forEach(card=>{
   card.addEventListener('click',()=>launch(card.dataset.s,card));
@@ -881,40 +1028,45 @@ $$('.card').forEach(card=>{
 });
 }
 drawCards();
-const SCORE_FMT={klash:v=>v+(v===1?' WIN':' WINS'),kart:v=>{const ms=Math.max(0,600000-v),m=Math.floor(ms/60000),sec=((ms%60000)/1000).toFixed(1).padStart(4,'0');return m+':'+sec+' LAP'},'colour-lab':v=>'★ '+v,rush:v=>fmt(v)+' M'};
+const SCORE_FMT={klash:v=>v+(v===1?' WIN':' WINS'),'colour-lab':v=>v+' STARS',rush:v=>fmt(v)+' M'};
 const showScore=(g,v)=>(SCORE_FMT[g]||(x=>String(x).padStart(6,'0')))(v);
 const monthKey=()=>{try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit'}).format(new Date())}catch(e){return new Date().toISOString().slice(0,7)}};
 let tab='month',gsel='all',CACHE={};
 async function lbFetch(scope){
   if(!LB.url)return null;const k=scope+'|'+gsel;if(CACHE[k]&&Date.now()-CACHE[k].t<60000)return CACHE[k].rows;
-  let q=LB.url+'/rest/v1/arcade_board?select=initials,score,game,created_at&order=score.desc&limit=10';
+  let q=LB.url+'/rest/v1/arcade_board?select=initials,score,game,created_at&order='+(gsel==='all'?'rating':'score')+'.desc&limit=10';
   if(gsel!=='all')q+='&game=eq.'+gsel;if(scope==='month')q+='&month=eq.'+monthKey();
-  try{const r=await fetch(q,{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon}});if(!r.ok)throw 0;const rows=await r.json();CACHE[k]={t:Date.now(),rows};return rows}catch(e){return null}}
-async function lbCount(){if(!LB.url)return;try{const r=await fetch(LB.url+'/rest/v1/arcade_scores?select=id',{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,Prefer:'count=exact',Range:'0-0'}});const c=(r.headers.get('content-range')||'').split('/')[1];if(c&&c!=='*')$('#hsPlayers').textContent=(+c).toLocaleString('en-AU')}catch(e){}}
+  try{let r=await fetch(q,{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon}});if(!r.ok&&q.includes('order=rating'))r=await fetch(q.replace('order=rating','order=score'),{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon}});if(!r.ok)throw 0;const rows=await r.json();CACHE[k]={t:Date.now(),rows};return rows}catch(e){return null}}
+async function lbCount(){if(!LB.url)return;try{const r=await fetch(LB.url+'/rest/v1/arcade_scores?select=id',{headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,Prefer:'count=exact',Range:'0-0'}});const c=(r.headers.get('content-range')||'').split('/')[1];if(c&&c!=='*'&&+c>=50){$('#hsPlayers').textContent=(+c).toLocaleString('en-AU');$('#hsLbl').textContent='SCORES POSTED'}}catch(e){}}
 function gselBar(){$('#gsel').innerHTML=['all',...GAMES.map(g=>g.s)].map(k=>`<button type="button" class="chip" aria-pressed="${gsel===k}" data-g="${k}">${k==='all'?'ALL GAMES':GAME_N(k).toUpperCase()}</button>`).join('')}
 function boardMine(){
   const rows=GAMES.map(g=>({g,b:BESTS[g.s]&&BESTS[g.s]()})).filter(r=>r.b);
   $('#tbl').innerHTML='<div class="h">GAME</div><div class="h" style="grid-column:span 3">YOUR BEST</div>'+
    (rows.length?rows.map((r,i)=>`<div class="g" style="color:${RC[i%8]}">${r.g.n.toUpperCase()}</div><div style="grid-column:span 3;color:${RC[i%8]}">${r.b.t}</div>`).join(''):'<div class="mine-empty">NO RECORDS YET. PLAY A GAME AND YOUR BESTS SHOW UP HERE.</div>')}
+// House scores: classic arcade-style scores to beat, set by the KEIM crew. They never win prizes.
+const HOUSE=[['house-call','AWK',7400],['knockout','KOA',6800],['render-stacker','KEM',5200],['kommando','INO',4600],['bucket-toss','DRY',4200],['facade-defender','MIX',3500],['goal-kick','ROL',3100],['paint-wall','BRU',2900],['quest','SIL',1800],['rush','ZAP',950],['colour-lab','LAB',21],['klash','TUF',3]].map(([game,initials,score])=>({game,initials,score,house:1}));
+function rating(r){const g=GOLD[r.game];return g?r.score/g:0}
+function withHouse(rows){const real=(rows||[]).filter(r=>r);const hs=HOUSE.filter(h=>gsel==='all'||h.game===gsel).filter(h=>!real.some(r=>r.game===h.game&&r.score>=h.score&&gsel!=='all'));
+  return real.concat(hs).sort((a,b)=>rating(b)-rating(a)).slice(0,10)}
 async function board(t){tab=t;$('#gsel').style.display=t==='mine'?'none':'';if(t==='mine')return boardMine();
   const tbl=$('#tbl');tbl.innerHTML='<div class="mine-empty">LOADING…</div>';
-  const rows=await lbFetch(t);if(tab!==t)return;
+  let rows=await lbFetch(t);if(tab!==t)return;
   const head='<div class="h">RANK</div><div class="h">SCORE</div><div class="h">NAME</div><div class="h">GAME</div>';
-  if(rows&&rows.length&&t==='all'){const top=rows.find(r=>r.game!=='kart')||rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}
-  if(rows===null){tbl.innerHTML=head+'<div class="mine-empty" style="grid-column:span 4">THE SHARED BOARD IS NOT SWITCHED ON YET. YOUR OWN BESTS ARE UNDER "MY BESTS".</div>';return}
+  if(rows&&rows.length&&t==='all'){const top=rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}
+  rows=withHouse(rows);
   if(!rows.length){tbl.innerHTML=head+'<div class="mine-empty" style="grid-column:span 4">'+(t==='month'?'NO SCORES YET THIS MONTH. BE THE FIRST!':'NO SCORES YET. BE THE FIRST!')+'</div>';return}
   const mine=(LS('keim-arcade-ini')||'');
-  tbl.innerHTML=head+rows.map((r,i)=>{const me=r.initials===mine&&r.initials;const c=RC[i%RC.length];return `<div style="color:${c}">${ORD[i]||(i+1)}</div><div style="color:${c}">${showScore(r.game,r.score)}</div><div style="color:${c}${me?';text-decoration:underline':''}">${r.initials}</div><div style="color:${c}">${GAME_N(r.game).toUpperCase()}</div>`}).join('')}
+  tbl.innerHTML=head+rows.map((r,i)=>{const me=r.initials===mine&&r.initials&&!r.house;const c=RC[i%RC.length],hc=r.house?' class="hsr"':'';return `<div${hc} style="color:${c}">${ORD[i]||(i+1)}</div><div${hc} style="color:${c}">${showScore(r.game,r.score)}</div><div${hc} style="color:${c}${me?';text-decoration:underline':''}">${r.initials}${r.house?'*':''}</div><div${hc} style="color:${c}">${GAME_N(r.game).toUpperCase()}</div>`}).join('')}
 $$('.tabs .chip').forEach(b=>b.addEventListener('click',()=>{$$('.tabs .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));board(b.dataset.tab);blip(520)}));
 $('#gsel').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;gsel=b.dataset.g;gselBar();board(tab);blip(600)});
-gselBar();board('month');refreshBests();lbCount();lbFetch('all').then(rows=>{if(rows&&rows.length){const top=rows.find(r=>r.game!=='kart')||rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}else{const b=myTop();if(b)$('#hudHi').textContent=showScore(b.g,b.v)}});
+gselBar();board('month');refreshBests();lbCount();lbFetch('all').then(rows=>{if(rows&&rows.length){const top=rows[0];$('#hudHi').textContent=showScore(top.game,top.score)}else{const b=myTop();if(b)$('#hudHi').textContent=showScore(b.g,b.v)}});
 // ---- initials (remembered on this device)
 const AZ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';let ini=[0,0,0];
 try{const v=LS('keim-arcade-ini');if(v&&/^[A-Z]{3}$/.test(v))ini=[...v].map(c=>AZ.indexOf(c))}catch(e){}
 const iniStr=()=>ini.map(v=>AZ[v]).join('');
 function letters(){$('#letters').innerHTML=ini.map((v,i)=>`<button type="button" class="${i===0?'sel':''}" data-i="${i}" aria-label="Initial ${i+1}: ${AZ[v]}. Tap to change">${AZ[v]}</button>`).join('');$('#myName').textContent=iniStr();try{localStorage.setItem('keim-arcade-ini',iniStr())}catch(e){}}
 letters();$('#letters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ini[+b.dataset.i]=(ini[+b.dataset.i]+1)%26;letters();blip(440+ini[+b.dataset.i]*20)});
-function myTop(){let best=null;for(const g in SCORE_OF){const v=SCORE_OF[g]();if(v&&(!best||(g!=='kart'&&v>best.v)))best={g,v}}return best}
+function myTop(){let best=null;for(const g in SCORE_OF){const v=SCORE_OF[g]();if(v&&(!best||v>best.v))best={g,v}}return best}
 function shareCard(){const b=myTop();$('#myBest').textContent=b?showScore(b.g,b.v):'—';$('#myBestG').textContent=b?GAME_N(b.g).toUpperCase():'PLAY A GAME'}
 shareCard();
 $('#shareBtn').addEventListener('click',async()=>{const b=myTop();const url=location.origin+location.pathname;const text=b?`${iniStr()} just scored ${showScore(b.g,b.v)} on KEIM ${GAME_N(b.g)} 🕹️ Beat it: ${url}`:`KEIM Arcade: 12 free games, monthly prizes 🕹️ ${url}`;
@@ -924,24 +1076,26 @@ $('#shareBtn').addEventListener('click',async()=>{const b=myTop();const url=loca
 // ---- post a new best after a game
 let toastT=null;function toast(h,sub){const t=$('#klToast');t.innerHTML='';t.append(h);if(sub){const s2=document.createElement('small');s2.textContent=sub;t.append(s2)}t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200)}
 const POSTED=()=>{try{return JSON.parse(LS('keim-arcade-posted')||'{}')}catch(e){return{}}};
-function offerPost(slug){if(!slug||!SCORE_OF[slug])return;const v=SCORE_OF[slug]();if(!v)return;shareCard();refreshBests();
-  const p=POSTED();if(p[slug]&&v<=p[slug])return;  // not a new best since last post
-  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);$('#postIni').textContent=iniStr();m.dataset.slug=slug;m.dataset.v=v;const em=$('#postMail');em.value=(KL.s&&KL.s.email)||LS('keim-arcade-mail')||'';em.classList.remove('bad');m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
+function offerPost(slug){if(!slug||!SCORE_OF[slug])return;const v=SCORE_OF[slug]();if(!v)return;shareCard();refreshBests();try{renderTiers()}catch(e){}
+  const p=POSTED(),pk=monthKey()+'|'+slug;if(p[pk]&&v<=p[pk])return;  // already posted this score this month
+  const m=$('#postBox');$('#postG').textContent=GAME_N(slug).toUpperCase();$('#postS').textContent=showScore(slug,v);{const ii=$('#postIniIn');ii.value=iniStr()!=='AAA'?iniStr():'';ii.classList.remove('bad')}$('#postName').value=LS('keim-arcade-name')||'';m.dataset.slug=slug;m.dataset.v=v;const em=$('#postMail');em.value=(KL.s&&KL.s.email)||LS('keim-arcade-mail')||'';em.classList.remove('bad');m.classList.add('show');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}
 const MAIL_OK=s=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
-async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v,em=$('#postMail'),mail=em.value.trim().toLowerCase();
+async function postScore(){const m=$('#postBox'),slug=m.dataset.slug,v=+m.dataset.v,em=$('#postMail'),mail=em.value.trim().toLowerCase(),ii=$('#postIniIn'),iv=ii.value.toUpperCase().replace(/[^A-Z]/g,''),nm=$('#postName').value.trim().replace(/\s+/g,' ').slice(0,60);
+  if(iv.length!==3){ii.classList.add('bad');ii.focus();toast('TYPE 3 LETTERS','YOUR INITIALS FOR THE BOARD');return}ii.classList.remove('bad');ini=[...iv].map(c=>AZ.indexOf(c));letters();try{nm?localStorage.setItem('keim-arcade-name',nm):localStorage.removeItem('keim-arcade-name')}catch(e){}
   if(mail&&!MAIL_OK(mail)){em.classList.add('bad');em.focus();toast('CHECK THE EMAIL','OR LEAVE IT EMPTY TO POST WITHOUT A PRIZE ENTRY');return}
   if(!mail&&!m.dataset.warned){m.dataset.warned='1';em.focus();toast('NO EMAIL = NO PRIZE','ADD ONE, OR TAP POST AGAIN TO SKIP IT');return}
   delete m.dataset.warned;m.classList.remove('show');try{if(mail)localStorage.setItem('keim-arcade-mail',mail)}catch(e){}
-  const p=POSTED();p[slug]=v;try{localStorage.setItem('keim-arcade-posted',JSON.stringify(p))}catch(e){}
   if(!LB.url){toast('SAVED ON THIS DEVICE','THE SHARED BOARD IS NOT ON YET');return}
-  try{const body={initials:iniStr(),game:slug,score:v,month:monthKey()};if(mail)body.email=mail;
-    const r=await fetch(LB.url+'/rest/v1/arcade_scores',{method:'POST',headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});
-    if(!r.ok)throw 0;CACHE={};toast(iniStr()+' · '+showScore(slug,v)+' POSTED!','CHECK THE BOARD');board(tab);lbCount()}catch(e){toast('COULD NOT POST RIGHT NOW','YOUR SCORE IS SAFE ON THIS DEVICE')}}
+  try{const body={initials:iniStr(),game:slug,score:v,month:monthKey()};if(mail)body.email=mail;if(nm)body.name=nm;
+    const send=bd=>fetch(LB.url+'/rest/v1/arcade_scores',{method:'POST',headers:{apikey:LB.anon,Authorization:'Bearer '+LB.anon,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(bd)});
+    let r=await send(body);if(!r.ok&&body.name){delete body.name;r=await send(body)} // older database without the private name column
+    if(!r.ok)throw 0;{const p=POSTED();p[monthKey()+'|'+slug]=v;try{localStorage.setItem('keim-arcade-posted',JSON.stringify(p))}catch(e){}}CACHE={};toast(iniStr()+' · '+showScore(slug,v)+' POSTED!','CHECK THE BOARD');board(tab);lbCount()}catch(e){toast('COULD NOT POST RIGHT NOW','YOUR SCORE IS SAFE ON THIS DEVICE')}}
 $('#postBox').addEventListener('click',e=>{const b=e.target.closest('[data-post]');if(!b)return;const a=b.dataset.post;
-  if(a==='go')postScore();else if(a==='skip')$('#postBox').classList.remove('show');else if(a==='ini'){const i=+b.dataset.i;ini[i]=(ini[i]+1)%26;letters();$('#postIni').textContent=iniStr();$$('#postLetters button')[i].textContent=AZ[ini[i]];blip(440+ini[i]*20)}});
+  if(a==='go')postScore();else if(a==='skip')$('#postBox').classList.remove('show');});
+$('#postIniIn').addEventListener('input',e=>{const el=e.target,v=el.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,3);if(el.value!==v)el.value=v;el.classList.remove('bad');if(v.length===3){try{blip(988,.05)}catch(_){}$('#postName').focus()}});
+$('#postIniIn').addEventListener('focus',e=>{try{e.target.select()}catch(_){}});
+$('#postIniIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();postScore()}});$('#postName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#postMail').focus()}});
 $('#postMail').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();postScore()}});
-function postLetters(){$('#postLetters').innerHTML=ini.map((v,i)=>`<button type="button" data-post="ini" data-i="${i}">${AZ[v]}</button>`).join('')}
-new MutationObserver(()=>{if($('#postBox').classList.contains('show'))postLetters()}).observe($('#postBox'),{attributes:true,attributeFilter:['class']});
 
 /* ================= KEIMLINGE credits: email-code sign-in, wallet, referrals, weekly challenge =================
    Uses the same Supabase project as the board (LB above): Auth (email OTP) + the functions in leaderboard/arcade_credits_v2.sql */
@@ -960,12 +1114,37 @@ function klSess(j,mail){return{access_token:j.access_token,refresh_token:j.refre
 async function klRefresh(){try{const r=await fetch(LB.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:klH(false),body:JSON.stringify({refresh_token:KL.s.refresh_token})});const j=r.ok?await r.json():null;klSave(j&&j.access_token?klSess(j,KL.s.email):null)}catch(e){}}
 const rpc=(fn,args)=>klFetch('/rest/v1/rpc/'+fn,args||{},true);
 const dollars=c=>'$'+(c/100).toFixed(c%100?2:0);const pts=c=>(+c).toLocaleString('en-AU');
+// discount levels: points unlock a percentage off one online order (points are spent, no cash value)
+const PCT=[{cost:1000,pct:5},{cost:2500,pct:10},{cost:5000,pct:15}];
+function pctLevel(b){let l=null;PCT.forEach(x=>{if(b>=x.cost)l=x});return l}
+function pctLine(b){const l=pctLevel(b),n=PCT.find(x=>b<x.cost);return l?(l.pct+'% OFF UNLOCKED'+(n?' · '+pts(n.cost-b)+' MORE FOR '+n.pct+'%':'')):(pts(1000-b)+' MORE FOR 5% OFF')}
 /* points → $ slider in HOW TO PLAY */
 const FAN=['#E0201B','#ff6a3d','#ff9a3d','#F2C14E','#d7e05a','#9be05a','#3ddc6f','#3dd6c0','#4fc3f7','#7a8cff'];
-$('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
-function ptsSlider(){const v=+$('#ptsR').value,d=Math.min(1000,v)/100;$('#ptsV').textContent=pts(v);$('#crV').textContent='$'+d.toFixed(2)+(v>1000?' (CAP)':'');$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<Math.floor(d)))}
-$('#ptsR').addEventListener('input',()=>{ptsSlider();try{blip(600+ +$('#ptsR').value/3,.03)}catch(e){}});ptsSlider();
-/* ===== arcade background music: a generated 8-bar chiptune loop, off until the player switches it on; ducks out while a game is open ===== */
+if($('#ptsR')){$('#segs').innerHTML=FAN.map(c=>`<i style="background:${c}"></i>`).join('');
+function ptsSlider(){const v=+$('#ptsR').value,d=v/100;$('#ptsV').textContent=pts(v);const lv=pctLevel(v);$('#crV').textContent=lv?lv.pct+'%':'0%';
+ $('#ptsFill').style.width=(v/50)+'%';$$('#segs i').forEach((s,i)=>s.classList.toggle('on',i<Math.min(10,Math.floor(v/100))));
+ const st=$('#ptsSt'),nx=PCT.find(x=>v<x.cost);if(!lv){st.className='status st-no';st.textContent=v?'SAVE '+pts(1000-v)+' MORE POINTS TO UNLOCK 5% OFF':'0 POINTS. JOIN KEIMLINGE AND START WITH 500.'}
+ else{st.className='status st-ok';st.textContent='UNLOCKED: '+lv.pct+'% OFF ONE ORDER'+(nx?' · '+pts(nx.cost-v)+' MORE FOR '+nx.pct+'%':'. THAT IS THE TOP LEVEL')}
+ const wk=Math.max(1,Math.ceil(Math.max(0,v-500)/1000));$('#capN').textContent=v<=500?'THE 500 JOINING BONUS GETS YOU HERE ON DAY ONE.':(v<=1500?'PLAY A FULL WEEK, OR JOIN AND PLAY A FEW DAYS, AND YOU ARE THERE.':'EARNING THE WEEKLY MAX, THAT IS ABOUT '+wk+' WEEKS OF PLAY, INCLUDING YOUR 500 JOIN BONUS.')}
+$('#ptsR').addEventListener('input',()=>{ptsSlider();try{blip(600+ +$('#ptsR').value/8,.03)}catch(e){}});ptsSlider();}
+/* per-game milestone targets: bronze / silver / gold → +50 / +100 / +150 points (colour lab uses career stars) */
+function tierGot(){try{return JSON.parse(LS('keim-arcade-tiers')||'{}')||{}}catch(e){return{}}}
+function renderTiers(){const el=$('#tiers');if(!el)return;const got=tierGot();
+ el.innerHTML=GAMES.map(g=>{const cl=g.s==='colour-lab',T=cl?[12,24,36]:TIERS[g.s];if(!T)return'';const P=cl?[150,250,500]:TIER_PTS,best=SCORE_OF[g.s]&&SCORE_OF[g.s]()||0;
+  return '<div class="tc"><div class="gn"><span>'+g.n.toUpperCase()+'</span><em>'+(cl?'STARS':g.s==='klash'?'WINS':g.s==='rush'?'METRES':'SCORE')+'</em></div>'+T.map((t,i)=>{const done=(cl?best>=t:(got[g.s]||0)>i)||best>=t;
+   return '<div class="tr'+(done?' got':'')+'"><span class="md" style="background:'+MEDAL[i]+';color:'+MEDAL[i]+'"></span><span>'+MNAME[i]+' · '+(cl?t+' STARS':g.s==='klash'?t+(t===1?' WIN':' WINS'):g.s==='rush'?t.toLocaleString('en-AU')+' M':t.toLocaleString('en-AU'))+'</span><b>'+(done?'✓ ':'+')+P[i]+'</b></div>'}).join('')+'</div>'}).join('')}
+renderTiers();refreshBests();
+/* ===== recorded sounds (ElevenLabs): audio/arcade.mp3 = music (intro, then loops MLOOP forever), audio/announcer.mp3 = voice lines.
+   Loaded after the first tap. If a file is missing the page simply falls back to the built-in chiptune / no voice. ===== */
+const MLOOP=[8.94,53.94];
+const VOX={free:[0,1.08],ready:[1.36,1.72],hi:[3.3,1.45]};   // [start, length] in seconds inside audio/announcer.mp3
+const SND={};
+function decodeA(buf){return new Promise((ok,no)=>{try{const p=AC.decodeAudioData(buf,ok,no);if(p&&p.then)p.then(ok,no)}catch(e){no(e)}})}
+function loadSnd(k,url){if(k in SND||!AC)return;SND[k]=null;
+  fetch(url).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(decodeA).then(b=>{SND[k]=b;if(k==='mus'&&MUS.g)musicTick()}).catch(()=>{SND[k]=false})}
+function vox(k){const v=VOX[k],b=SND.vox;if(!soundOn||!AC||!b||!v||AC.state!=='running')return;
+  try{const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=.9;s.buffer=b;s.connect(g);g.connect(AC.destination);s.start(AC.currentTime+.02,v[0],v[1])}catch(e){}}
+/* ===== arcade background music: recorded loop when loaded, otherwise a generated 8-bar chiptune; off until the player switches it on; ducks out while a game is open ===== */
 const MUS={on:LS('keim-arcade-music')!=='0',g:null,nb:null,timer:null,next:0,step:0};
 const mF=n=>440*Math.pow(2,(n-69)/12);
 const MCH=[[57,60,64],[53,57,60],[55,59,62],[52,55,59],[57,60,64],[53,57,60],[55,59,62],[52,56,59]];          // Am F G Em · Am F G E
@@ -974,7 +1153,9 @@ const MLEAD=[[69,-1,72,74,-1,76,74,72],[69,-1,65,69,-1,72,-1,-1],[67,-1,71,74,-1
 function mTone(f,d,wave,vol,t){const o=AC.createOscillator(),g=AC.createGain();o.type=wave;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.006);g.gain.setValueAtTime(vol,t+d*.6);g.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d+.05)}
 function mKick(t,v){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.11);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+.22)}
 function mNz(d,vol,t,hp){if(!MUS.nb){const b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;MUS.nb=b}const sN=AC.createBufferSource();sN.buffer=MUS.nb;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=hp;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d);sN.connect(f);f.connect(g);g.connect(MUS.g);sN.start(t,Math.random()*.5);sN.stop(t+d+.02)}
-function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden;MUS.g.gain.setTargetAtTime(duck?0:.2,AC.currentTime,.3);if(duck){MUS.next=0;return}
+function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden,rec=!!SND.mus;MUS.g.gain.setTargetAtTime(duck?0:rec?.6:.2,AC.currentTime,.3);if(duck){MUS.next=0;return}
+  if(rec){if(!MUS.src){const s=AC.createBufferSource();s.buffer=SND.mus;s.loop=true;s.loopStart=MLOOP[0];s.loopEnd=MLOOP[1];s.connect(MUS.g);s.start(AC.currentTime+.05);MUS.src=s;
+      if(!MUS.said){MUS.said=1;setTimeout(()=>vox('free'),700)}}return}
   if(MUS.next<AC.currentTime-.5)MUS.next=AC.currentTime+.05;
   while(MUS.next<AC.currentTime+.3){const e=60/112/2,t=MUS.next,i=MUS.step%8,bar=Math.floor(MUS.step/8)%8,ch=MCH[bar],r=ch[0];
     if(i===0||i===3||i===6)mTone(mF(r-24),e*1.4,'triangle',.3,t);if(i===4)mTone(mF(r-24+7),e*1.2,'triangle',.22,t);
@@ -982,12 +1163,20 @@ function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden;MUS
     const ar=[0,1,2,1,0,2,1,2][i];mTone(mF(ch[ar]+12),e*.8,'square',.02,t);
     const n=MLEAD[bar][i];if(n>0){mTone(mF(n),e*1.7,'square',.055,t);mTone(mF(n+12),e*1.1,'triangle',.02,t)}
     MUS.next+=e;MUS.step++}}
-function musicStart(){if(!ac()||MUS.g)return;MUS.g=AC.createGain();MUS.g.gain.value=0;MUS.g.connect(AC.destination);MUS.next=0;MUS.step=0;MUS.timer=setInterval(musicTick,70);musicTick()}
-function musicStop(){if(MUS.g){MUS.g.gain.setTargetAtTime(0,AC.currentTime,.15);const g=MUS.g;setTimeout(()=>{try{g.disconnect()}catch(e){}},600)}clearInterval(MUS.timer);MUS.g=null}
+function audioUnlock(){try{iosPlayback()}catch(e){}
+  if(AC&&(AC.state==='closed'||AC.state==='interrupted')){try{AC.close()}catch(e){}AC=null;clearInterval(MUS.timer);MUS.g=null;MUS.nb=null;MUS.src=null}
+  if(!ac())return;loadSnd('vox','audio/announcer.mp3');try{const b=AC.createBuffer(1,1,22050),src=AC.createBufferSource();src.buffer=b;src.connect(AC.destination);src.start(0)}catch(e){}}
+/* iPhone: plays through the ring/silent switch and only unlocks sound on a real tap (touchend/click) */
+function musicStart(){audioUnlock();if(!AC)return;loadSnd('mus','audio/arcade.mp3');
+  // music started before the phone let sound through stays silent: restart it the moment sound is allowed (same as tapping OFF then ON)
+  if(MUS.g&&MUS.cold&&AC.state==='running'){musicStop()}
+  if(MUS.g)return;MUS.cold=AC.state!=='running';AC.onstatechange=()=>{if(AC&&AC.state==='running'&&MUS.cold&&MUS.on&&MUS.g){musicStop();musicStart()}};
+  MUS.g=AC.createGain();MUS.g.gain.value=0;MUS.g.connect(AC.destination);MUS.next=0;MUS.step=0;MUS.timer=setInterval(musicTick,70);musicTick()}
+function musicStop(){if(MUS.src){try{MUS.src.stop(AC.currentTime+.6)}catch(e){}MUS.src=null}if(MUS.g){MUS.g.gain.setTargetAtTime(0,AC.currentTime,.15);const g=MUS.g;setTimeout(()=>{try{g.disconnect()}catch(e){}},600)}clearInterval(MUS.timer);MUS.g=null}
 function musicUI(){const b=$('#musBtn');b.textContent=MUS.on?'♪ ON':'♪ OFF';b.setAttribute('aria-pressed',MUS.on);b.classList.toggle('gold',MUS.on)}
 $('#musBtn').addEventListener('click',()=>{MUS.on=!MUS.on;try{localStorage.setItem('keim-arcade-music',MUS.on?'1':'0')}catch(e){}musicUI();if(MUS.on){musicStart();blip(880,.06)}else musicStop()});
 musicUI();
-if(MUS.on){const kick=()=>{musicStart();removeEventListener('pointerdown',kick,true);removeEventListener('keydown',kick,true)};addEventListener('pointerdown',kick,true);addEventListener('keydown',kick,true)}
+if(MUS.on){const EV=['touchend','click','keydown'];const kick=()=>{if(!MUS.on)return;musicStart();if(AC&&AC.state==='running'&&!MUS.cold)EV.forEach(t=>removeEventListener(t,kick,true))};EV.forEach(t=>addEventListener(t,kick,true))}
 document.addEventListener('visibilitychange',()=>{if(MUS.g)musicTick()});
 /* CONTINUE? countdown at the bottom: 9 → 0, then back (nobody ever has to insert a coin) */
 {let cnt=9;const el=$('#count');setInterval(()=>{cnt=cnt<=0?9:cnt-1;el.textContent=cnt;el.style.color=cnt<=3?'#fff':''},1000)}
@@ -997,12 +1186,12 @@ if(refQ){try{localStorage.setItem('keim-kl-ref',refQ)}catch(e){}setTimeout(()=>t
 /* HUD + section copy */
 function klHud(){const b=$('#walletBtn');if(!b)return;if(KL.s){b.textContent=KL.w?(pts(KL.w.balance)+' PTS'):'MY WALLET';b.classList.add('gold')}else b.textContent='JOIN · 500 PTS';}
 async function klWeeklyPublic(){if(!LB.url)return;try{const r=await fetch(LB.url+'/rest/v1/arcade_weekly?week_start=eq.'+sydMonday()+'&select=game,target',{headers:klH(false)});const j=r.ok?await r.json():[];KL.weekly=j[0]||null}catch(e){KL.weekly=null}
-  const el=$('#wkLine');if(!el)return;el.textContent=KL.weekly?('THIS WEEK: '+GAME_N(KL.weekly.game).toUpperCase()+' · BEAT '+showScore(KL.weekly.game,KL.weekly.target)):'BEAT THIS WEEK\'S TARGET IN THE FEATURED GAME.'}
+  const el=$('#wkLine');if(!el)return;el.textContent=KL.weekly?('THIS WEEK: '+GAME_N(KL.weekly.game).toUpperCase()+' · BEAT '+(+KL.weekly.target).toLocaleString('en-AU')):'BEAT THIS WEEK\'S TARGET IN THE FEATURED GAME.'}
 /* the modal */
 const gate=$('#gate');
 function gateShow(st){gate.className='show s-'+st;if(st==='gat'){const i=$('#gateMail');i.value=KL.mail||LS('keim-arcade-mail')||'';setTimeout(()=>i.focus(),50)}if(st==='cod'){const c=$('#gateCode');c.value='';setTimeout(()=>c.focus(),50)}}
 function gateHide(){gate.className='';clearInterval(KL.poll)}
-async function klOpen(){if(!LB.url){toast('KEIM CREDITS ARE NOT SWITCHED ON YET','COMING SOON');return}if(KL.s){gateShow('wal');walRender(KL.w);try{KL.w=await rpc('arcade_wallet');if(!KL.w.member)KL.w=(await rpc('arcade_register',{p_initials:iniStr(),p_ref:LS('keim-kl-ref')})).wallet;walRender(KL.w)}catch(e){if(e.message==='signed out'){gateShow('gat');toast('PLEASE SIGN IN AGAIN')}else toast('COULD NOT LOAD YOUR WALLET',e.message)}}else gateShow('gat')}
+async function klOpen(){if(!LB.url||!CREDITS_ON){toast('KEIM POINTS ARE COMING SOON','YOUR HIGH SCORES ALREADY COUNT');return}if(KL.s){gateShow('wal');walRender(KL.w);try{KL.w=await rpc('arcade_wallet');if(!KL.w.member)KL.w=(await rpc('arcade_register',{p_initials:iniStr(),p_ref:LS('keim-kl-ref')})).wallet;walRender(KL.w)}catch(e){if(e.message==='signed out'){gateShow('gat');toast('PLEASE SIGN IN AGAIN')}else toast('COULD NOT LOAD YOUR WALLET',e.message)}}else gateShow('gat')}
 async function klSend(){const i=$('#gateMail'),m=i.value.trim().toLowerCase();if(!MAIL_OK(m)){i.classList.add('bad');i.focus();return}i.classList.remove('bad');
   const b=$('#gateSend');b.classList.add('busy');try{await klFetch('/auth/v1/otp',{email:m,create_user:true});KL.mail=m;$('#codeMail').textContent=m;gateShow('cod');blip(988,.08)}catch(e){toast('COULD NOT SEND THE CODE',e.message.slice(0,60))}b.classList.remove('busy')}
 async function klVerify(){const c=$('#gateCode'),code=c.value.replace(/\D/g,'');if(code.length<6){c.classList.add('bad');c.focus();return}c.classList.remove('bad');
@@ -1012,20 +1201,20 @@ async function klVerify(){const c=$('#gateCode'),code=c.value.replace(/\D/g,'');
     if(r.new){toast('WELCOME TO KEIMLINGE · +500 POINTS','YOUR WALLET IS OPEN');try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}hubspot(KL.mail)}else toast('WELCOME BACK','WALLET LOADED');
   }catch(e){c.classList.add('bad');toast('THAT CODE DID NOT WORK','CHECK IT OR SEND A NEW ONE')}b.classList.remove('busy')}
 function hubspot(email){if(!HS.portal||!HS.form)return;try{fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+HS.portal+'/'+HS.form,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:[{name:'email',value:email}],context:{pageUri:location.origin+'/',pageName:'KEIM Arcade · KEIMLINGE'}})}).catch(()=>{})}catch(e){}}
-function walRender(w){if(!w||!w.member)return;const ini=w.initials||iniStr();$('#walName').textContent='HI '+(ini||w.email.split('@')[0].toUpperCase().slice(0,12));$('#walBal').textContent=pts(w.balance);$('#walPts').textContent='POINTS · '+'$'+(w.balance/100).toFixed(2)+' IN THE SHOP';
+function walRender(w){if(!w||!w.member)return;const ini=w.initials||iniStr();$('#walName').textContent='HI '+(ini||w.email.split('@')[0].toUpperCase().slice(0,12));$('#walBal').textContent=pts(w.balance);$('#walPts').textContent='POINTS · '+pctLine(w.balance);
   $('#walBar').style.width=Math.min(100,100*w.week/w.cap)+'%';$('#walWeek').textContent=pts(w.week)+' THIS WEEK';
   const played=w.played||[],st=w.stars||0,row=(l,r,done)=>'<div class="row'+(done?' done':'')+'"><span>'+(done?'✓ ':'')+l+'</span><span><b>'+r+'</b></span></div>';
   $('#walEarn').innerHTML=row('JOINED KEIMLINGE','500',true)+row('FIRST PLAY OF EACH GAME · '+played.length+'/12','50 EACH',played.length>=12)+row('PLAYED TODAY','25',!!w.daily)+row('FRIENDS JOINED · '+w.referrals,'500 EACH',false)+row('COLOUR LAB STARS · '+(st?st+'+':'0'),'150 / 250 / 500',st>=36);
   const link='https://play.keim.com.au/?ref='+w.ref_code;$('#walRef').textContent=link.replace('https://','');$('#walRef').dataset.url=link;$('#walRefs').textContent=w.referrals+(w.referrals===1?' FRIEND':' FRIENDS')+' JOINED · 500 POINTS EACH';
   const wk=w.weekly;$('#walWeekly').innerHTML=wk?('THIS WEEK\'S CHALLENGE: <b>'+GAME_N(wk.game).toUpperCase()+'</b> · BEAT <b>'+showScore(wk.game,wk.target)+'</b> → 200 PTS '+(wk.done?'<span class="done">✓ DONE</span>':'<br>YOUR BEST: '+(SCORE_OF[wk.game]&&SCORE_OF[wk.game]()?showScore(wk.game,SCORE_OF[wk.game]()):'—'))):'NO CHALLENGE THIS WEEK. CHECK BACK MONDAY.';
   const out=$('#walOut'),lc=w.last_code;out.innerHTML='';
-  if(lc&&lc.status==='issued'&&lc.code&&Date.now()-new Date(lc.at)<30*864e5){out.innerHTML='<div class="gk">YOUR LATEST SHOP CODE · $'+lc.dollars+' OFF</div><div class="code">'+lc.code+'</div><div class="small">USE IT AT CHECKOUT ON KEIM.COM.AU · ONE USE · VALID 6 MONTHS</div>'}
+  if(lc&&lc.status==='issued'&&lc.code&&Date.now()-new Date(lc.at)<30*864e5){out.innerHTML='<div class="gk">YOUR LATEST SHOP CODE · '+(lc.percent?lc.percent+'%':'$'+lc.dollars)+' OFF</div><div class="code">'+lc.code+'</div><div class="small">USE IT AT CHECKOUT ON KEIM.COM.AU · ONE USE · VALID 6 MONTHS</div>'}
   else if(lc&&lc.status==='pending'){out.innerHTML='<div class="gk blink">CREATING YOUR CODE…</div><div class="small">A FEW SECONDS. IT ALSO STAYS HERE IN YOUR WALLET.</div>';klPoll()}
-  const go=$('#walGo');go.disabled=w.balance<500;go.classList.toggle('busy',w.balance<500);go.textContent=w.balance<500?('REDEEM FROM 500 POINTS · YOU HAVE '+pts(w.balance)):('REDEEM '+pts(Math.min(5000,w.balance-w.balance%100))+' PTS → '+dollars(Math.min(5000,w.balance-w.balance%100))+' CODE');
+  const go=$('#walGo'),lv=pctLevel(w.balance);go.disabled=!lv;go.classList.toggle('busy',!lv);go.textContent=!lv?('5% OFF FROM 1,000 POINTS · YOU HAVE '+pts(w.balance)):('SWAP '+pts(lv.cost)+' PTS → '+lv.pct+'% OFF CODE');
   klHud()}
 function klPoll(){clearInterval(KL.poll);let n=0;KL.poll=setInterval(async()=>{n++;try{KL.w=await rpc('arcade_wallet');const lc=KL.w.last_code;if(!lc||lc.status!=='pending'||n>20){clearInterval(KL.poll);walRender(KL.w);if(lc&&lc.status==='refunded')toast('THE SHOP CODE COULD NOT BE MADE','YOUR CREDITS ARE BACK IN THE WALLET');if(lc&&lc.status==='issued')try{blip(988,.08);setTimeout(()=>blip(1319,.22),90)}catch(e){}}}catch(e){clearInterval(KL.poll)}},3000)}
-async function klRedeem(){const b=$('#walGo');if(b.disabled)return;b.classList.add('busy');try{const r=await rpc('arcade_redeem');if(r.ok){KL.w=r.wallet;walRender(KL.w)}else toast(r.reason==='pending'?'A CODE IS ALREADY ON ITS WAY':'YOU NEED AT LEAST $5 TO REDEEM')}catch(e){toast('COULD NOT REDEEM RIGHT NOW',e.message.slice(0,60))}b.classList.remove('busy')}
-async function klShare(copyOnly){const url=$('#walRef').dataset.url||'https://play.keim.com.au/';const text='Play the KEIM Arcade. 12 free games, win real KEIM prizes. Join with my link and we both get 500 KEIM points ($5 in the shop): '+url;
+async function klRedeem(){const b=$('#walGo');if(b.disabled)return;b.classList.add('busy');try{const r=await rpc('arcade_redeem');if(r.ok){KL.w=r.wallet;walRender(KL.w)}else toast(r.reason==='pending'?'A CODE IS ALREADY ON ITS WAY':'YOU NEED AT LEAST 1,000 POINTS FOR 5% OFF')}catch(e){toast('COULD NOT REDEEM RIGHT NOW',e.message.slice(0,60))}b.classList.remove('busy')}
+async function klShare(copyOnly){const url=$('#walRef').dataset.url||'https://play.keim.com.au/';const text='Play the KEIM Arcade. 12 free games, win real KEIM prizes. Join with my link and we both get 500 KEIM points: '+url;
   if(!copyOnly&&navigator.share){try{await navigator.share({title:'KEIM Arcade',text,url});return}catch(e){if(e.name==='AbortError')return}}
   try{await navigator.clipboard.writeText(text);toast('INVITE COPIED','PASTE IT TO A FRIEND')}catch(e){prompt('Copy your invite link',url)}}
 async function klOut(){try{await klFetch('/auth/v1/logout',{},true)}catch(e){}klSave(null);KL.w=null;gateHide();toast('SIGNED OUT','YOUR CREDITS ARE SAFE, SIGN IN ANY TIME')}
@@ -1035,7 +1224,8 @@ const sydToday=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}
 async function klMilestones(slug){if(!KL.s||!LB.url||!slug)return;const keys=[];const w=KL.w||{};
   if(!(w.played||[]).includes(slug))keys.push('play:'+slug);if(!w.daily)keys.push('daily:'+sydToday());
   if(slug==='colour-lab'){const n=SCORE_OF['colour-lab']&&SCORE_OF['colour-lab']()||0;for(const t of [12,24,36])if(n>=t&&(w.stars||0)<t)keys.push('cl-stars:'+t)}
-  let got=0;for(const k of keys){try{const r=await rpc('arcade_milestone',{p_key:k});KL.w=r.wallet;got+=r.given||0}catch(e){break}}
+  const TG=tierGot(),T=TIERS[slug];if(T){const b=SCORE_OF[slug]&&SCORE_OF[slug]()||0;T.forEach((t,i)=>{if(b>=t&&(TG[slug]||0)<=i)keys.push('tier:'+slug+':'+(i+1))})}
+  let got=0;for(const k of keys){try{const r=await rpc('arcade_milestone',{p_key:k});KL.w=r.wallet;got+=r.given||0;const m=/^tier:(.+):(\d)$/.exec(k);if(m&&r.given>0){const TG2=tierGot();TG2[m[1]]=Math.max(TG2[m[1]]||0,+m[2]);try{localStorage.setItem('keim-arcade-tiers',JSON.stringify(TG2))}catch(_){}}}catch(e){break}}renderTiers();
   klHud();if(got)toast('+'+got+' POINTS','NOW '+pts(KL.w.balance)+' IN YOUR WALLET');else if(keys.length&&KL.w&&KL.w.week>=KL.w.cap)toast('WEEKLY CAP REACHED','MORE POINTS FROM MONDAY')}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-gate]');if(!b)return;const a=b.dataset.gate;
   if(a==='open')klOpen();else if(a==='close')gateHide();else if(a==='send')klSend();else if(a==='verify')klVerify();else if(a==='back')gateShow('gat');else if(a==='redeem')klRedeem();else if(a==='share')klShare(false);else if(a==='copy')klShare(true);else if(a==='out')klOut()});
@@ -1047,12 +1237,15 @@ klHud();klWeeklyPublic();
 if(KL.s&&LB.url){rpc('arcade_wallet').then(w=>{if(w.member){KL.w=w;klHud()}}).catch(()=>{})}
 if(location.hash==='#wallet')setTimeout(klOpen,600);
 // ---- this month's prize (edit prizes.json in the repo, no code change needed)
-fetch('prizes.json',{cache:'no-cache'}).then(r=>r.json()).then(P=>{const m=P[monthKey()]||P.default;if(!m)return;
+// if prizes.json can't be loaded, the page still shows these (same as prizes.json at launch)
+const PRIZE_FALLBACK={"default":{"title":"THIS MONTH'S PRIZES","short":"KEIM MERCH","lead":"TOP THREE SCORES ON THE BOARD AT THE END OF THE MONTH WIN. WE EMAIL THE WINNERS ON THE 1ST.","how":"TOP SCORES EACH MONTH WIN REAL KEIM PRIZES. THIS MONTH: A FANDECK, KEIM T-SHIRTS AND A SAMPLE BUNDLE.","rule":"THE BOARD RESETS ON THE 1ST. ONE PRIZE PER PERSON PER MONTH. ANY GAME COUNTS.","prizes":[{"rank":"1ST PLACE","name":"KEIM FANDECK + COOL T-SHIRT","note":"EVERY COLOUR, NUMBERED"},{"rank":"2ND PLACE","name":"SAMPLE BUNDLE","note":"3 POTS + A COLOUR CARD"},{"rank":"3RD PLACE","name":"KEIM T-SHIRT","note":"WEAR THE WEDGE"},{"rank":"TOP 10","name":"BRAGGING RIGHTS","note":"INITIALS ON THE BOARD"}]}};
+function showPrize(P){const m=P[monthKey()]||P.default;if(!m)return;
   $('#przTitle').textContent=m.title||'MONTHLY PRIZE';$('#przLead').textContent=m.lead||'';$('#przRule').textContent=m.rule||'';$('#hudPrize').textContent=(m.short||'PRIZE ON').toUpperCase();
   if(m.how)$('#howPrize').textContent=m.how;
   const cols=['#E0201B','#698260','#4f7ea8','#D29D6D'];
   $('#przShelf').innerHTML=(m.prizes||[]).slice(0,4).map((z,i)=>`<div class="prize"><div class="${i%2?'bob2':'bob'}"><svg class="pix" data-art="tin" data-c="${cols[i]}" viewBox="0 0 12 11" width="132" height="121" shape-rendering="crispEdges" aria-hidden="true"></svg></div><div class="tag"><b>${z.rank}</b><i>${z.name}</i></div><div class="ok">${z.note||''}</div></div>`).join('');
-  if(typeof drawPix==='function')drawPix()}).catch(()=>{});
+  if(typeof drawPix==='function')drawPix()}
+fetch('prizes.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(showPrize).catch(()=>showPrize(PRIZE_FALLBACK));
 
 /* ================= PLAY MODE ================= */
 const arc=$('#arcade'),acab=$('#acab'),frame=$('#aFrame'),pw=$('#aPw'),abtns=$('#abtns');
@@ -1219,13 +1412,6 @@ function cueTick(){
     $('#aCombo').textContent='DO THIS: '+[dirs,btn].filter(Boolean).join(' › ');$('#aCombo').classList.add('show');cueSeq=[]}
 }
 function startCue(){clearInterval(cueT);msgKey='';cueSeq=[];cueLast='';cueOn=false;clearCue();if(cur&&cur.padMap)cueT=setInterval(cueTick,90)}
-function flipFrom(rectFrom){ // transform acab so its screen sits on rectFrom
-  acab.style.transition='none';acab.style.transform='none';
-  const sr=$('#aScreen').getBoundingClientRect(),cr=acab.getBoundingClientRect();
-  const s=rectFrom.width/sr.width;
-  const tx=rectFrom.left-cr.left-s*(sr.left-cr.left),ty=rectFrom.top-cr.top-s*(sr.top-cr.top);
-  return `translate(${tx}px,${ty}px) scale(${s})`;
-}
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const heroCab=$('#heroCab'),heroSec=document.querySelector('.hero'),zshade=$('#zshade'),zflash=$('#zflash');
 function cabZoomT(){ // gentle push-in toward the cabinet screen
@@ -1238,10 +1424,11 @@ function cabZoomT(){ // gentle push-in toward the cabinet screen
 }
 function setShade(o,ms){zshade.style.transition=ms?`opacity ${ms}ms ease`:'none';zshade.style.opacity=o}
 async function launch(slug,fromEl,fromHero){
-  if(busy||!BY[slug])return;busy=true;const g=BY[slug];cur=g;
+  if(busy||!BY[slug])return;busy=true;const g=BY[slug];cur=g;$('#arcade').classList.toggle('tapgame',!!g.tap);
   try{localStorage.setItem('keim-arcade-last',slug)}catch(e){}
   iosPlayback();openGameAudio();
-  ac();coinSnd();
+  ac();coinSnd();loadSnd('vox','audio/announcer.mp3');setTimeout(()=>vox('ready'),380);
+  {const f=BESTS[slug],b=f&&f();prevBest=b&&b.v||0}
   const hs=$('#heroScreen');
   const r0=heroCab.getBoundingClientRect();
   if(r0.top<-40||r0.bottom>innerHeight+40){heroCab.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});await wait(700)}
@@ -1266,7 +1453,7 @@ async function launch(slug,fromEl,fromHero){
   busy=false;
   try{history.replaceState(null,'','#play-'+slug)}catch(e){}
 }
-let lastSlug='';
+let lastSlug='',prevBest=0;
 async function exitGame(){
   if(busy||!cur)return;busy=true;lastSlug=cur.s;releaseAll();try{if(keepAlive)keepAlive.pause()}catch(e){}
   bootId++;clearInterval(cueT);clearCue();pw.className='pw off';await wait(340);
@@ -1286,6 +1473,7 @@ async function exitGame(){
   setShade(0,RM?0:800);await wait(RM?50:900);
   heroCab.classList.remove('zooming');heroSec.classList.remove('zooming');
   cur=null;busy=false;refreshBests();
+  {const f=BESTS[lastSlug],b=f&&f();if(b&&b.v>prevBest)setTimeout(()=>vox('hi'),250)}
   try{history.replaceState(null,'',location.pathname)}catch(e){}
   setTimeout(()=>offerPost(lastSlug),400);klMilestones(lastSlug).then(()=>klWeekly(lastSlug));
 }
@@ -1302,6 +1490,49 @@ const m=/^#play-([a-z-]+)$/.exec(location.hash);if(m&&BY[m[1]])setTimeout(()=>la
 
 window.__arcade={launch,exitGame,press,release,get cur(){return cur}};
 })();
+</script>
+<script>
+/* ===== subtle 3D: tilting hero cabinet, floating coins/paint/plastic in depth, tilting game cards ===== */
+addEventListener('load',()=>{
+ const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,FINE=matchMedia('(pointer:fine)').matches;
+ const hero=document.querySelector('.hero');
+ // game cards: 3D tilt + glare under the mouse
+ if(FINE&&!RM)document.querySelectorAll('.card').forEach(c=>{if(!c.querySelector('.glr')){const g=document.createElement('span');g.className='glr';c.appendChild(g)}
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.classList.add('tilt');c.style.setProperty('--tx',((.5-y)*14).toFixed(1)+'deg');c.style.setProperty('--ty',((x-.5)*16).toFixed(1)+'deg');c.style.setProperty('--gx',x*100+'%');c.style.setProperty('--gy',y*100+'%')});
+  c.addEventListener('pointerleave',()=>{c.classList.remove('tilt')})});
+ // floating objects behind the hero: gold coins with the KEIM wedge, paint cubes in KEIM colours, shiny plastic blobs
+ const cv=document.getElementById('hero3d');if(!cv||RM||!FINE||innerWidth<=700||document.body.classList.contains('ponly'))return;
+ const s3=document.createElement('script');s3.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';s3.onload=()=>{try{start3d(cv,hero)}catch(e){}};document.head.appendChild(s3);
+});
+function start3d(cv,hero){
+ let R;try{R=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return}
+ R.setPixelRatio(Math.min(devicePixelRatio,1.75));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;
+ const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(38,1,.1,60);C.position.z=14;
+ S.add(new THREE.HemisphereLight(0xffeedd,0x220406,.7));const k=new THREE.DirectionalLight(0xffffff,1.1);k.position.set(3,5,6);S.add(k);const rr=new THREE.PointLight(0xff2a30,2,30);rr.position.set(-6,-2,4);S.add(rr);
+ const L=h=>new THREE.Color(h).convertSRGBToLinear();
+ // coin face texture: wedge on gold
+ const fc=document.createElement('canvas');fc.width=fc.height=128;const g=fc.getContext('2d');const gr=g.createRadialGradient(54,48,6,64,64,64);gr.addColorStop(0,'#ffe58a');gr.addColorStop(1,'#d79a12');g.fillStyle=gr;g.fillRect(0,0,128,128);
+ g.strokeStyle='#a8740a';g.lineWidth=8;g.beginPath();g.arc(64,64,54,0,7);g.stroke();g.fillStyle='#b8800a';g.beginPath();g.moveTo(40,52);g.quadraticCurveTo(64,40,88,52);g.lineTo(64,98);g.closePath();g.fill();
+ const ft=new THREE.CanvasTexture(fc);ft.encoding=THREE.sRGBEncoding;
+ const coinSide=new THREE.MeshStandardMaterial({color:L(0xd99a14),metalness:.85,roughness:.3}),coinFace=new THREE.MeshStandardMaterial({map:ft,metalness:.6,roughness:.35});
+ const coinG=new THREE.CylinderGeometry(.42,.42,.09,32),cubeG=new THREE.BoxGeometry(.5,.5,.5),blobG=new THREE.IcosahedronGeometry(.36,2);
+ const PAL=[0xE0201B,0xF2C14E,0x3ddc6f,0x4fc3f7,0xff6a3d,0xf3efe8];const items=[];
+ const PORT=innerWidth<innerHeight,N=PORT?9:18;
+ for(let i=0;i<N;i++){const kind=i%5;let m;
+  if(kind<2){m=new THREE.Mesh(coinG,[coinSide,coinFace,coinFace]);}
+  else if(kind<4){m=new THREE.Mesh(cubeG,new THREE.MeshStandardMaterial({color:L(PAL[i%PAL.length]),roughness:.4}));}
+  else{m=new THREE.Mesh(blobG,new THREE.MeshPhysicalMaterial({color:L(0xe46ad0),roughness:.05,metalness:0,clearcoat:1,transmission:0}));}
+  const z=PORT?-16+Math.random()*6:-11+Math.random()*9,side=PORT?(i%2?1:-1)*(5+Math.random()*3):(i%4===0?-(9+Math.random()*4):1+Math.random()*12),u={x:side,y:(Math.random()-.5)*12,z,vy:.15+Math.random()*.35,rx:Math.random()*2,ry:Math.random()*2,ph:Math.random()*6};
+  if(PORT)[].concat(m.material).forEach(mt=>{mt.transparent=true;mt.opacity=.6});m.position.set(u.x,u.y,z);m.userData=u;S.add(m);items.push(m)}
+ let px=0,py=0;hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();px=(e.clientX-r.left)/r.width-.5;py=(e.clientY-r.top)/r.height-.5});
+ let vis=true;new IntersectionObserver(es=>{vis=es[0].isIntersecting}).observe(hero);
+ function size(){const w=hero.clientWidth,h=hero.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix()}addEventListener('resize',size);size();
+ const clk=new THREE.Clock();
+ (function frame(){requestAnimationFrame(frame);if(!vis||document.hidden||hero.classList.contains('zooming'))return;const dt=Math.min(.05,clk.getDelta()),t=clk.elapsedTime;
+  C.position.x+=(px*1.6-C.position.x)*.05;C.position.y+=(-py*1-C.position.y)*.05;C.lookAt(0,0,0);
+  items.forEach(m=>{const u=m.userData;u.y+=u.vy*dt;if(u.y>8)u.y=-8;m.position.set(u.x+Math.sin(t*.4+u.ph)*.4,u.y,u.z);m.rotation.x+=u.rx*dt*.5;m.rotation.y+=u.ry*dt*.6});
+  R.render(S,C)})();
+}
 </script>
 </body>
 </html>

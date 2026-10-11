@@ -270,7 +270,7 @@ function landOn(x,y0,y1){let best=null;const test=(px,py,w)=>{if(x>=px&&x<=px+w&
 
 const ov=(a,b)=>a.x0<b.x1&&a.x1>b.x0&&a.y0<b.y1&&a.y1>b.y0;
 function plBox(){const p=pl;if(p.prone)return{x0:p.x-10,x1:p.x+10,y0:p.y-7,y1:p.y};if(p.ball)return{x0:p.x-5,x1:p.x+5,y0:p.y-17,y1:p.y-7};if(p.water)return{x0:p.x-4,x1:p.x+4,y0:p.y-21,y1:p.y-9};return{x0:p.x-4,x1:p.x+4,y0:p.y-21,y1:p.y}}
-function addScore(n){G.score+=n;if(G.score>=G.extra){G.lives++;G.extra+=50000;SFX.life();G.msg={s:'1UP!',t:0}}if(G.score>G.hi){G.hi=G.score;try{localStorage.setItem('kk-hi',G.hi)}catch(e){}}}
+function addScore(n){G.score+=n;if(G.score>=G.extra){G.lives++;G.extra+=50000;SFX.life();G.msg={s:'1UP!',t:0}}if(G.score>G.hi&&!G.code){G.hi=G.score;try{localStorage.setItem('kk-hi',G.hi)}catch(e){}}}/* the 30-lives code is for fun: those runs don't count as a best */
 function boom(x,y,big){if(big)G.shake=.22;fx.push({k:'boom',x,y,t:0,life:big?.7:.45,r:big?16:9});for(let i=0;i<(big?8:4);i++){const a=Math.random()*6.28,v=rnd(30,big?140:80);fx.push({k:'deb',x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-40,t:0,life:rnd(.3,.7),c:Math.random()<.5?'#ffd23a':'#ff7a2a'})}SFX.boom(big)}
 function splash(x){fx.push({k:'spl',x,y:WATER,t:0,life:.4});SFX.splash()}
 // ---------- player ----------
@@ -477,7 +477,7 @@ function drawTitle(t){L.fillStyle='#000';L.fillRect(0,0,LW,LH);drawSky();drawFar
   txt('1 PLAYER',W/2-70,330,16,'#fff','left','#000');drawCursor(W/2-100,330);
   if(Math.floor(t*2)%2===0)txt('PUSH START: ENTER OR TAP',W/2,390,14,'#fff','center','#000');
   txt('HI '+String(G.hi).padStart(6,'0'),W/2,440,14,'#bbb','center','#000');
-  if(G.code)txt('30 LIVES!',W/2,480,14,'#7fe6ff','center','#000');
+  if(G.code){txt('30 LIVES!',W/2,480,14,'#7fe6ff','center','#000');txt('JUST FOR FUN: NO HIGH SCORE',W/2,502,9,'#7fe6ff','center','#000')}
   txt('KEIM AUSTRALIA',W/2,670,10,'#888','center')}}
 function drawCursor(x,y){X.fillStyle='#2a5fd0';X.fillRect(x,y-2,10,14);X.fillStyle='#7fe6ff';X.fillRect(x+2,y+12,12,14);X.fillStyle='#111';X.fillRect(x,y+10,16,2)}
 function drawIntro(t){X.fillStyle='#000';X.fillRect(0,0,W,H);txt('1P',260,190,20,'#fff','left');txt('REST '+G.lives,260,230,20,'#fff','left');txt('HI '+String(G.hi).padStart(6,'0'),700,190,20,'#fff','left');
