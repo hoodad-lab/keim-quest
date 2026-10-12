@@ -544,6 +544,7 @@ footer .l{display:flex;flex-wrap:wrap;gap:8px 28px;color:#fff;font-family:var(--
   .card .newb{font-size:7px;padding:4px 5px;left:5px;top:5px}
 }
 .tbl .hsr{opacity:.8}
+@keyframes muswait{50%{opacity:.35}}.pbtn.muswait{animation:muswait 1s steps(1) infinite}
 /* simple points summary + points-only page */
 .p3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:40px auto 0}
 .p3c{position:relative;background:#000;border:5px solid var(--paper);box-shadow:8px 8px 0 var(--red);padding:30px 18px 22px;text-align:center}
@@ -1142,8 +1143,10 @@ const SND={};
 function decodeA(buf){return new Promise((ok,no)=>{try{const p=AC.decodeAudioData(buf,ok,no);if(p&&p.then)p.then(ok,no)}catch(e){no(e)}})}
 function loadSnd(k,url){if(k in SND||!AC)return;SND[k]=null;
   fetch(url).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(decodeA).then(b=>{SND[k]=b;if(k==='mus'&&MUS.g)musicTick()}).catch(()=>{SND[k]=false})}
-function vox(k){const v=VOX[k],b=SND.vox;if(!soundOn||!AC||!b||!v||AC.state!=='running')return;
-  try{const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=.9;s.buffer=b;s.connect(g);g.connect(AC.destination);s.start(AC.currentTime+.02,v[0],v[1])}catch(e){}}
+let VCUR=null;const VLAST={};
+function vox(k){const v=VOX[k],b=SND.vox;if(!soundOn||!AC||!b||!v||AC.state!=='running')return;const now=Date.now();if(now-(VLAST[k]||0)<5000)return;VLAST[k]=now;
+  try{if(VCUR)VCUR.stop()}catch(e){}
+  try{const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=.9;s.buffer=b;s.connect(g);g.connect(AC.destination);s.start(AC.currentTime+.02,v[0],v[1]);VCUR=s}catch(e){}}
 /* ===== arcade background music: recorded loop when loaded, otherwise a generated 8-bar chiptune; off until the player switches it on; ducks out while a game is open ===== */
 const MUS={on:LS('keim-arcade-music')!=='0',g:null,nb:null,timer:null,next:0,step:0};
 const mF=n=>440*Math.pow(2,(n-69)/12);
@@ -1153,7 +1156,9 @@ const MLEAD=[[69,-1,72,74,-1,76,74,72],[69,-1,65,69,-1,72,-1,-1],[67,-1,71,74,-1
 function mTone(f,d,wave,vol,t){const o=AC.createOscillator(),g=AC.createGain();o.type=wave;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.006);g.gain.setValueAtTime(vol,t+d*.6);g.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d+.05)}
 function mKick(t,v){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.11);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+.22)}
 function mNz(d,vol,t,hp){if(!MUS.nb){const b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;MUS.nb=b}const sN=AC.createBufferSource();sN.buffer=MUS.nb;const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=hp;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d);sN.connect(f);f.connect(g);g.connect(MUS.g);sN.start(t,Math.random()*.5);sN.stop(t+d+.02)}
-function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden,rec=!!SND.mus;MUS.g.gain.setTargetAtTime(duck?0:rec?.6:.2,AC.currentTime,.3);if(duck){MUS.next=0;return}
+function musicTick(){if(!AC||!MUS.g)return;const duck=!!cur||document.hidden,rec=!!SND.mus;MUS.g.gain.setTargetAtTime(duck?0:rec?.28:.2,AC.currentTime,.3);if(duck){MUS.next=0;return}
+  if(SND.mus===null)return;   // recorded track still loading: stay quiet rather than start the built-in tune and switch mid-way
+  if(AC.state==='running')musPlaying();
   if(rec){if(!MUS.src){const s=AC.createBufferSource();s.buffer=SND.mus;s.loop=true;s.loopStart=MLOOP[0];s.loopEnd=MLOOP[1];s.connect(MUS.g);s.start(AC.currentTime+.05);MUS.src=s;
       if(!MUS.said){MUS.said=1;setTimeout(()=>vox('free'),700)}}return}
   if(MUS.next<AC.currentTime-.5)MUS.next=AC.currentTime+.05;
@@ -1172,11 +1177,12 @@ function musicStart(){audioUnlock();if(!AC)return;loadSnd('mus','audio/arcade.mp
   if(MUS.g&&MUS.cold&&AC.state==='running'){musicStop()}
   if(MUS.g)return;MUS.cold=AC.state!=='running';AC.onstatechange=()=>{if(AC&&AC.state==='running'&&MUS.cold&&MUS.on&&MUS.g){musicStop();musicStart()}};
   MUS.g=AC.createGain();MUS.g.gain.value=0;MUS.g.connect(AC.destination);MUS.next=0;MUS.step=0;MUS.timer=setInterval(musicTick,70);musicTick()}
-function musicStop(){if(MUS.src){try{MUS.src.stop(AC.currentTime+.6)}catch(e){}MUS.src=null}if(MUS.g){MUS.g.gain.setTargetAtTime(0,AC.currentTime,.15);const g=MUS.g;setTimeout(()=>{try{g.disconnect()}catch(e){}},600)}clearInterval(MUS.timer);MUS.g=null}
-function musicUI(){const b=$('#musBtn');b.textContent=MUS.on?'♪ ON':'♪ OFF';b.setAttribute('aria-pressed',MUS.on);b.classList.toggle('gold',MUS.on)}
+function musicStop(){if(MUS.src){try{MUS.src.stop(AC.currentTime+.12)}catch(e){}MUS.src=null}if(MUS.g){MUS.g.gain.setTargetAtTime(0,AC.currentTime,.03);const g=MUS.g;setTimeout(()=>{try{g.disconnect()}catch(e){}},600)}clearInterval(MUS.timer);MUS.g=null}
+function musPlaying(){if(MUS.live)return;MUS.live=1;musicUI()}
+function musicUI(){const b=$('#musBtn'),w=MUS.on&&!MUS.live;b.classList.toggle('muswait',w);b.textContent=!MUS.on?'♪ OFF':w?'♪ TAP':'♪ ON';b.setAttribute('aria-pressed',MUS.on);b.classList.toggle('gold',MUS.on)}
 $('#musBtn').addEventListener('click',()=>{MUS.on=!MUS.on;try{localStorage.setItem('keim-arcade-music',MUS.on?'1':'0')}catch(e){}musicUI();if(MUS.on){musicStart();blip(880,.06)}else musicStop()});
 musicUI();
-if(MUS.on){const EV=['touchend','click','keydown'];const kick=()=>{if(!MUS.on)return;musicStart();if(AC&&AC.state==='running'&&!MUS.cold)EV.forEach(t=>removeEventListener(t,kick,true))};EV.forEach(t=>addEventListener(t,kick,true))}
+if(MUS.on){const EV=['touchend','pointerup','mousedown','click','keydown'];const kick=()=>{if(!MUS.on)return;musicStart();if(AC&&AC.state==='running'&&!MUS.cold)EV.forEach(t=>removeEventListener(t,kick,true))};EV.forEach(t=>addEventListener(t,kick,true))}
 document.addEventListener('visibilitychange',()=>{if(MUS.g)musicTick()});
 /* CONTINUE? countdown at the bottom: 9 → 0, then back (nobody ever has to insert a coin) */
 {let cnt=9;const el=$('#count');setInterval(()=>{cnt=cnt<=0?9:cnt-1;el.textContent=cnt;el.style.color=cnt<=3?'#fff':''},1000)}
